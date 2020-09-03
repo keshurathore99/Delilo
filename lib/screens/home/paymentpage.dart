@@ -13,7 +13,6 @@ class _PaymentPageState extends State<PaymentPage> {
   PaymentMode selected=PaymentMode.cod;
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return Scaffold(
       appBar: AppBar(
@@ -216,7 +215,6 @@ class AdressPage extends StatefulWidget {
 class _AdressPageState extends State<AdressPage> {
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return Scaffold(
       appBar: AppBar(
@@ -376,7 +374,6 @@ class OrderPlaced extends StatefulWidget {
 class _OrderPlacedState extends State<OrderPlaced> {
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return Scaffold(
       body: Center(

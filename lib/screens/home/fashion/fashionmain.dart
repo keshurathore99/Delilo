@@ -11,7 +11,6 @@ class FashionMainPage extends StatefulWidget {
 class _FashionMainPageState extends State<FashionMainPage> {
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     int _index=0;
     return SafeArea(

@@ -10,7 +10,6 @@ class AccountInfo extends StatefulWidget {
 class _AccountInfoState extends State<AccountInfo> {
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return Scaffold(
       appBar: AppBar(

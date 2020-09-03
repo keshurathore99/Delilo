@@ -27,9 +27,9 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
   TextEditingController passwordController = TextEditingController();
   final otpController = new TextEditingController();
 
-  
-  
-  
+
+
+
 
 
   // Registration variables
@@ -49,7 +49,6 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return SafeArea(
       child: Scaffold(
@@ -58,7 +57,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
         body: Center(
           child: Container(
             width: wid,
-            
+
             color: Color.fromRGBO(241,243,241, 1),
             /*decoration: BoxDecoration(
               image: DecorationImage(image: AssetImage('assets/back.png'),fit: BoxFit.fitWidth)
@@ -87,7 +86,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                               child: TextFormField(
                                 // key: _usernamekey,
                                 controller: userNameController,
-                                
+
                                 enableInteractiveSelection: true,
                                 decoration: InputDecoration(
 
@@ -167,9 +166,9 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                               child: Text("OTP Recievied"),
                             ),
                             Container(
-                              
+
                               color: Color.fromRGBO(241,243,241, 1),
-                              
+
                               width: 180,
                               //height: 200,
                               child: PinCodeTextField(

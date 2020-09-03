@@ -1,6 +1,5 @@
 import 'package:delilo/screens/seller/home/sellerdrawer.dart';
 import 'package:flutter/material.dart';
-import 'package:delilo/screens/auxillary/customclasses.dart';
 
 
 class PayinPage extends StatefulWidget {

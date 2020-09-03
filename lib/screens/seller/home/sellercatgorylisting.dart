@@ -11,7 +11,6 @@ class SellerCategoryListing extends StatefulWidget {
 class _SellerCategoryListingState extends State<SellerCategoryListing> {
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return Scaffold(
       drawer: SellerDrawer(),

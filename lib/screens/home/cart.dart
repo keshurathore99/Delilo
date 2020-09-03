@@ -9,7 +9,6 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return Scaffold(
       appBar: AppBar(
@@ -174,7 +173,6 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return Card(
       semanticContainer: true,

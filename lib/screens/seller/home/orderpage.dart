@@ -10,8 +10,6 @@ class _SellerOrdersPageState extends State<SellerOrdersPage> {
   int isselected=1;
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
-    double width = displayWidth(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -138,7 +136,6 @@ class SellerOrdersCard extends StatefulWidget {
 class _SellerOrdersCardState extends State<SellerOrdersCard> {
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return Card(
       semanticContainer: true,

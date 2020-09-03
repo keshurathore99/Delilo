@@ -10,7 +10,6 @@ class SellerHomeScreen extends StatefulWidget {
 class _SellerHomeScreenState extends State<SellerHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return Scaffold(
       drawer: SellerDrawer(),
@@ -201,7 +200,6 @@ class OutOfStock extends StatefulWidget {
 class _OutOfStockState extends State<OutOfStock> {
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return Scaffold(
       drawer: SellerDrawer(),

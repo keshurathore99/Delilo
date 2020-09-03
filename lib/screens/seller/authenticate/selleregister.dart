@@ -2,33 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-
 class SellerRegisterScreen extends StatefulWidget {
   @override
   _SellerRegisterScreenState createState() => _SellerRegisterScreenState();
 }
 
 class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
-  final GlobalKey<FormFieldState> __passwordkey=GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> _usernamekey=GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> _emailkey=GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> _mobilenumberkey=GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> __passwordkey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> _usernamekey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> _emailkey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> _mobilenumberkey =
+      GlobalKey<FormFieldState>();
   String currentText;
   TextEditingController textEditingController = TextEditingController();
   @override
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return SafeArea(
       child: Scaffold(
         body: Center(
           child: Container(
             width: wid,
-            color: Color.fromRGBO(241,243,241, 1),
+            color: Color.fromRGBO(241, 243, 241, 1),
             /*decoration: BoxDecoration(
               image: DecorationImage(image: AssetImage('assets/images/back.png'),fit: BoxFit.fitWidth)
             ),*/
@@ -37,19 +37,22 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                 /*    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.max,*/
                 children: [
-                  Container(height: 120,child: Image.asset("assets/images/dellologo.png",)),
-
+                  Container(
+                      height: 120,
+                      child: Image.asset(
+                        "assets/images/dellologo.png",
+                      )),
                   Container(
                     height: 240,
                     child: Align(
-                      alignment: Alignment(0,-1),
+                      alignment: Alignment(0, -1),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
                             //color: Colors.,
-                            width: wid*.80,
+                            width: wid * .80,
                             child: Material(
                               elevation: 5,
                               shape: StadiumBorder(),
@@ -57,20 +60,26 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                 key: _usernamekey,
                                 enableInteractiveSelection: true,
                                 decoration: InputDecoration(
-
-                                    border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 4),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
                                     prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                                      child: Icon(Icons.person,size: 35,color: Colors.black.withOpacity(.75),),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 0),
+                                      child: Icon(
+                                        Icons.person,
+                                        size: 35,
+                                        color: Colors.black.withOpacity(.75),
+                                      ),
                                     ),
-                                    hintText: "Enter Username"
-                                ),
-                                validator: (value){},
+                                    hintText: "Enter Username"),
+                                validator: (value) {},
                               ),
                             ),
                           ),
                           Container(
-                            width: wid*.8,
+                            width: wid * .8,
                             child: Material(
                               elevation: 5,
                               shape: StadiumBorder(),
@@ -78,20 +87,26 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                 key: _emailkey,
                                 enableInteractiveSelection: true,
                                 decoration: InputDecoration(
-
-                                    border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 4),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
                                     prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                                      child: Icon(Icons.email,size: 35,color: Colors.black.withOpacity(.75),),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 0),
+                                      child: Icon(
+                                        Icons.email,
+                                        size: 35,
+                                        color: Colors.black.withOpacity(.75),
+                                      ),
                                     ),
-                                    hintText: "Enter Email"
-                                ),
-                                validator: (value){},
+                                    hintText: "Enter Email"),
+                                validator: (value) {},
                               ),
                             ),
                           ),
                           Container(
-                            width: wid*.8,
+                            width: wid * .8,
                             child: Material(
                               elevation: 5,
                               shape: StadiumBorder(),
@@ -99,19 +114,24 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                 key: _mobilenumberkey,
                                 enableInteractiveSelection: true,
                                 decoration: InputDecoration(
-
-                                    border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 4),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
                                     prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                                      child: Icon(Icons.phone,size: 35,color: Colors.black.withOpacity(.75),),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 0),
+                                      child: Icon(
+                                        Icons.phone,
+                                        size: 35,
+                                        color: Colors.black.withOpacity(.75),
+                                      ),
                                     ),
-                                    hintText: "Enter Phone"
-                                ),
-                                validator: (value){},
+                                    hintText: "Enter Phone"),
+                                validator: (value) {},
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -119,19 +139,19 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                   Container(
                     height: 50,
                     child: Align(
-                      alignment: Alignment(.1,-1),
+                      alignment: Alignment(.1, -1),
                       child: Container(
-                        width: wid*.8,
-                        color: Color.fromRGBO(241,243,241, 1),
-                        child:Row(
+                        width: wid * .8,
+                        color: Color.fromRGBO(241, 243, 241, 1),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(bottom:10.0),
+                              padding: const EdgeInsets.only(bottom: 10.0),
                               child: Text("OTP Recievied"),
                             ),
                             Container(
-                              color: Color.fromRGBO(241,243,241, 1),
+                              color: Color.fromRGBO(241, 243, 241, 1),
                               width: 180,
                               //height: 200,
                               child: PinCodeTextField(
@@ -172,8 +192,11 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                     ),
                   ),
                   Align(
-                    alignment: Alignment(.6,-1),
-                    child: Text("Resend OTP",style: TextStyle(color: Colors.green),),
+                    alignment: Alignment(.6, -1),
+                    child: Text(
+                      "Resend OTP",
+                      style: TextStyle(color: Colors.green),
+                    ),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -185,7 +208,7 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                           Container(
                             margin: EdgeInsets.all(12),
                             height: 5 * 20.0,
-                            width: wid*.8,
+                            width: wid * .8,
                             child: Material(
                               elevation: 1,
                               shape: StadiumBorder(),
@@ -196,10 +219,12 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                 decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
-                                    border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
-                                    hintText: "Type Your Address..."
-                                ),
-                                validator: (value){},
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 4),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
+                                    hintText: "Type Your Address..."),
+                                validator: (value) {},
                               ),
                             ),
                           ),
@@ -207,46 +232,56 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                       ),
                       Container(
                         //color: Colors.,
-                        width: wid*.80,
+                        width: wid * .80,
                         child: Material(
                           elevation: 5,
                           shape: StadiumBorder(),
                           child: TextFormField(
-                           // key: _usernamekey,
+                            // key: _usernamekey,
                             enableInteractiveSelection: true,
                             decoration: InputDecoration(
-
-                                border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 4),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30))),
                                 prefixIcon: Padding(
-                                  padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                                  child: Icon(Icons.attach_file,size: 35,color: Colors.black.withOpacity(.75),),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  child: Icon(
+                                    Icons.attach_file,
+                                    size: 35,
+                                    color: Colors.black.withOpacity(.75),
+                                  ),
                                 ),
-                                hintText: "Attach ID (in Backend implementation)"
-                            ),
-                            validator: (value){},
-
+                                hintText:
+                                    "Attach ID (in Backend implementation)"),
+                            validator: (value) {},
                           ),
                         ),
                       ),
                     ],
                   ),
-
-
-
                   Padding(
-                    padding: const EdgeInsets.only(top:25.0),
+                    padding: const EdgeInsets.only(top: 25.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(decoration: BoxDecoration(color: Colors.green,borderRadius: BorderRadius.all(Radius.circular(30))),height: 50,width:wid*.7,child: FlatButton(onPressed: (){Navigator.pushNamed(context, '/getgstdetails');}, child: Text("Signup"))),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                            height: 50,
+                            width: wid * .7,
+                            child: FlatButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, '/getgstdetails');
+                                },
+                                child: Text("Signup"))),
                       ],
                     ),
                   ),
-
-
-
-
-
                 ],
               ),
             ),
@@ -257,42 +292,51 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
   }
 }
 
-
 class GetGstDetails extends StatefulWidget {
   @override
   _GetGstDetailsState createState() => _GetGstDetailsState();
 }
-enum GstOption { have,gstexempt,willapply }
+
+enum GstOption { have, gstexempt, willapply }
 
 class _GetGstDetailsState extends State<GetGstDetails> {
-  GstOption selected=GstOption.have;
+  GstOption selected = GstOption.have;
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return Scaffold(
       body: Center(
         child: Container(
           child: ListView(
-
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom:15.0),
-                child: Container(height: 120,child: Image.asset("assets/images/dellologo.png",)),
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Container(
+                    height: 120,
+                    child: Image.asset(
+                      "assets/images/dellologo.png",
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(child: Text("Give Your Business Details",style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),)),
+                child: Center(
+                    child: Text(
+                  "Give Your Business Details",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
+                )),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:28.0),
+                padding: const EdgeInsets.only(top: 28.0),
                 child: Card(
                   semanticContainer: true,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child:Container(
+                  child: Container(
                     color: Colors.grey[100].withOpacity(.6),
-                    height:40,
-                    width: wid*.6,
+                    height: 40,
+                    width: wid * .6,
                     // color: Colors.redAccent.withOpacity(.6),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -307,11 +351,13 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                             });
                           },
                         ),
-                        Text("  I Have A GSTIN                          ",style: TextStyle(fontSize: 15,fontStyle: FontStyle.italic),),
-
+                        Text(
+                          "  I Have A GSTIN                          ",
+                          style: TextStyle(
+                              fontSize: 15, fontStyle: FontStyle.italic),
+                        ),
                       ],
                     ),
-
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -321,13 +367,13 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:15.0),
+                padding: const EdgeInsets.only(top: 15.0),
                 child: Card(
                   semanticContainer: true,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child:Container(
-                    height:40,
-                    width: wid*.6,
+                  child: Container(
+                    height: 40,
+                    width: wid * .6,
                     color: Colors.grey[100].withOpacity(.6),
                     // color: Colors.redAccent.withOpacity(.6),
                     child: Row(
@@ -343,11 +389,13 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                             });
                           },
                         ),
-                        Text("I Will Only Sell In GST Exempt Categories",style: TextStyle(fontSize: 14,fontStyle: FontStyle.italic),),
-
+                        Text(
+                          "I Will Only Sell In GST Exempt Categories",
+                          style: TextStyle(
+                              fontSize: 14, fontStyle: FontStyle.italic),
+                        ),
                       ],
                     ),
-
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -357,14 +405,14 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:15.0),
+                padding: const EdgeInsets.only(top: 15.0),
                 child: Card(
                   semanticContainer: true,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child:Container(
+                  child: Container(
                     color: Colors.grey[100].withOpacity(.6),
-                    height:40,
-                    width: wid*.6,
+                    height: 40,
+                    width: wid * .6,
                     // color: Colors.redAccent.withOpacity(.6),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -379,11 +427,13 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                             });
                           },
                         ),
-                        Text("I Have Applied/Will Apply for GSTIN",style: TextStyle(fontSize: 15,fontStyle: FontStyle.italic),),
-
+                        Text(
+                          "I Have Applied/Will Apply for GSTIN",
+                          style: TextStyle(
+                              fontSize: 15, fontStyle: FontStyle.italic),
+                        ),
                       ],
                     ),
-
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -398,7 +448,7 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: wid*.75,
+                      width: wid * .75,
                       child: Material(
                         elevation: 5,
                         shape: StadiumBorder(),
@@ -406,15 +456,16 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                           //key: _mobilenumberkey,
                           enableInteractiveSelection: true,
                           decoration: InputDecoration(
-
-                              border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 4),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30))),
                               /*prefixIcon: Padding(
                                 padding: const EdgeInsets.fromLTRB(10,0,10,0),
                                 child: Icon(Icons.phone,size: 35,color: Colors.black.withOpacity(.75),),
                               ),*/
-                              hintText: "Verify GSTIN"
-                          ),
-                          validator: (value){},
+                              hintText: "Verify GSTIN"),
+                          validator: (value) {},
                         ),
                       ),
                     ),
@@ -422,18 +473,29 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:58.0),
+                padding: const EdgeInsets.only(top: 58.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(decoration: BoxDecoration(color: Colors.green,borderRadius: BorderRadius.all(Radius.circular(30))),height: 50,width:wid*.7,child: FlatButton(onPressed: (){Navigator.pushNamed(context, '/getbankdetails');}, child: Text("Continue",style: TextStyle(color: Colors.white,fontSize: 20),))),
+                    Container(
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        height: 50,
+                        width: wid * .7,
+                        child: FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/getbankdetails');
+                            },
+                            child: Text(
+                              "Continue",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ))),
                   ],
                 ),
               ),
-
-
-
-
             ],
           ),
         ),
@@ -442,8 +504,7 @@ class _GetGstDetailsState extends State<GetGstDetails> {
   }
 }
 
-enum BankOption { havesamenamebank,donthavesamename }
-
+enum BankOption { havesamenamebank, donthavesamename }
 
 class GetBankDetails extends StatefulWidget {
   @override
@@ -451,34 +512,43 @@ class GetBankDetails extends StatefulWidget {
 }
 
 class _GetBankDetailsState extends State<GetBankDetails> {
-  BankOption selected=BankOption.donthavesamename;
+  BankOption selected = BankOption.donthavesamename;
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return Scaffold(
       body: Center(
         child: Container(
           child: ListView(
-
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom:15.0),
-                child: Container(height: 120,child: Image.asset("assets/images/dellologo.png",)),
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Container(
+                    height: 120,
+                    child: Image.asset(
+                      "assets/images/dellologo.png",
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(child: Text("Give Your Business Details",style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),)),
+                child: Center(
+                    child: Text(
+                  "Give Your Business Details",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
+                )),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:28.0),
+                padding: const EdgeInsets.only(top: 28.0),
                 child: Card(
                   semanticContainer: true,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child:Container(
+                  child: Container(
                     color: Colors.grey[100].withOpacity(.6),
-                    height:40,
-                    width: wid*.6,
+                    height: 40,
+                    width: wid * .6,
                     // color: Colors.redAccent.withOpacity(.6),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -493,11 +563,13 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                             });
                           },
                         ),
-                        Text("I Have A Bank Account In\n My Registered Business Name",style: TextStyle(fontSize: 15,fontStyle: FontStyle.italic),),
-
+                        Text(
+                          "I Have A Bank Account In\n My Registered Business Name",
+                          style: TextStyle(
+                              fontSize: 15, fontStyle: FontStyle.italic),
+                        ),
                       ],
                     ),
-
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -507,13 +579,13 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:15.0),
+                padding: const EdgeInsets.only(top: 15.0),
                 child: Card(
                   semanticContainer: true,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child:Container(
-                    height:40,
-                    width: wid*.6,
+                  child: Container(
+                    height: 40,
+                    width: wid * .6,
                     color: Colors.grey[100].withOpacity(.6),
                     // color: Colors.redAccent.withOpacity(.6),
                     child: Row(
@@ -529,11 +601,13 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                             });
                           },
                         ),
-                        Text("I Will/Have Apply for bank account in\n name of registered businees ",style: TextStyle(fontSize: 14,fontStyle: FontStyle.italic),),
-
+                        Text(
+                          "I Will/Have Apply for bank account in\n name of registered businees ",
+                          style: TextStyle(
+                              fontSize: 14, fontStyle: FontStyle.italic),
+                        ),
                       ],
                     ),
-
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -542,14 +616,13 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                   margin: EdgeInsets.all(10),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: wid*.75,
+                      width: wid * .75,
                       child: Material(
                         elevation: 5,
                         shape: StadiumBorder(),
@@ -557,15 +630,16 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                           //key: _mobilenumberkey,
                           enableInteractiveSelection: true,
                           decoration: InputDecoration(
-
-                              border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 4),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30))),
                               /*prefixIcon: Padding(
                                 padding: const EdgeInsets.fromLTRB(10,0,10,0),
                                 child: Icon(Icons.phone,size: 35,color: Colors.black.withOpacity(.75),),
                               ),*/
-                              hintText: "Enter Account Holder's Name"
-                          ),
-                          validator: (value){},
+                              hintText: "Enter Account Holder's Name"),
+                          validator: (value) {},
                         ),
                       ),
                     ),
@@ -578,7 +652,7 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: wid*.75,
+                      width: wid * .75,
                       child: Material(
                         elevation: 5,
                         shape: StadiumBorder(),
@@ -586,15 +660,16 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                           //key: _mobilenumberkey,
                           enableInteractiveSelection: true,
                           decoration: InputDecoration(
-
-                              border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 4),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30))),
                               /*prefixIcon: Padding(
                                 padding: const EdgeInsets.fromLTRB(10,0,10,0),
                                 child: Icon(Icons.phone,size: 35,color: Colors.black.withOpacity(.75),),
                               ),*/
-                              hintText: "Enter Bank Account Number"
-                          ),
-                          validator: (value){},
+                              hintText: "Enter Bank Account Number"),
+                          validator: (value) {},
                         ),
                       ),
                     ),
@@ -607,7 +682,7 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: wid*.75,
+                      width: wid * .75,
                       child: Material(
                         elevation: 5,
                         shape: StadiumBorder(),
@@ -615,15 +690,16 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                           //key: _mobilenumberkey,
                           enableInteractiveSelection: true,
                           decoration: InputDecoration(
-
-                              border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 4),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30))),
                               /*prefixIcon: Padding(
                                 padding: const EdgeInsets.fromLTRB(10,0,10,0),
                                 child: Icon(Icons.phone,size: 35,color: Colors.black.withOpacity(.75),),
                               ),*/
-                              hintText: "Enter IFSC"
-                          ),
-                          validator: (value){},
+                              hintText: "Enter IFSC"),
+                          validator: (value) {},
                         ),
                       ),
                     ),
@@ -632,29 +708,44 @@ class _GetBankDetailsState extends State<GetBankDetails> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("Dont Know GST",style: TextStyle(color: Colors.green),),
+                child: Text(
+                  "Dont Know GST",
+                  style: TextStyle(color: Colors.green),
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:10.0),
+                padding: const EdgeInsets.only(top: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(decoration: BoxDecoration(color: Colors.green,borderRadius: BorderRadius.all(Radius.circular(30))),height: 50,width:wid*.7,child: FlatButton(onPressed: (){Navigator.pushNamed(context, '/getsign');}, child: Text("Continue",style: TextStyle(color: Colors.white,fontSize: 20),))),
+                    Container(
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        height: 50,
+                        width: wid * .7,
+                        child: FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/getsign');
+                            },
+                            child: Text(
+                              "Continue",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ))),
                   ],
                 ),
               ),
-
             ],
           ),
         ),
       ),
     );
-
   }
 }
 
-enum SignOption{upload,signhere}
-
+enum SignOption { upload, signhere }
 
 class CollectSignPage extends StatefulWidget {
   @override
@@ -662,34 +753,43 @@ class CollectSignPage extends StatefulWidget {
 }
 
 class _CollectSignPageState extends State<CollectSignPage> {
-  SignOption selected=SignOption.signhere;
+  SignOption selected = SignOption.signhere;
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return Scaffold(
       body: Center(
         child: Container(
           child: ListView(
-
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom:15.0),
-                child: Container(height: 120,child: Image.asset("assets/images/dellologo.png",)),
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Container(
+                    height: 120,
+                    child: Image.asset(
+                      "assets/images/dellologo.png",
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(child: Text("Give Your Business Details",style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.bold),)),
+                child: Center(
+                    child: Text(
+                  "Give Your Business Details",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
+                )),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:28.0),
+                padding: const EdgeInsets.only(top: 28.0),
                 child: Card(
                   semanticContainer: true,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child:Container(
+                  child: Container(
                     color: Colors.grey[100].withOpacity(.6),
-                    height:40,
-                    width: wid*.6,
+                    height: 40,
+                    width: wid * .6,
                     // color: Colors.redAccent.withOpacity(.6),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -704,11 +804,13 @@ class _CollectSignPageState extends State<CollectSignPage> {
                             });
                           },
                         ),
-                        Text("I Want To Draw Sign On Screen",style: TextStyle(fontSize: 15,fontStyle: FontStyle.italic),),
-
+                        Text(
+                          "I Want To Draw Sign On Screen",
+                          style: TextStyle(
+                              fontSize: 15, fontStyle: FontStyle.italic),
+                        ),
                       ],
                     ),
-
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -718,13 +820,13 @@ class _CollectSignPageState extends State<CollectSignPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:15.0),
+                padding: const EdgeInsets.only(top: 15.0),
                 child: Card(
                   semanticContainer: true,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child:Container(
-                    height:40,
-                    width: wid*.6,
+                  child: Container(
+                    height: 40,
+                    width: wid * .6,
                     color: Colors.grey[100].withOpacity(.6),
                     // color: Colors.redAccent.withOpacity(.6),
                     child: Row(
@@ -740,11 +842,13 @@ class _CollectSignPageState extends State<CollectSignPage> {
                             });
                           },
                         ),
-                        Text("I Want To Upload Sign. ",style: TextStyle(fontSize: 14,fontStyle: FontStyle.italic),),
-
+                        Text(
+                          "I Want To Upload Sign. ",
+                          style: TextStyle(
+                              fontSize: 14, fontStyle: FontStyle.italic),
+                        ),
                       ],
                     ),
-
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -753,11 +857,10 @@ class _CollectSignPageState extends State<CollectSignPage> {
                   margin: EdgeInsets.all(10),
                 ),
               ),
-
               Container(
                 margin: EdgeInsets.all(12),
                 height: 5 * 24.0,
-                width: wid*.8,
+                width: wid * .8,
                 child: Material(
                   elevation: 1,
                   shape: StadiumBorder(),
@@ -768,30 +871,49 @@ class _CollectSignPageState extends State<CollectSignPage> {
                     decoration: InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
-                        border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
-                        hintText: "Click here To sign"
-                    ),
-                    validator: (value){},
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 4),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        hintText: "Click here To sign"),
+                    validator: (value) {},
                   ),
                 ),
               ),
               Align(
-                alignment: Alignment(.9,-1),
+                alignment: Alignment(.9, -1),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("SKIP",style: TextStyle(color: Colors.green),),
+                  child: Text(
+                    "SKIP",
+                    style: TextStyle(color: Colors.green),
+                  ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top:10.0),
+                padding: const EdgeInsets.only(top: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(decoration: BoxDecoration(color: Colors.green,borderRadius: BorderRadius.all(Radius.circular(30))),height: 50,width:wid*.7,child: FlatButton(onPressed: (){Navigator.pushNamed(context, '/verificationpage');}, child: Text("Continue",style: TextStyle(color: Colors.white,fontSize: 20),))),
+                    Container(
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        height: 50,
+                        width: wid * .7,
+                        child: FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/verificationpage');
+                            },
+                            child: Text(
+                              "Continue",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ))),
                   ],
                 ),
               ),
-
             ],
           ),
         ),
@@ -799,7 +921,6 @@ class _CollectSignPageState extends State<CollectSignPage> {
     );
   }
 }
-
 
 class SellerVerificationPage extends StatefulWidget {
   @override
@@ -809,30 +930,32 @@ class SellerVerificationPage extends StatefulWidget {
 class _SellerVerificationPageState extends State<SellerVerificationPage> {
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return SafeArea(
       child: Scaffold(
-        
         body: Center(
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom:15.0),
-                  child: Container(height: 120,child: Image.asset("assets/images/dellologo.png",)),
+                  padding: const EdgeInsets.only(bottom: 15.0),
+                  child: Container(
+                      height: 120,
+                      child: Image.asset(
+                        "assets/images/dellologo.png",
+                      )),
                 ),
-
                 Card(
                   semanticContainer: true,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child:Container(
+                  child: Container(
                     height: 300,
-                    width: width*.9,
+                    width: width * .9,
                     //color: Colors.redAccent.withOpacity(.6),
                     //child: Center(child: Text("Stay Indoors Stay safe \n Consult Online Now",style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),)),
-                    child: Text("\n\n\nEMAIL VERIFICATION\n\n\nWe Have Sent A Email With Subject Line (Dellilo MarketPlace)-Email Verification To Your Registered Email Adreess\nPlease Open The Email And Click On The Verification Link\n\nThe Verification link expires in 24 hours.If Its Is expired Please Click her to send again"),
+                    child: Text(
+                        "\n\n\nEMAIL VERIFICATION\n\n\nWe Have Sent A Email With Subject Line (Dellilo MarketPlace)-Email Verification To Your Registered Email Adreess\nPlease Open The Email And Click On The Verification Link\n\nThe Verification link expires in 24 hours.If Its Is expired Please Click her to send again"),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -847,25 +970,21 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                 Card(
                   semanticContainer: true,
                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child:Container(
+                  child: Container(
                     height: 180,
-                    width: width*.9,
+                    width: width * .9,
                     //color: Colors.redAccent.withOpacity(.6),
                     //child: Center(child: Text("Stay Indoors Stay safe \n Consult Online Now",style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),)),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-
-
                         // CircleAvatar(backgroundColor: Colors.transparent,child: Image.asset("assets/images/u.png")),
                         //Container(decoration: BoxDecoration(color: Colors.green,borderRadius: BorderRadius.all(Radius.circular(30))),height: 30,width:width*.2,child: FlatButton(onPressed: (){Navigator.pushNamed(context, '/homescreen');}, child: Text("Change",style: TextStyle(color: Colors.white,fontSize: 12),))),
                         Padding(
-                          padding: const EdgeInsets.only(right:38.0),
-                          child: Text("Tracking CArd\n\nOnly Possible To Implement With The Backend.\n Will be implemented with backend"),
-
+                          padding: const EdgeInsets.only(right: 38.0),
+                          child: Text(
+                              "Tracking CArd\n\nOnly Possible To Implement With The Backend.\n Will be implemented with backend"),
                         )
-
-
                       ],
                     ),
                   ),
@@ -875,8 +994,6 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                   elevation: 5,
                   margin: EdgeInsets.all(10),
                 ),
-
-
               ],
             ),
           ),
@@ -885,9 +1002,3 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
     );
   }
 }
-
-
-
-
-
-

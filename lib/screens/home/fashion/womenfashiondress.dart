@@ -9,7 +9,6 @@ class WomenDressDetailPage extends StatefulWidget {
 class _WomenDressDetailPageState extends State<WomenDressDetailPage> {
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return SafeArea(
       child: Scaffold(

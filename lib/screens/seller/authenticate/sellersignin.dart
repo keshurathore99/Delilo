@@ -9,7 +9,6 @@ class SellerSigninScreen extends StatefulWidget {
 class _SellerSigninScreenState extends State<SellerSigninScreen> {
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return Scaffold(
       body: Center(

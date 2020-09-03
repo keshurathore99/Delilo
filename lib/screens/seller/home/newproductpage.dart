@@ -15,7 +15,6 @@ class _NewProductPageState extends State<NewProductPage> {
   List<String> colorselectedoptionlist = ['Yes','No','Sometimes'];
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return Scaffold(
       body: Center(

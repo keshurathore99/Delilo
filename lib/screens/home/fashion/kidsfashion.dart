@@ -11,7 +11,6 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
   int _index=0;
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return Scaffold(
       body: Center(

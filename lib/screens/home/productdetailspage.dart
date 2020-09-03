@@ -20,7 +20,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   int _index=0;
   @override
   Widget build(BuildContext context) {
-    double height = displayHeight(context);
     double width = displayWidth(context);
     return SafeArea(
       child: Scaffold(

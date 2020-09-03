@@ -15,7 +15,6 @@ class _SigninPhonePageState extends State<SigninPhonePage> {
 
   @override
   Widget build(BuildContext context) {
-    double hit = displayHeight(context);
     double wid = displayWidth(context);
     return Scaffold(
       body: Center(
