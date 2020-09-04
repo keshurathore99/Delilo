@@ -2,6 +2,8 @@
 import 'package:delilo/screens/authenticate/authenticate.dart';
 import 'package:delilo/screens/authenticate/getlocation.dart';
 import 'package:delilo/screens/authenticate/signin.dart';
+import 'package:delilo/screens/authenticate/signin.dart';
+import 'package:delilo/screens/authenticate/signin.dart';
 import 'package:delilo/screens/authenticate/signinphone.dart';
 import 'package:delilo/screens/home/account.dart';
 import 'package:delilo/screens/home/cart.dart';

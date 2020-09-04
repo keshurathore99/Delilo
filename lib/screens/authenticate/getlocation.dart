@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'package:flutter/material.dart';
 
 class GetLocationPage extends StatelessWidget {
+  static const routeName = '/getLocationPage';
+
   @override
   Widget build(BuildContext context) {
     double wid = displayWidth(context);
@@ -29,32 +31,32 @@ class GetLocationPage extends StatelessWidget {
                       //color: Colors.white.withOpacity(1),
                       child: Center(
                           child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              'assets/images/1.png',
-                              scale: .1,
-                            ),
-                          ),
-                          FittedBox(
-                              child: FlatButton.icon(
-                                  icon: Icon(
-                                    Icons.location_on,
-                                    color: Colors.green,
-                                  ),
-                                  onPressed: () {},
-                                  label: Text(
-                                    "Click here to get location automatically",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontStyle: FontStyle.italic),
-                                  ))),
-                        ],
-                      )),
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.asset(
+                                  'assets/1.png',
+                                  scale: .1,
+                                ),
+                              ),
+                              FittedBox(
+                                  child: FlatButton(
+                                      padding: EdgeInsets.all(0),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20)),
+                                      onPressed: () {},
+                                      child: Text(
+                                        "Click here to get location automatically",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontStyle: FontStyle.italic),
+                                      ))),
+                            ],
+                          )),
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(25.0),
                     ),
                     elevation: 5,
                     margin: EdgeInsets.all(10),
@@ -72,36 +74,34 @@ class GetLocationPage extends StatelessWidget {
                       ),
                       Center(
                           child: Text(
-                        "Or",
-                        style: TextStyle(fontSize: 20),
-                      )),
+                            "Or",
+                            style: TextStyle(fontSize: 20),
+                          )),
                     ])),
               ),
-              Container(
-                margin: EdgeInsets.all(12),
-                height: 5 * 24.0,
-                width: wid * .8,
-                child: Material(
-                  elevation: 5,
-                  shape: StadiumBorder(),
-                  child: TextFormField(
-                    //key: __passwordkey,
-                    enableInteractiveSelection: true,
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+              Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25)),
+                margin: EdgeInsets.symmetric(horizontal: wid / 15),
+                child: TextFormField(
+                  //key: __passwordkey,
+                  enableInteractiveSelection: true,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      filled: true,
+                      border: UnderlineInputBorder(
                           borderSide: BorderSide(width: 0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(25)),
+                      enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(width: 0),
-                        ),
-                        hintText: "Type Your Address..."),
-                    validator: (value) {},
-                  ),
+                          borderRadius: BorderRadius.circular(25)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(width: 0),
+                          borderRadius: BorderRadius.circular(25)),
+                      hintText: "Type Your Address..."),
+                  validator: (value) {},
                 ),
               ),
               Padding(

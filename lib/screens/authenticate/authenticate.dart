@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/auth_service.dart';
+import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:delilo/screens/auxillary/customclasses.dart';
 
 class AuthenticateScreen extends StatefulWidget {
+  static const routeName = '/authenticate';
   @override
   _AuthenticateScreenState createState() => _AuthenticateScreenState();
 }
 
 FirebaseUser user;
+
 class _AuthenticateScreenState extends State<AuthenticateScreen> {
-
-
   // final GlobalKey<FormFieldState> __passwordkey=GlobalKey<FormFieldState>();
   // final GlobalKey<FormFieldState> _usernamekey=GlobalKey<FormFieldState>();
   // final GlobalKey<FormFieldState> _emailkey=GlobalKey<FormFieldState>();
@@ -27,11 +27,6 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
   TextEditingController passwordController = TextEditingController();
   final otpController = new TextEditingController();
 
-
-
-
-
-
   // Registration variables
   String smsCode, verificationId;
   bool codeSent = false;
@@ -40,13 +35,13 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
   bool canRegister = false;
   AuthCredential loginKey;
 
-
   final key = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     double wid = displayWidth(context);
@@ -57,29 +52,31 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
         body: Center(
           child: Container(
             width: wid,
-
-            color: Color.fromRGBO(241,243,241, 1),
+            color: Color.fromRGBO(241, 243, 241, 1),
             /*decoration: BoxDecoration(
               image: DecorationImage(image: AssetImage('assets/back.png'),fit: BoxFit.fitWidth)
             ),*/
             child: Form(
               child: ListView(
-           /*    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                /*    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.max,*/
                 children: [
-                  Container(height: 120,child: Image.asset("assets/dellologo.png",)),
-
+                  Container(
+                      height: 120,
+                      child: Image.asset(
+                        "assets/dellologo.png",
+                      )),
                   Container(
                     height: 240,
                     child: Align(
-                      alignment: Alignment(0,-1),
+                      alignment: Alignment(0, -1),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
                             //color: Colors.,
-                            width: wid*.80,
+                            width: wid * .80,
                             child: Material(
                               elevation: 5,
                               shape: StadiumBorder(),
@@ -89,20 +86,26 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
 
                                 enableInteractiveSelection: true,
                                 decoration: InputDecoration(
-
-                                    border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 4),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
                                     prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                                      child: Icon(Icons.person,size: 35,color: Colors.black.withOpacity(.75),),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 0),
+                                      child: Icon(
+                                        Icons.person,
+                                        size: 35,
+                                        color: Colors.black.withOpacity(.75),
+                                      ),
                                     ),
-                                    hintText: "Enter Username"
-                                ),
-                                validator: (value){},
+                                    hintText: "Enter Username"),
+                                validator: (value) {},
                               ),
                             ),
                           ),
                           Container(
-                            width: wid*.8,
+                            width: wid * .8,
                             child: Material(
                               elevation: 5,
                               shape: StadiumBorder(),
@@ -111,20 +114,26 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 controller: emailController,
                                 enableInteractiveSelection: true,
                                 decoration: InputDecoration(
-
-                                    border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 4),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
                                     prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                                      child: Icon(Icons.email,size: 35,color: Colors.black.withOpacity(.75),),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 0),
+                                      child: Icon(
+                                        Icons.email,
+                                        size: 35,
+                                        color: Colors.black.withOpacity(.75),
+                                      ),
                                     ),
-                                    hintText: "Enter Email"
-                                ),
-                                validator: (value){},
+                                    hintText: "Enter Email"),
+                                validator: (value) {},
                               ),
                             ),
                           ),
                           Container(
-                            width: wid*.8,
+                            width: wid * .8,
                             child: Material(
                               elevation: 5,
                               shape: StadiumBorder(),
@@ -133,20 +142,25 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 controller: phoneController,
                                 enableInteractiveSelection: true,
                                 decoration: InputDecoration(
-
-                                    border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 4),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
                                     prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                                      child: Icon(Icons.phone,size: 35,color: Colors.black.withOpacity(.75),),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 0),
+                                      child: Icon(
+                                        Icons.phone,
+                                        size: 35,
+                                        color: Colors.black.withOpacity(.75),
+                                      ),
                                     ),
-                                    hintText: "Enter Phone"
-                                ),
+                                    hintText: "Enter Phone"),
                                 keyboardType: TextInputType.number,
-                                validator: (value){},
+                                validator: (value) {},
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -154,20 +168,19 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                   Container(
                     height: 50,
                     child: Align(
-                      alignment: Alignment(.1,-1),
+                      alignment: Alignment(.1, -1),
                       child: Container(
-                        width: wid*.8,
-                        color: Color.fromRGBO(241,243,241, 1),
-                        child:Row(
+                        width: wid * .8,
+                        color: Color.fromRGBO(241, 243, 241, 1),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(bottom:10.0),
+                              padding: const EdgeInsets.only(bottom: 10.0),
                               child: Text("OTP Recievied"),
                             ),
                             Container(
-
-                              color: Color.fromRGBO(241,243,241, 1),
+                              color: Color.fromRGBO(241, 243, 241, 1),
 
                               width: 180,
                               //height: 200,
@@ -209,32 +222,35 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                     ),
                   ),
                   Align(
-                    alignment: Alignment(.6,-1),
+                    alignment: Alignment(.6, -1),
                     child: GestureDetector(
-                      onTap: () {
-                        phoneController.text = phoneController.text.trim();
-                    codeSent
-                        ? AuthService().signWithOTP(smsCode, verificationId)
-                        : verifyPhone("+91" + phoneController.text);
+                        onTap: () {
+                          phoneController.text = phoneController.text.trim();
+                          codeSent
+                              ? AuthService()
+                                  .signWithOTP(smsCode, verificationId)
+                              : verifyPhone("+91" + phoneController.text);
 
-                    if (verified) {
-                      setState(() {
-                        key.currentState.showSnackBar(SnackBar(content: Text('Phone Number Verified !'),));
-                      });
-                    }
-                      },
-                      child: codeSent
-                      ? Text("Submit the OTP Code",
-                          style: TextStyle(color: Colors.green))
-                      : Text("Get OTP",
-                          style: TextStyle(color: Colors.green))),
-                      // child: Text("Send OTP",style: TextStyle(color: Colors.green),)),
+                          if (verified) {
+                            setState(() {
+                              key.currentState.showSnackBar(SnackBar(
+                                content: Text('Phone Number Verified !'),
+                              ));
+                            });
+                          }
+                        },
+                        child: codeSent
+                            ? Text("Submit the OTP Code",
+                                style: TextStyle(color: Colors.green))
+                            : Text("Get OTP",
+                                style: TextStyle(color: Colors.green))),
+                    // child: Text("Send OTP",style: TextStyle(color: Colors.green),)),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: wid*.8,
+                        width: wid * .8,
                         height: 45,
                         child: Material(
                           elevation: 5,
@@ -244,23 +260,32 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                             controller: passwordController,
                             enableInteractiveSelection: true,
                             decoration: InputDecoration(
-
-                                border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 4),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30))),
                                 prefixIcon: Padding(
-                                  padding: const EdgeInsets.fromLTRB(10,0,10,0),
-                                  child: Icon(Icons.lock,size: 35,color: Colors.black.withOpacity(.75),),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  child: Icon(
+                                    Icons.lock,
+                                    size: 35,
+                                    color: Colors.black.withOpacity(.75),
+                                  ),
                                 ),
-                                hintText: "Enter Password"
-                            ),
-                            validator: (value){},
+                                hintText: "Enter Password"),
+                            validator: (value) {},
                           ),
                         ),
                       ),
                     ],
                   ),
-
-
-                  FlatButton(onPressed: (){}, child: Align(alignment: Alignment(0,-1),child: Text("Or Register By"),)),
+                  FlatButton(
+                      onPressed: () {},
+                      child: Align(
+                        alignment: Alignment(0, -1),
+                        child: Text("Or Register By"),
+                      )),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     mainAxisSize: MainAxisSize.max,
@@ -269,43 +294,78 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         width: 150,
                         height: 80,
                         decoration: BoxDecoration(
-                          image: DecorationImage(image: AssetImage('assets/j.png'),fit: BoxFit.fitHeight),
+                          image: DecorationImage(
+                              image: AssetImage('assets/j.png'),
+                              fit: BoxFit.fitHeight),
                         ),
-                        child: Align(alignment: Alignment(0.3,-.15),child: Text("Signup",style: TextStyle(color: Colors.white,fontSize: 15),)),
+                        child: Align(
+                            alignment: Alignment(0.3, -.15),
+                            child: Text(
+                              "Signup",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            )),
                       ),
                       Container(
                         width: 150,
                         height: 80,
                         decoration: BoxDecoration(
-                          image: DecorationImage(image: AssetImage('assets/p.png'),fit: BoxFit.fitHeight),
+                          image: DecorationImage(
+                              image: AssetImage('assets/p.png'),
+                              fit: BoxFit.fitHeight),
                         ),
-                        child: Align(alignment: Alignment(0.3,-.15),child: Text("Signup",style: TextStyle(color: Colors.white,fontSize: 15),)),
+                        child: Align(
+                            alignment: Alignment(0.3, -.15),
+                            child: Text(
+                              "Signup",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            )),
                       ),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(decoration: BoxDecoration(color: Colors.green,borderRadius: BorderRadius.all(Radius.circular(30))),height: 40,width:wid*.5,
-                      child: FlatButton(
-                        onPressed: (){
-                          if (canRegister == true) {
-                            Navigator.pushNamed(context, '/getlocation');
-                          }else{
-                            key.currentState.showSnackBar(SnackBar(content: Text('Something went wrong !'),));
-                          }
-                        },
-                         child: Text("Register", style: TextStyle(color: Colors.white, fontSize: 18.0)))),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
+                          height: 40,
+                          width: wid * .5,
+                          child: FlatButton(
+                              onPressed: () {
+                                if (canRegister == true) {
+                                  Navigator.pushNamed(context, '/getlocation');
+                                } else {
+                                  key.currentState.showSnackBar(SnackBar(
+                                    content: Text('Something went wrong !'),
+                                  ));
+                                }
+                              },
+                              child: Text("Register",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18.0)))),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom:18.0),
-                    child: Container(height: 27,child: Align(alignment: Alignment.bottomCenter,child: RichText(text: TextSpan(style: TextStyle(color: Colors.black87, fontSize: 16.0),children: [TextSpan(text: "Already have a Account? "),TextSpan(text: "Login",style: TextStyle(color: Colors.green))])))),
+                    padding: const EdgeInsets.only(bottom: 18.0),
+                    child: Container(
+                        height: 27,
+                        child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: RichText(
+                                text: TextSpan(
+                                    style: TextStyle(
+                                        color: Colors.black87, fontSize: 16.0),
+                                    children: [
+                                  TextSpan(text: "Already have a Account? "),
+                                  TextSpan(
+                                      text: "Login",
+                                      style: TextStyle(color: Colors.green))
+                                ])))),
                   ),
-
-
-
-
                 ],
               ),
             ),
@@ -315,11 +375,13 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     );
   }
 
-    Future<void> verifyPhone(phoneNo) async {
+  Future<void> verifyPhone(phoneNo) async {
     final PhoneVerificationCompleted verified =
         (AuthCredential authResult) async {
       // AuthService().signIn(authResult);
-      FirebaseAuth.instance.signInWithCredential(authResult).then((usser) async {
+      FirebaseAuth.instance
+          .signInWithCredential(authResult)
+          .then((usser) async {
         if (emailController != null &&
             phoneController != null &&
             userNameController != null &&
@@ -333,11 +395,11 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
             .collection('users')
             .document(usser.user.uid)
             .setData({
-              "email": emailController.text,
-              "phone": phoneController.text,
-              "username": userNameController.text,
-              'password': passwordController.text,
-         });
+          "email": emailController.text,
+          "phone": phoneController.text,
+          "username": userNameController.text,
+          'password': passwordController.text,
+        });
       });
       setState(() async {
         this.verified = true;
@@ -348,7 +410,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
 
     final PhoneVerificationFailed verificationfailed =
         (AuthException authException) {
-      print('${authException.message}'  + '***************************************');
+      print('${authException.message}' +
+          '***************************************');
 
       if (registered)
         key.currentState.showSnackBar(SnackBar(
@@ -378,7 +441,6 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
         codeAutoRetrievalTimeout: autoTimeout);
   }
 }
-
 
 /*
 SizedBox(

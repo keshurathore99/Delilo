@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class SellerRegisterScreen extends StatefulWidget {
+  static const routeName = '/sellerRegisterPage';
+
   @override
   _SellerRegisterScreenState createState() => _SellerRegisterScreenState();
 }
@@ -148,7 +150,7 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
-                              child: Text("OTP Recievied"),
+                              child: Text("OTP Received"),
                             ),
                             Container(
                               color: Color.fromRGBO(241, 243, 241, 1),
@@ -278,7 +280,10 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                   Navigator.pushNamed(
                                       context, '/getgstdetails');
                                 },
-                                child: Text("Signup"))),
+                                child: Text(
+                                  "Register",
+                                  style: TextStyle(color: Colors.white),
+                                ))),
                       ],
                     ),
                   ),
