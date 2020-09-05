@@ -1,5 +1,7 @@
 import 'package:delilo/screens/authenticate/authenticate.dart';
+import 'package:delilo/screens/home/fashion/fashionmain.dart';
 import 'package:delilo/screens/home/homepage.dart';
+import 'package:delilo/screens/seller/home/newproductpage.dart';
 import 'package:delilo/screens/wrapper.dart';
 import 'package:delilo/services/navigation.dart';
 import 'package:flutter/material.dart';

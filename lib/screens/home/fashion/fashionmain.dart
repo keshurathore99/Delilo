@@ -1,6 +1,7 @@
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
 import 'package:delilo/widgets/category_for_fashion_page.dart';
+import 'package:delilo/widgets/main_product_item.dart';
 import 'package:flutter/material.dart';
 
 class FashionMainPage extends StatefulWidget {
@@ -86,55 +87,12 @@ class _FashionMainPageState extends State<FashionMainPage> {
                     height: 3,
                   ),
                 ),
-                Container(
-                  width: width,
-                  height: 200,
-                  child: PageView.builder(
-                    itemCount: 4,
-                    controller: PageController(viewportFraction: 0.6),
-                    onPageChanged: (int index) =>
-                        setState(() => _index = index),
-                    itemBuilder: (_, i) {
-                      return Transform.scale(
-                        scale: i == _index ? 1 : 0.9,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/productsdetail');
-                          },
-                          child: Card(
-                            elevation: 6,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                image: AssetImage('assets/Union1.png'),
-                                fit: BoxFit.fitHeight,
-                                alignment: Alignment.topCenter,
-                              )),
-                              /* decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage())
-                              ),*/
-                              child: FractionallySizedBox(
-                                alignment: Alignment.bottomCenter,
-                                heightFactor: .4,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20))),
-                                  child:
-                                      Center(child: Text("Some Description")),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                MainProductItem(
+                    productName: 'Salwar Suit',
+                    shopName: 'Keshav Shop',
+                    price: 927,
+                    imageUrl:
+                        'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
@@ -156,69 +114,39 @@ class _FashionMainPageState extends State<FashionMainPage> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Container(
-                    height: 300,
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      children: [
-                        Card(
-                          elevation: 6,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                              image: AssetImage('assets/Union1.png'),
-                              fit: BoxFit.fitHeight,
-                              alignment: Alignment.topCenter,
-                            )),
-                            child: FractionallySizedBox(
-                              alignment: Alignment.bottomCenter,
-                              heightFactor: .4,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20))),
-                                child: Center(child: Text("Some Description")),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Card(
-                          elevation: 6,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                              image: AssetImage('assets/Union1.png'),
-                              fit: BoxFit.fitHeight,
-                              alignment: Alignment.topCenter,
-                            )),
-                            /* decoration: BoxDecoration(
-                              image: DecorationImage(image: AssetImage())
-                            ),*/
-                            child: FractionallySizedBox(
-                              alignment: Alignment.bottomCenter,
-                              heightFactor: .4,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20))),
-                                child: Center(child: Text("Some Description")),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+//                Expanded(
+//                  child: GridView.builder(
+//                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                          crossAxisCount: 2),
+//                      itemCount: 2,
+//                      itemBuilder: (context, index) {
+//                        return MainProductItem(
+//                            productName: 'Salwar Suit',
+//                            shopName: 'Keshav Shop',
+//                            price: 927,
+//                            imageUrl:
+//                                'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
+//                      }),
+//                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: MainProductItem(
+                          productName: 'Salwar Suit',
+                          shopName: 'Keshav Shop',
+                          price: 927,
+                          imageUrl:
+                              'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
                     ),
-                  ),
+                    Expanded(
+                      child: MainProductItem(
+                          productName: 'Salwar Suit',
+                          shopName: 'Keshav Shop',
+                          price: 927,
+                          imageUrl:
+                              'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -228,29 +156,3 @@ class _FashionMainPageState extends State<FashionMainPage> {
     );
   }
 }
-/*
-Card(
-semanticContainer: true,
-clipBehavior: Clip.antiAliasWithSaveLayer,
-child: Container(
-height: 200,
-width: width*.22,
-child: FractionallySizedBox(alignment: Alignment.bottomCenter,heightFactor: .3,child: Container(color: Colors.white,child: Center(child: Text("Some Description")),),),
-decoration: BoxDecoration(
-image: DecorationImage(
-colorFilter: ColorFilter.mode(Colors.black87.withOpacity(.2), BlendMode.darken),
-image: AssetImage('assets/images/fashion1.jpg'),
-
-fit: BoxFit.fitHeight,
-alignment: Alignment.topCenter,
-),
-),
-),
-
-
-shape: RoundedRectangleBorder(
-borderRadius: BorderRadius.circular(10.0),
-),
-elevation: 5,
-margin: EdgeInsets.all(10),
-),*/
