@@ -1,3 +1,4 @@
+import 'package:delilo/screens/authenticate/signinphone.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:flutter/material.dart';
 
@@ -81,12 +82,15 @@ class SigninPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/siginphone');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SigninPhonePage()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child: Text(
-                    "Or Login With Phone Number",
+                    "Or Login by Mobile Number",
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -102,13 +106,13 @@ class SigninPage extends StatelessWidget {
                       height: 80,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage('assets/images/j.png'),
+                            image: AssetImage('assets/j.png'),
                             fit: BoxFit.fitHeight),
                       ),
                       child: Align(
                           alignment: Alignment(0.3, -.15),
                           child: Text(
-                            "Signup",
+                            "Login",
                             style: TextStyle(color: Colors.white, fontSize: 15),
                           )),
                     ),
@@ -117,13 +121,13 @@ class SigninPage extends StatelessWidget {
                       height: 80,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage('assets/images/p.png'),
+                            image: AssetImage('assets/p.png'),
                             fit: BoxFit.fitHeight),
                       ),
                       child: Align(
                           alignment: Alignment(0.3, -.15),
                           child: Text(
-                            "Signup",
+                            "Login",
                             style: TextStyle(color: Colors.white, fontSize: 15),
                           )),
                     ),
@@ -137,7 +141,6 @@ class SigninPage extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Colors.green,
                           borderRadius: BorderRadius.all(Radius.circular(30))),
-                      height: 45,
                       width: wid * .8,
                       child: FlatButton(
                           onPressed: () {
@@ -149,20 +152,21 @@ class SigninPage extends StatelessWidget {
                           ))),
                 ],
               ),
-              Container(
-                  height: 37,
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: RichText(
-                          text: TextSpan(
-                              style: TextStyle(
-                                  color: Colors.black87, fontSize: 20),
-                              children: [
-                            TextSpan(text: "Dont have a Account? "),
-                            TextSpan(
-                                text: "Register",
-                                style: TextStyle(color: Colors.green))
-                          ])))),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: RichText(
+                        text: TextSpan(
+                            style:
+                                TextStyle(color: Colors.black87, fontSize: 20),
+                            children: [
+                          TextSpan(text: "Dont have a Account? "),
+                          TextSpan(
+                              text: "Register",
+                              style: TextStyle(color: Colors.green))
+                        ]))),
+              ),
             ],
           ),
         ),

@@ -1,3 +1,5 @@
+import 'package:delilo/screens/authenticate/authenticate.dart';
+import 'package:delilo/screens/home/homepage.dart';
 import 'package:delilo/screens/wrapper.dart';
 import 'package:delilo/services/navigation.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: NavigationHelper.onGenerateroutes,
-      home: Wrapper(),
+      home: HomePageScreen(),
     );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/constants/decoration_constants.dart';
 import 'package:delilo/models/auth_service.dart';
+import 'package:delilo/screens/authenticate/signin.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -48,14 +51,10 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     return SafeArea(
       child: Scaffold(
         key: key,
-        // backgroundColor: Colors.grey[200],
         body: Center(
           child: Container(
             width: wid,
             color: Color.fromRGBO(241, 243, 241, 1),
-            /*decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage('assets/back.png'),fit: BoxFit.fitWidth)
-            ),*/
             child: Form(
               child: ListView(
                 /*    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -81,25 +80,15 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                               elevation: 5,
                               shape: StadiumBorder(),
                               child: TextFormField(
-                                // key: _usernamekey,
                                 controller: userNameController,
-
                                 enableInteractiveSelection: true,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 4),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30))),
-                                    prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 10, 0),
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 35,
-                                        color: Colors.black.withOpacity(.75),
-                                      ),
-                                    ),
-                                    hintText: "Enter Username"),
+                                decoration:
+                                    registerTextFieldDecoration.copyWith(
+                                        hintText: 'Username',
+                                        prefixIcon: Icon(
+                                          Icons.person,
+                                          color: Colors.black54,
+                                        )),
                                 validator: (value) {},
                               ),
                             ),
@@ -113,21 +102,13 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 // key: _emailkey,
                                 controller: emailController,
                                 enableInteractiveSelection: true,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 4),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30))),
-                                    prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 10, 0),
-                                      child: Icon(
-                                        Icons.email,
-                                        size: 35,
-                                        color: Colors.black.withOpacity(.75),
-                                      ),
-                                    ),
-                                    hintText: "Enter Email"),
+                                decoration:
+                                    registerTextFieldDecoration.copyWith(
+                                        hintText: 'Email',
+                                        prefixIcon: Icon(
+                                          Icons.email,
+                                          color: Colors.black54,
+                                        )),
                                 validator: (value) {},
                               ),
                             ),
@@ -141,21 +122,13 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 // key: _mobilenumberkey,
                                 controller: phoneController,
                                 enableInteractiveSelection: true,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 4),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30))),
-                                    prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 10, 0),
-                                      child: Icon(
-                                        Icons.phone,
-                                        size: 35,
-                                        color: Colors.black.withOpacity(.75),
-                                      ),
-                                    ),
-                                    hintText: "Enter Phone"),
+                                decoration:
+                                    registerTextFieldDecoration.copyWith(
+                                        hintText: 'Phone',
+                                        prefixIcon: Icon(
+                                          Icons.phone,
+                                          color: Colors.black54,
+                                        )),
                                 keyboardType: TextInputType.number,
                                 validator: (value) {},
                               ),
@@ -177,11 +150,10 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
-                              child: Text("OTP Recievied"),
+                              child: Text("OTP Received"),
                             ),
                             Container(
                               color: Color.fromRGBO(241, 243, 241, 1),
-
                               width: 180,
                               //height: 200,
                               child: PinCodeTextField(
@@ -200,10 +172,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                   fieldWidth: 40,
                                   activeFillColor: Colors.white,
                                 ),
-                                //animationDuration: Duration(milliseconds: 300),
-                                //backgroundColor: Colors.blue.shade50,
+                                backgroundColor: Colors.transparent,
                                 enableActiveFill: true,
-                                //errorAnimationController: errorController,
                                 controller: textEditingController,
                                 onCompleted: (v) {
                                   print("Completed");
@@ -259,21 +229,12 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                             // key: __passwordkey,
                             controller: passwordController,
                             enableInteractiveSelection: true,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 4),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30))),
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  child: Icon(
-                                    Icons.lock,
-                                    size: 35,
-                                    color: Colors.black.withOpacity(.75),
-                                  ),
-                                ),
-                                hintText: "Enter Password"),
+                            decoration: registerTextFieldDecoration.copyWith(
+                                hintText: 'Password',
+                                prefixIcon: Icon(
+                                  Icons.lock,
+                                  color: Colors.black54,
+                                )),
                             validator: (value) {},
                           ),
                         ),
@@ -349,22 +310,26 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                       color: Colors.white, fontSize: 18.0)))),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 18.0),
-                    child: Container(
-                        height: 27,
-                        child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: RichText(
-                                text: TextSpan(
-                                    style: TextStyle(
-                                        color: Colors.black87, fontSize: 16.0),
-                                    children: [
-                                  TextSpan(text: "Already have a Account? "),
-                                  TextSpan(
-                                      text: "Login",
-                                      style: TextStyle(color: Colors.green))
-                                ])))),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => SigninPage()));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 18.0, top: 10),
+                      child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: RichText(
+                              text: TextSpan(
+                                  style: TextStyle(
+                                      color: Colors.black87, fontSize: 16.0),
+                                  children: [
+                                TextSpan(text: "Already have a Account? "),
+                                TextSpan(
+                                    text: "Login",
+                                    style: TextStyle(color: Colors.green))
+                              ]))),
+                    ),
                   ),
                 ],
               ),

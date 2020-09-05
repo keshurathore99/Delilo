@@ -128,6 +128,18 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "geolocator",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator-6.0.0+3",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
+      "name": "geolocator_platform_interface",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_platform_interface-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "http",
       "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.12.2",
       "packageUri": "lib/",
@@ -248,7 +260,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-09-04T14:01:35.689565Z",
+  "generated": "2020-09-05T07:06:36.523975Z",
   "generator": "pub",
   "generatorVersion": "2.9.1"
 }
