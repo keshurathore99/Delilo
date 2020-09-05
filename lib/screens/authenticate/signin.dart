@@ -1,3 +1,4 @@
+import 'package:delilo/screens/authenticate/authenticate.dart';
 import 'package:delilo/screens/authenticate/signinphone.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -184,20 +185,28 @@ class SigninPage extends StatelessWidget {
                           ))),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: RichText(
-                        text: TextSpan(
-                            style:
-                                TextStyle(color: Colors.black87, fontSize: 20),
-                            children: [
-                          TextSpan(text: "Don't have a Account? "),
-                          TextSpan(
-                              text: "Register",
-                              style: TextStyle(color: Colors.green))
-                        ]))),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AuthenticateScreen()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: RichText(
+                          text: TextSpan(
+                              style: TextStyle(
+                                  color: Colors.black87, fontSize: 20),
+                              children: [
+                            TextSpan(text: "Don't have a Account? "),
+                            TextSpan(
+                                text: "Register",
+                                style: TextStyle(color: Colors.green))
+                          ]))),
+                ),
               ),
             ],
           ),
