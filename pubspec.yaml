@@ -32,6 +32,7 @@ dependencies:
   firebase_auth: ^0.16.1
   cloud_firestore: ^0.13.7
   geolocator: 6.0.0+3
+  modal_progress_hud:
   
 dev_dependencies:
   flutter_test:
