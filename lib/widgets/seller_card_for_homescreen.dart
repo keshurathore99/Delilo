@@ -1,4 +1,5 @@
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SellerCardForHomeScreen extends StatelessWidget {
@@ -80,10 +81,12 @@ class SellerCardForHomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(distance.toStringAsFixed(1) +
-                        ' Km away from your location'),
+                  FittedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(distance.toStringAsFixed(1) +
+                          ' Km away from your location'),
+                    ),
                   ),
                 ],
               ),

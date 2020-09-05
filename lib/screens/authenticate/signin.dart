@@ -1,14 +1,20 @@
 import 'package:delilo/screens/authenticate/signinphone.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SigninPage extends StatelessWidget {
   static const routeName = '/signInPage';
 
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     double wid = displayWidth(context);
     return Scaffold(
+      key: _scaffoldKey,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -33,7 +39,7 @@ class SigninPage extends StatelessWidget {
                     elevation: 5,
                     shape: StadiumBorder(),
                     child: TextFormField(
-                      //key: _mobilenumberkey,
+                      controller: _emailController,
                       enableInteractiveSelection: true,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -60,7 +66,8 @@ class SigninPage extends StatelessWidget {
                   elevation: 5,
                   shape: StadiumBorder(),
                   child: TextFormField(
-                    //key: _mobilenumberkey,
+                    obscureText: true,
+                    controller: _passwordController,
                     enableInteractiveSelection: true,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -143,8 +150,33 @@ class SigninPage extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                       width: wid * .8,
                       child: FlatButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/homescreen');
+                          onPressed: () async {
+                            if (_emailController.text.isEmpty ||
+                                _passwordController.text.isEmpty) {
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content:
+                                      Text('Please Fill The Above Fields')));
+                              return;
+                            }
+                            if (_passwordController.text.length < 6) {
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content:
+                                      Text('Password Length is Very Small')));
+                              return;
+                            }
+                            final result = await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: _emailController.text,
+                                    password: _passwordController.text);
+                            if (result.user.uid != null) {
+                              Navigator.pushReplacementNamed(
+                                  context, '/homescreen');
+                              _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(content: Text('Login Successful')));
+                            } else {
+                              _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(content: Text('Login Failed')));
+                            }
                           },
                           child: Text(
                             "Login",
@@ -161,7 +193,7 @@ class SigninPage extends StatelessWidget {
                             style:
                                 TextStyle(color: Colors.black87, fontSize: 20),
                             children: [
-                          TextSpan(text: "Dont have a Account? "),
+                          TextSpan(text: "Don't have a Account? "),
                           TextSpan(
                               text: "Register",
                               style: TextStyle(color: Colors.green))
