@@ -12,13 +12,12 @@ class FashionMainPage extends StatefulWidget {
 }
 
 class _FashionMainPageState extends State<FashionMainPage> {
-  final _pageController = PageController(viewportFraction: 0.4);
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
     final width = displayWidth(context);
     final height = displayHeight(context);
-    int _index = 0;
     return SafeArea(
       child: Scaffold(
         drawer: MyDrawer(),
@@ -95,11 +94,10 @@ class _FashionMainPageState extends State<FashionMainPage> {
                   child: PageView.builder(
                     itemCount: 4,
                     controller: PageController(viewportFraction: 0.4),
-                    onPageChanged: (int index) =>
-                        setState(() => _index = index),
+                    onPageChanged: (index) => setState(() => _index = index),
                     itemBuilder: (_, index) {
                       return Transform.scale(
-                          scale: 0.9,
+                          scale: _index == index ? 1 : 0.9,
                           child: MainProductItem(
                               productName: 'Suit',
                               shopName: 'Keshav Shop',

@@ -20,16 +20,19 @@ class MainProductItem extends StatelessWidget {
       elevation: 5,
       child: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20), color: Colors.blue),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(18),
-              child: FadeInImage(
-                fit: BoxFit.cover,
-                placeholder: AssetImage(
-                    'assets/dairy/photo-1524546666497-1c737219eec9.jpeg'),
-                image: NetworkImage(imageUrl),
+          Expanded(
+            flex: 3,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), color: Colors.blue),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: FadeInImage(
+                  fit: BoxFit.cover,
+                  placeholder: AssetImage(
+                      'assets/dairy/photo-1524546666497-1c737219eec9.jpeg'),
+                  image: NetworkImage(imageUrl),
+                ),
               ),
             ),
           ),
@@ -66,7 +69,7 @@ class MainProductItem extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                          horizontal: 8, vertical: 2),
                       child: Text(
                         '₹ ' + price.toStringAsFixed(0),
                         style: TextStyle(color: Colors.white),
