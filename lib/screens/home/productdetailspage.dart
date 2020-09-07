@@ -101,39 +101,53 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          Text(
-                            widget.product.shopName,
-                            style: TextStyle(color: Colors.black, fontSize: 25),
-                          ),
-                          Container(
-                            width: 250,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 19.0),
-                                  child: Text(
-                                    "₹${widget.product.price}",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 25),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                widget.product.shopName,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 25),
+                                textAlign: TextAlign.left,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4),
+                                child: Container(
+                                  width: 250,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 19.0),
+                                        child: Text(
+                                          "₹${widget.product.price}",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 25),
+                                        ),
+                                      ),
+                                      SmoothStarRating(
+                                        isReadOnly: true,
+                                        rating: widget.product.ratings
+                                                    .toDouble() ==
+                                                null
+                                            ? 0
+                                            : widget.product.ratings.toDouble(),
+                                        color: Colors.yellow,
+                                        borderColor: Colors.yellow,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                SmoothStarRating(
-                                  isReadOnly: true,
-                                  rating:
-                                      widget.product.ratings.toDouble() == null
-                                          ? 0
-                                          : widget.product.ratings.toDouble(),
-                                  color: Colors.yellow,
-                                  borderColor: Colors.yellow,
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                       CircleAvatar(
                           radius: 20,
@@ -149,7 +163,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Text(
                     widget.product.description,
                     style: TextStyle(fontSize: 15),
@@ -160,6 +174,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   "\nReviews",
                   style: TextStyle(color: Colors.green, fontSize: 20),
                 )),
+                widget.product.reviews.length == 0
+                    ? Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Center(
+                          child: Text(
+                            'No Reviews Till Now',
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      )
+                    : null,
                 ...widget.product.reviews.map((review) {
                   return UserReview(
                       name: review.name,
