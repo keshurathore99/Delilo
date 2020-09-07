@@ -118,7 +118,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
 
                           final product = Product(
                               imageUrl:
-                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                                  'https://rukminim1.flixcart.com/image/714/857/jqfinww0/dress/8/y/w/xxl-ragini-blue-reyans-original-imafcduaa5b5pghg.jpeg?q=50',
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -130,12 +130,8 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                           return Transform.scale(
                               scale: 1,
                               child: MainProductItem(
-                                  product: product,
-                                  productName: productName,
-                                  shopName: shopName,
-                                  price: double.parse(price),
-                                  imageUrl:
-                                      'https://rukminim1.flixcart.com/image/714/857/jqfinww0/dress/8/y/w/xxl-ragini-blue-reyans-original-imafcduaa5b5pghg.jpeg?q=50'));
+                                product: product,
+                              ));
                         },
                       ),
                     );
@@ -189,7 +185,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
 
                           final product = Product(
                               imageUrl:
-                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                                  'https://rukminim1.flixcart.com/image/714/857/top/y/f/h/m-ep1602-pink-rare-original-imaeqct5fbzghe4q.jpeg?q=50',
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -201,12 +197,8 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                           return Transform.scale(
                               scale: 1,
                               child: MainProductItem(
-                                  product: product,
-                                  productName: productName,
-                                  shopName: shopName,
-                                  price: double.parse(price),
-                                  imageUrl:
-                                      'https://rukminim1.flixcart.com/image/714/857/top/y/f/h/m-ep1602-pink-rare-original-imaeqct5fbzghe4q.jpeg?q=50'));
+                                product: product,
+                              ));
                         },
                       ),
                     );
@@ -261,7 +253,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
 
                           final product = Product(
                               imageUrl:
-                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                                  'https://ksbeautifulartandcraft.com/wp-content/uploads/2018/01/3128fcab-2e34-4174-839b-ec8a9ba83272.jpg',
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -273,12 +265,8 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                           return Transform.scale(
                               scale: 1,
                               child: MainProductItem(
-                                  product: product,
-                                  productName: product.productName,
-                                  shopName: product.shopName,
-                                  price: double.parse(product.price.toString()),
-                                  imageUrl:
-                                      'https://ksbeautifulartandcraft.com/wp-content/uploads/2018/01/3128fcab-2e34-4174-839b-ec8a9ba83272.jpg'));
+                                product: product,
+                              ));
                         },
                       ),
                     );

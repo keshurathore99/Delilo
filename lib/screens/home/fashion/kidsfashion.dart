@@ -118,7 +118,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
 
                           final product = Product(
                               imageUrl:
-                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                                  'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/miniclasix-baby-three-piece-set-1528834907.jpg',
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -130,12 +130,8 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                           return Transform.scale(
                               scale: 1,
                               child: MainProductItem(
-                                  product: product,
-                                  productName: product.productName,
-                                  shopName: product.shopName,
-                                  price: double.parse(product.price.toString()),
-                                  imageUrl:
-                                      'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/miniclasix-baby-three-piece-set-1528834907.jpg'));
+                                product: product,
+                              ));
                         },
                       ),
                     );
@@ -191,7 +187,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
 
                           final product = Product(
                               imageUrl:
-                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                                  'https://images-na.ssl-images-amazon.com/images/I/61CHLqGACJL._UL1024_.jpg',
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -203,11 +199,8 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                           return Transform.scale(
                               scale: 1,
                               child: MainProductItem(
-                                  productName: product.productName,
-                                  shopName: product.shopName,
-                                  price: double.parse(price),
-                                  imageUrl:
-                                      'https://images-na.ssl-images-amazon.com/images/I/61CHLqGACJL._UL1024_.jpg'));
+                                product: product,
+                              ));
                         },
                       ),
                     );
@@ -263,7 +256,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
 
                           final product = Product(
                               imageUrl:
-                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                                  'https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/productimage/2019/12/15/7567b28d-2a76-482f-a182-98f3d50cfeb21576371862251-1.jpg',
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -275,12 +268,8 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                           return Transform.scale(
                               scale: 1,
                               child: MainProductItem(
-                                  product: product,
-                                  productName: productName,
-                                  shopName: shopName,
-                                  price: double.parse(price),
-                                  imageUrl:
-                                      'https://lh3.googleusercontent.com/proxy/Z34XKlOjsQ-fYXCIqBPAaYhwmgcrkk_O2ETTtr-F_47VDe9JOarflZw1vdu9aQXrP7enzgmXY-f4y2fPnGoSNMFdyrDtbQ0ECc7-QaiCv2uWO3p5_Q3jKCQdXem8v_iIcnVgm8N7NGUBPqU-dM6Ce_I-YnNmJsgTt32TG33Txbi6nLfjp_hcL-phdaMjVjQMPS_ZX0yWJU7dWiR6hdn8Ri44m-AsWCEb1CSquvpwBwAAzqRfjmg4RaLim7sNbhjH'));
+                                product: product,
+                              ));
                         },
                       ),
                     );

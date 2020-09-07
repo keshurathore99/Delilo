@@ -3,20 +3,9 @@ import 'package:delilo/screens/home/productdetailspage.dart';
 import 'package:flutter/material.dart';
 
 class MainProductItem extends StatelessWidget {
-  final String productName;
-  final String shopName;
-  final double price;
-  final String imageUrl;
-  final int index;
   final Product product;
 
-  MainProductItem(
-      {this.productName,
-      this.shopName,
-      this.price,
-      this.imageUrl,
-      this.index,
-      this.product});
+  MainProductItem({@required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +32,7 @@ class MainProductItem extends StatelessWidget {
                     fit: BoxFit.cover,
                     placeholder: AssetImage(
                         'assets/dairy/photo-1524546666497-1c737219eec9.jpeg'),
-                    image: NetworkImage(imageUrl),
+                    image: NetworkImage(product.imageUrl),
                   ),
                 ),
               ),
@@ -64,7 +53,7 @@ class MainProductItem extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 2, horizontal: 8),
                         child: Text(
-                          productName,
+                          product.productName,
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -75,7 +64,7 @@ class MainProductItem extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 2, horizontal: 8),
                         child: Text(
-                          shopName,
+                          product.shopName,
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -83,7 +72,7 @@ class MainProductItem extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 2),
                         child: Text(
-                          '₹ ' + price.toStringAsFixed(0),
+                          '₹ ' + product.price.toStringAsFixed(0),
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

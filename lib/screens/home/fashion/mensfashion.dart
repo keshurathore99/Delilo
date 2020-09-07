@@ -132,13 +132,8 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                           return Transform.scale(
                             scale: 1,
                             child: MainProductItem(
-                                product: product,
-                                index: i,
-                                productName: product.productName,
-                                shopName: product.shopName,
-                                price: double.parse(product.price.toString()),
-                                imageUrl:
-                                    'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg'),
+                              product: product,
+                            ),
                           );
                         },
                       ),
@@ -195,7 +190,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
 
                           final product = Product(
                               imageUrl:
-                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                                  'https://5.imimg.com/data5/UY/QK/MY-37155066/check-men-shirt-500x500.jpg',
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -207,12 +202,8 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                           return Transform.scale(
                               scale: 1,
                               child: MainProductItem(
-                                  product: product,
-                                  productName: 'Shirt For Men',
-                                  shopName: 'Men Shop',
-                                  price: 999,
-                                  imageUrl:
-                                      'https://5.imimg.com/data5/UY/QK/MY-37155066/check-men-shirt-500x500.jpg'));
+                                product: product,
+                              ));
                         },
                       ),
                     );
@@ -267,7 +258,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
 
                           final product = Product(
                               imageUrl:
-                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                                  'https://images-na.ssl-images-amazon.com/images/I/51xPUBS17SL._UX522_.jpg',
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -279,12 +270,8 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                           return Transform.scale(
                               scale: 1,
                               child: MainProductItem(
-                                  product: product,
-                                  productName: 'T-Shirts For Men',
-                                  shopName: 'Men Volume',
-                                  price: 999,
-                                  imageUrl:
-                                      'https://images-na.ssl-images-amazon.com/images/I/51xPUBS17SL._UX522_.jpg'));
+                                product: product,
+                              ));
                         },
                       ),
                     );

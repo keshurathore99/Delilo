@@ -116,7 +116,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 19.0),
                                   child: Text(
-                                    "\$${widget.product.price}",
+                                    "₹${widget.product.price}",
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 25),
                                   ),

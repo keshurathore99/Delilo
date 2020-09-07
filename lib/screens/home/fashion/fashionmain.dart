@@ -1,3 +1,4 @@
+import 'package:delilo/models/product.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
 import 'package:delilo/widgets/category_for_fashion_page.dart';
@@ -99,11 +100,17 @@ class _FashionMainPageState extends State<FashionMainPage> {
                       return Transform.scale(
                           scale: _index == index ? 1 : 0.9,
                           child: MainProductItem(
-                              productName: 'Suit',
-                              shopName: 'Keshav Shop',
-                              price: 82,
-                              imageUrl:
-                                  'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'));
+                            product: Product(
+                                imageUrl:
+                                    'https://n3.sdlcdn.com/imgs/a/p/5/Karyn-Silver-Color-Party-Wear-SDL081527004-1-4d06c.jpg',
+                                productName: 'Cloth',
+                                shopName: 'My Cloth Shop',
+                                price: 929,
+                                ratings: 4,
+                                colors: [Colors.black],
+                                description: 'hbedhbhed',
+                                reviews: []),
+                          ));
                     },
                   ),
                 ),
