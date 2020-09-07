@@ -128,26 +128,26 @@ class _FashionMainPageState extends State<FashionMainPage> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: MainProductItem(
-                          productName: 'Salwar Suit',
-                          shopName: 'Keshav Shop',
-                          price: 927,
-                          imageUrl:
-                              'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
-                    ),
-                    Expanded(
-                      child: MainProductItem(
-                          productName: 'Salwar Suit',
-                          shopName: 'Keshav Shop',
-                          price: 927,
-                          imageUrl:
-                              'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
-                    ),
-                  ],
-                ),
+//                Row(
+//                  children: [
+//                    Expanded(
+//                      child: MainProductItem(
+//                          productName: 'Salwar Suit',
+//                          shopName: 'Keshav Shop',
+//                          price: 927,
+//                          imageUrl:
+//                              'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+//                    ),
+//                    Expanded(
+//                      child: MainProductItem(
+//                          productName: 'Salwar Suit',
+//                          shopName: 'Keshav Shop',
+//                          price: 927,
+//                          imageUrl:
+//                              'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+//                    ),
+//                  ],
+//                ),
               ],
             ),
           ),

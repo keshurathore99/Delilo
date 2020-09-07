@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 
 class Review {
   final String name;
-  final String rating;
+  final double rating;
   final String imageUrl;
-  final reviewComment;
+  final String reviewComment;
 
   Review(
       {@required this.name,
