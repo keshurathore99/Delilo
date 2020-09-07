@@ -6,7 +6,7 @@ class Product {
   final String productName;
   final String shopName;
   final int price;
-  final int ratings;
+  final double ratings;
   final List colors;
   final String description;
   final List<Review> reviews;

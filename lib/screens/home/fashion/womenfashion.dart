@@ -122,7 +122,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
-                              ratings: 4,
+                              ratings: 4.2,
                               colors: [Colors.black],
                               description: description,
                               reviews: reviewList);
@@ -189,7 +189,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
-                              ratings: 4,
+                              ratings: 4.7,
                               colors: [Colors.black],
                               description: description,
                               reviews: reviewList);
@@ -257,7 +257,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
-                              ratings: 4,
+                              ratings: 4.9,
                               colors: [Colors.black],
                               description: description,
                               reviews: reviewList);

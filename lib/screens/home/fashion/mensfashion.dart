@@ -124,7 +124,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
-                              ratings: 4,
+                              ratings: 4.8,
                               colors: [Colors.black],
                               description: description,
                               reviews: reviewList);
@@ -194,7 +194,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
-                              ratings: 4,
+                              ratings: 4.5,
                               colors: [Colors.black],
                               description: description,
                               reviews: reviewList);
@@ -262,7 +262,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
-                              ratings: 4,
+                              ratings: 4.1,
                               colors: [Colors.black],
                               description: description,
                               reviews: reviewList);
