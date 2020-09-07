@@ -3,6 +3,7 @@ import 'package:delilo/screens/authenticate/signinphone.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class SigninPage extends StatefulWidget {
@@ -204,6 +205,12 @@ class _SigninPageState extends State<SigninPage> {
                                     loading = false;
                                   });
                                 }
+                              } on PlatformException catch (e) {
+                                setState(() {
+                                  loading = false;
+                                });
+                                _scaffoldKey.currentState.showSnackBar(
+                                    SnackBar(content: Text(e.code)));
                               } catch (e) {
                                 setState(() {
                                   loading = false;
