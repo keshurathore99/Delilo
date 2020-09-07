@@ -12,6 +12,8 @@ class FashionMainPage extends StatefulWidget {
 }
 
 class _FashionMainPageState extends State<FashionMainPage> {
+  final _pageController = PageController(viewportFraction: 0.4);
+
   @override
   Widget build(BuildContext context) {
     final width = displayWidth(context);
@@ -87,12 +89,26 @@ class _FashionMainPageState extends State<FashionMainPage> {
                     height: 3,
                   ),
                 ),
-                MainProductItem(
-                    productName: 'Salwar Suit',
-                    shopName: 'Keshav Shop',
-                    price: 927,
-                    imageUrl:
-                        'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
+                Container(
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: width,
+                  child: PageView.builder(
+                    itemCount: 4,
+                    controller: PageController(viewportFraction: 0.4),
+                    onPageChanged: (int index) =>
+                        setState(() => _index = index),
+                    itemBuilder: (_, index) {
+                      return Transform.scale(
+                          scale: 0.9,
+                          child: MainProductItem(
+                              productName: 'Suit',
+                              shopName: 'Keshav Shop',
+                              price: 82,
+                              imageUrl:
+                                  'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'));
+                    },
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
@@ -114,20 +130,6 @@ class _FashionMainPageState extends State<FashionMainPage> {
                     ),
                   ],
                 ),
-//                Expanded(
-//                  child: GridView.builder(
-//                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                          crossAxisCount: 2),
-//                      itemCount: 2,
-//                      itemBuilder: (context, index) {
-//                        return MainProductItem(
-//                            productName: 'Salwar Suit',
-//                            shopName: 'Keshav Shop',
-//                            price: 927,
-//                            imageUrl:
-//                                'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500');
-//                      }),
-//                ),
                 Row(
                   children: [
                     Expanded(

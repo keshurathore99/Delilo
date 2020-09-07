@@ -1,4 +1,5 @@
 import 'package:delilo/screens/authenticate/signin.dart';
+import 'package:delilo/screens/seller/authenticate/sellersignin.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 
@@ -56,7 +57,10 @@ class _WrapperState extends State<Wrapper> {
                   color: Colors.white,
                   shape: StadiumBorder(),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/sellerlogin');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SellerSigninScreen()));
                   },
                   child: Text("I am a Seller"),
                 )),
