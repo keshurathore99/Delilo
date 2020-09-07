@@ -8,7 +8,10 @@ class MensFashionScreen extends StatefulWidget {
 }
 
 class _MensFashionScreenState extends State<MensFashionScreen> {
-  int _index = 0;
+  int _suitIndex = 0;
+  int _shirtIndex = 0;
+  int _tShirtIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     double width = displayWidth(context);
@@ -94,10 +97,11 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                 child: PageView.builder(
                   itemCount: 4,
                   controller: PageController(viewportFraction: 0.4),
-                  onPageChanged: (int index) => setState(() => _index = index),
+                  onPageChanged: (int index) =>
+                      setState(() => _suitIndex = index),
                   itemBuilder: (_, i) {
                     return Transform.scale(
-                      scale: 1,
+                      scale: _suitIndex == i ? 1 : 0.9,
                       child: MainProductItem(
                           productName: 'Men Suit',
                           shopName: 'Men Shop',
@@ -140,10 +144,11 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                 child: PageView.builder(
                   itemCount: 4,
                   controller: PageController(viewportFraction: 0.4),
-                  onPageChanged: (int index) => setState(() => _index = index),
+                  onPageChanged: (int index) =>
+                      setState(() => _shirtIndex = index),
                   itemBuilder: (_, i) {
                     return Transform.scale(
-                        scale: 1,
+                        scale: _shirtIndex == i ? 1 : 0.9,
                         child: MainProductItem(
                             productName: 'Shirt For Men',
                             shopName: 'Men Shop',
@@ -185,10 +190,11 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                 child: PageView.builder(
                   itemCount: 4,
                   controller: PageController(viewportFraction: 0.4),
-                  onPageChanged: (int index) => setState(() => _index = index),
+                  onPageChanged: (int index) =>
+                      setState(() => _tShirtIndex = index),
                   itemBuilder: (_, i) {
                     return Transform.scale(
-                        scale: 1,
+                        scale: _tShirtIndex == i ? 1 : 0.9,
                         child: MainProductItem(
                             productName: 'T-Shirts For Men',
                             shopName: 'Men Volume',

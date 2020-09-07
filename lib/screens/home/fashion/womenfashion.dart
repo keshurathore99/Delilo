@@ -8,7 +8,10 @@ class WomenFashionScreen extends StatefulWidget {
 }
 
 class _WomenFashionScreenState extends State<WomenFashionScreen> {
-  int _index = 0;
+  int _dressIndex = 0;
+  int _topsIndex = 0;
+  int _traditionalIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     double width = displayWidth(context);
@@ -92,10 +95,11 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                 child: PageView.builder(
                   itemCount: 4,
                   controller: PageController(viewportFraction: 0.4),
-                  onPageChanged: (int index) => setState(() => _index = index),
+                  onPageChanged: (int index) =>
+                      setState(() => _dressIndex = index),
                   itemBuilder: (_, i) {
                     return Transform.scale(
-                        scale: 1,
+                        scale: _dressIndex == i ? 1 : 0.9,
                         child: MainProductItem(
                             productName: 'Dress For Woman',
                             shopName: 'Woman Shop',
@@ -137,10 +141,11 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                 child: PageView.builder(
                   itemCount: 4,
                   controller: PageController(viewportFraction: 0.4),
-                  onPageChanged: (int index) => setState(() => _index = index),
+                  onPageChanged: (int index) =>
+                      setState(() => _topsIndex = index),
                   itemBuilder: (_, i) {
                     return Transform.scale(
-                        scale: 1,
+                        scale: _topsIndex == i ? 1 : 0.9,
                         child: MainProductItem(
                             productName: 'Tops For Woman',
                             shopName: 'Woman Top',
@@ -182,10 +187,11 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                 child: PageView.builder(
                   itemCount: 4,
                   controller: PageController(viewportFraction: 0.4),
-                  onPageChanged: (int index) => setState(() => _index = index),
+                  onPageChanged: (int index) =>
+                      setState(() => _traditionalIndex = index),
                   itemBuilder: (_, i) {
                     return Transform.scale(
-                        scale: 1,
+                        scale: _traditionalIndex == i ? 1 : 0.9,
                         child: MainProductItem(
                             productName: 'Tradition Dress For Woman',
                             shopName: 'Woman Dress Shop',
