@@ -16,3 +16,12 @@ const registerTextFieldDecoration = InputDecoration(
       ),
     ),
     hintText: "Enter Username");
+
+const decoratedTextFieldForNewProduct = InputDecoration(
+    border: OutlineInputBorder(
+        borderSide: BorderSide(width: 4, color: Colors.green),
+        borderRadius: BorderRadius.all(Radius.circular(30))),
+    focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1, color: Colors.green),
+        borderRadius: BorderRadius.all(Radius.circular(30))),
+    hintText: "Enter Name");

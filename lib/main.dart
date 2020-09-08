@@ -1,4 +1,6 @@
+import 'package:delilo/screens/authenticate/signin.dart';
 import 'package:delilo/screens/home/homepage.dart';
+import 'package:delilo/screens/seller/home/newproductpage.dart';
 import 'package:delilo/screens/wrapper.dart';
 import 'package:delilo/services/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
