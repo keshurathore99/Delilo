@@ -15,6 +15,7 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth.instance.signOut();
 //    Firestore.instance
 //        .collection('shops')
 //        .document('jdndbaaysdbdejsjns')

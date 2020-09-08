@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
               );
             }
 
-            if (snapshot.data.uid == null || snapshot.data == null) {
+            if (snapshot.data == null || snapshot.data.uid == null) {
               return Wrapper();
             }
 
