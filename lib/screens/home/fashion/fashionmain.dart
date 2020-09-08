@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/product.dart';
+import 'package:delilo/models/review.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
 import 'package:delilo/widgets/category_for_fashion_page.dart';
 import 'package:delilo/widgets/main_product_item.dart';
+import 'package:delilo/widgets/second_product_item_for_fashion_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FashionMainPage extends StatefulWidget {
@@ -89,31 +93,86 @@ class _FashionMainPageState extends State<FashionMainPage> {
                     height: 3,
                   ),
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height / 2,
-                  width: width,
-                  child: PageView.builder(
-                    itemCount: 4,
-                    controller: PageController(viewportFraction: 0.4),
-                    onPageChanged: (index) => setState(() => _index = index),
-                    itemBuilder: (_, index) {
-                      return Transform.scale(
-                          scale: _index == index ? 1 : 0.9,
-                          child: MainProductItem(
-                            product: Product(
-                                imageUrl:
-                                    'https://n3.sdlcdn.com/imgs/a/p/5/Karyn-Silver-Color-Party-Wear-SDL081527004-1-4d06c.jpg',
-                                productName: 'Cloth',
-                                shopName: 'My Cloth Shop',
-                                price: 929,
-                                ratings: 4,
-                                colors: [Colors.black],
-                                description: 'hbedhbhed',
-                                reviews: []),
-                          ));
-                    },
-                  ),
-                ),
+                FutureBuilder<DocumentSnapshot>(
+                    future: Firestore.instance
+                        .collection('fashion')
+                        .document('main_page')
+                        .get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container(
+                          height: displayHeight(context) / 2,
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
+                      if (!snapshot.data.exists) {
+                        return Container(
+                          height: displayHeight(context) / 2,
+                          child: Center(
+                            child: Text('Sorry But No Dresses Found'),
+                          ),
+                        );
+                      }
+
+                      final refList = snapshot.data.data['ref'] as List;
+
+//                      Firestore.instance
+//                          .document(refList[0])
+//                          .get()
+//                          .then((value) => print(value.data));
+
+                      return Container(
+                        height: displayHeight(context) / 2,
+                        width: width,
+                        child: PageView.builder(
+                          itemCount: refList.length,
+                          controller: PageController(viewportFraction: 0.4),
+//                    onPageChanged: (index) => setState(() => _index = index),
+                          itemBuilder: (_, index) {
+                            return FutureBuilder<DocumentSnapshot>(
+                                future: Firestore.instance
+                                    .document(refList[index])
+                                    .get(),
+                                builder: (context, smallShot) {
+                                  if (smallShot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Container(
+                                      height: displayHeight(context) / 2,
+                                      child: Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    );
+                                  }
+                                  return Transform.scale(
+                                      scale: 1,
+                                      child: MainProductItem(
+                                        product: Product(
+                                            imageUrl:
+                                                'https://n3.sdlcdn.com/imgs/a/p/5/Karyn-Silver-Color-Party-Wear-SDL081527004-1-4d06c.jpg',
+                                            productName:
+                                                smallShot.data.data['name'],
+                                            shopName: smallShot
+                                                .data.data['shop_name'],
+                                            price: int.parse(smallShot
+                                                .data.data['price']
+                                                .toString()),
+                                            ratings: 4,
+                                            colors: [Colors.black],
+                                            description: smallShot.data
+                                                        .data['description'] ==
+                                                    null
+                                                ? 'description'
+                                                : smallShot
+                                                    .data.data['description'],
+                                            reviews: []),
+                                      ));
+                                });
+                          },
+                        ),
+                      );
+                    }),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
@@ -135,26 +194,54 @@ class _FashionMainPageState extends State<FashionMainPage> {
                     ),
                   ],
                 ),
-//                Row(
-//                  children: [
-//                    Expanded(
-//                      child: MainProductItem(
-//                          productName: 'Salwar Suit',
-//                          shopName: 'Keshav Shop',
-//                          price: 927,
-//                          imageUrl:
-//                              'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
-//                    ),
-//                    Expanded(
-//                      child: MainProductItem(
-//                          productName: 'Salwar Suit',
-//                          shopName: 'Keshav Shop',
-//                          price: 927,
-//                          imageUrl:
-//                              'https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
-//                    ),
-//                  ],
-//                ),
+                Container(
+                  height: 500,
+                  child: FutureBuilder<DocumentSnapshot>(
+                      future: Firestore.instance
+                          .collection('fashion')
+                          .document('main_page')
+                          .get(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        final list =
+                            snapshot.data.data['ref_for_second_item'] as List;
+
+                        return GridView.count(
+                            crossAxisCount: 2,
+                            children: list.map((product) {
+                              return FutureBuilder(
+                                future:
+                                    Firestore.instance.document(product).get(),
+                                builder: (context, smallShot) {
+                                  if (smallShot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  print(smallShot.data['name']);
+                                  return SecondProductItemForFashionScreen(Product(
+                                      imageUrl:
+                                          'https://n3.sdlcdn.com/imgs/a/p/5/Karyn-Silver-Color-Party-Wear-SDL081527004-1-4d06c.jpg',
+                                      productName: smallShot.data['name'],
+                                      shopName: smallShot.data['shop_name'],
+                                      price: int.parse(smallShot.data['price']),
+                                      ratings: 4.3,
+                                      colors: [Colors.green],
+                                      description:
+                                          smallShot.data['description'],
+                                      reviews: []));
+                                },
+                              );
+                            }).toList());
+                      }),
+                )
               ],
             ),
           ),
@@ -162,4 +249,17 @@ class _FashionMainPageState extends State<FashionMainPage> {
       ),
     );
   }
+
+//  [
+//  SecondProductItemForFashionScreen(Product(
+//  imageUrl:
+//  'https://n3.sdlcdn.com/imgs/a/p/5/Karyn-Silver-Color-Party-Wear-SDL081527004-1-4d06c.jpg',
+//  productName: 'Casual Wear',
+//  shopName: 'Robust Shop',
+//  price: 999,
+//  ratings: 4.8,
+//  colors: [Colors.black],
+//  description: 'Hello Friends',
+//  reviews: [])),
+//  ],
 }
