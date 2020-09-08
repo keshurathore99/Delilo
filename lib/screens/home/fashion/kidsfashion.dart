@@ -67,7 +67,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                   ],
                 ),
               ),
-              CategoryRow('Baby Cloths', '/womenfashiondress'),
+              CategoryRow('Baby Cloths', 'kids', 'baby'),
               FutureBuilder<QuerySnapshot>(
                   future: Firestore.instance
                       .collection('fashion')
@@ -136,7 +136,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                       ),
                     );
                   }),
-              CategoryRow('Girl Kids', '/womenfashiondress'),
+              CategoryRow('Girl Kids', 'kids', 'girls'),
               FutureBuilder<QuerySnapshot>(
                   future: Firestore.instance
                       .collection('fashion')
@@ -205,7 +205,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                       ),
                     );
                   }),
-              CategoryRow('Boy Kids', '/womenfashiondress'),
+              CategoryRow('Boy Kids', 'kids', 'boys'),
               FutureBuilder<QuerySnapshot>(
                   future: Firestore.instance
                       .collection('fashion')

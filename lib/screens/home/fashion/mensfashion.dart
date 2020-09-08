@@ -69,7 +69,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                   ],
                 ),
               ),
-              CategoryRow('Suits', '/womenfashiondress'),
+              CategoryRow('Suits', 'men', 'suits'),
               FutureBuilder<QuerySnapshot>(
                   future: Firestore.instance
                       .collection('fashion')
@@ -139,7 +139,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                       ),
                     );
                   }),
-              CategoryRow('Shirts', '/womenfashiondetail'),
+              CategoryRow('Shirts', 'men', 'shirts'),
               FutureBuilder<QuerySnapshot>(
                   future: Firestore.instance
                       .collection('fashion')
@@ -208,7 +208,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                       ),
                     );
                   }),
-              CategoryRow('T-Shirts', '/womenfashiondetail'),
+              CategoryRow('T-Shirts', 'men', 'tshirts'),
               FutureBuilder<QuerySnapshot>(
                   future: Firestore.instance
                       .collection('fashion')

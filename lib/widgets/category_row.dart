@@ -1,10 +1,13 @@
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'package:delilo/screens/home/fashion/womenfashiondress.dart';
 import 'package:flutter/material.dart';
 
 class CategoryRow extends StatelessWidget {
   final String title;
-  final String path;
-  CategoryRow(this.title, this.path);
+  final String category;
+  final String clothType;
+
+  CategoryRow(this.title, this.category, this.clothType);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,11 @@ class CategoryRow extends StatelessWidget {
               width: displayWidth(context) * .2,
               child: FlatButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, path);
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => WomenDressDetailPage(
+                              category: category,
+                              clothType: clothType,
+                            )));
                   },
                   child: Text("More"))),
         ],

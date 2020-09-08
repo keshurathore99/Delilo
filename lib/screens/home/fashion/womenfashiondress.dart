@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/models/product.dart';
+import 'package:delilo/widgets/main_product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 
 class WomenDressDetailPage extends StatefulWidget {
+  final String category, clothType;
+  WomenDressDetailPage({this.category, this.clothType});
+
   @override
   _WomenDressDetailPageState createState() => _WomenDressDetailPageState();
 }
@@ -10,6 +16,7 @@ class _WomenDressDetailPageState extends State<WomenDressDetailPage> {
   @override
   Widget build(BuildContext context) {
     double width = displayWidth(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -54,248 +61,87 @@ class _WomenDressDetailPageState extends State<WomenDressDetailPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: Center(
-          child: Container(
-            width: width,
-            child: GridView.count(
-              crossAxisCount: 2,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/productsdetail');
-                  },
-                  child: Card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage('assets/images/Union1.png'),
-                        fit: BoxFit.fitHeight,
-                        alignment: Alignment.topCenter,
-                      )),
-                      /* decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage())
-                              ),*/
-                      child: FractionallySizedBox(
-                        alignment: Alignment.bottomCenter,
-                        heightFactor: .4,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20))),
-                          child: Center(child: Text("Some Description")),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/productsdetail');
-                  },
-                  child: Card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage('assets/images/Union1.png'),
-                        fit: BoxFit.fitHeight,
-                        alignment: Alignment.topCenter,
-                      )),
-                      /* decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage())
-                              ),*/
-                      child: FractionallySizedBox(
-                        alignment: Alignment.bottomCenter,
-                        heightFactor: .4,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20))),
-                          child: Center(child: Text("Some Description")),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/productsdetail');
-                  },
-                  child: Card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage('assets/images/Union1.png'),
-                        fit: BoxFit.fitHeight,
-                        alignment: Alignment.topCenter,
-                      )),
-                      /* decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage())
-                              ),*/
-                      child: FractionallySizedBox(
-                        alignment: Alignment.bottomCenter,
-                        heightFactor: .4,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20))),
-                          child: Center(child: Text("Some Description")),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/productsdetail');
-                  },
-                  child: Card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage('assets/images/Union1.png'),
-                        fit: BoxFit.fitHeight,
-                        alignment: Alignment.topCenter,
-                      )),
-                      /* decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage())
-                              ),*/
-                      child: FractionallySizedBox(
-                        alignment: Alignment.bottomCenter,
-                        heightFactor: .4,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20))),
-                          child: Center(child: Text("Some Description")),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/productsdetail');
-                  },
-                  child: Card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage('assets/images/Union1.png'),
-                        fit: BoxFit.fitHeight,
-                        alignment: Alignment.topCenter,
-                      )),
-                      /* decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage())
-                              ),*/
-                      child: FractionallySizedBox(
-                        alignment: Alignment.bottomCenter,
-                        heightFactor: .4,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20))),
-                          child: Center(child: Text("Some Description")),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/productsdetail');
-                  },
-                  child: Card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage('assets/images/Union1.png'),
-                        fit: BoxFit.fitHeight,
-                        alignment: Alignment.topCenter,
-                      )),
-                      /* decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage())
-                              ),*/
-                      child: FractionallySizedBox(
-                        alignment: Alignment.bottomCenter,
-                        heightFactor: .4,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20))),
-                          child: Center(child: Text("Some Description")),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/productsdetail');
-                  },
-                  child: Card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage('assets/images/Union1.png'),
-                        fit: BoxFit.fitHeight,
-                        alignment: Alignment.topCenter,
-                      )),
-                      /* decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage())
-                              ),*/
-                      child: FractionallySizedBox(
-                        alignment: Alignment.bottomCenter,
-                        heightFactor: .4,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20))),
-                          child: Center(child: Text("Some Description")),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        body: FutureBuilder<QuerySnapshot>(
+            future: Firestore.instance
+                .collection('fashion')
+                .document(widget.category)
+                .collection(widget.clothType)
+                .getDocuments(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              return GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio:
+                    displayWidth(context) / displayHeight(context),
+                children: snapshot.data.documents
+                    .map(
+                      (product) => MainProductItem(
+                          product: Product(
+                              imageUrl:
+                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                              productName: product.data['name'],
+                              shopName: product.data['shop_name'],
+                              price:
+                                  int.parse(product.data['price'].toString()),
+                              ratings: product.data['ratings'] == null
+                                  ? 0
+                                  : product.data['ratings'],
+                              colors: [Colors.black],
+                              description: product.data['description'],
+                              reviews: [])),
+                    )
+                    .toList(),
+              );
+            }),
       ),
     );
   }
+
+//  MainProductItem(
+//  product: Product(
+//  imageUrl:
+//  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+//  productName: 'Suit',
+//  shopName: 'Suit Shop',
+//  price: 9291,
+//  ratings: 2.3,
+//  colors: [Colors.black],
+//  description: 'Hello Firend',
+//  reviews: list));
+
+//  Row(
+//  children: [
+//  Expanded(
+//  child: MainProductItem(
+//  product: Product(
+//  imageUrl:
+//  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+//  productName: 'Suit',
+//  shopName: 'Suit Shop',
+//  price: 9291,
+//  ratings: 2.3,
+//  colors: [Colors.black],
+//  description: 'Hello Firend',
+//  reviews: [])),
+//  ),
+//  Expanded(
+//  child: MainProductItem(
+//  product: Product(
+//  imageUrl:
+//  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+//  productName: 'Suit',
+//  shopName: 'Suit Shop',
+//  price: 9291,
+//  ratings: 2.3,
+//  colors: [Colors.black],
+//  description: 'Hello Firend',
+//  reviews: [])),
+//  ),
+//  ],
+//  ),
 }

@@ -14,17 +14,6 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
-  double _opacity1 = 0;
-  double _opacity2 = 0;
-  double _opacity3 = 0;
-  double _opacity4 = 0;
-  changeopacity(double opacity) {
-    if (opacity == 0)
-      opacity = 1;
-    else
-      opacity = 0;
-    return opacity;
-  }
 
   int _index = 0;
   @override

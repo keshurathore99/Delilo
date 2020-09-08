@@ -1,9 +1,7 @@
-import 'package:delilo/screens/authenticate/authenticate.dart';
-import 'package:delilo/screens/home/fashion/fashionmain.dart';
 import 'package:delilo/screens/home/homepage.dart';
-import 'package:delilo/screens/seller/home/newproductpage.dart';
 import 'package:delilo/screens/wrapper.dart';
 import 'package:delilo/services/navigation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +14,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: NavigationHelper.onGenerateroutes,
-      home: Wrapper(),
+      home: StreamBuilder<FirebaseUser>(
+          stream: FirebaseAuth.instance.onAuthStateChanged,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (snapshot.data.uid == null || snapshot.data == null) {
+              return Wrapper();
+            }
+
+            return HomePageScreen();
+          }),
     );
   }
 }
