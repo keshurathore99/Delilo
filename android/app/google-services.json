@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1039682530786-o6i0jb41ogq70iltqufdalg3vhc6qq48.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cws.delilo",
+            "certificate_hash": "c82d3dc76414e15c7a3cba732719acabb09f8d01"
+          }
+        },
+        {
           "client_id": "1039682530786-cb5seh54384drfrp57fjk0iuvuf48048.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -59,6 +67,35 @@
             "certificate_hash": "50bd05c2f4e6aafc72448c6a034a9cd346177064"
           }
         },
+        {
+          "client_id": "1039682530786-oksiopsiagarlocb4rdjnhothjsvmlg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsty-5jbI4aHO-P7uG--VmnyAN6a0kvss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039682530786-oksiopsiagarlocb4rdjnhothjsvmlg2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039682530786:android:d385e01ae3efafe78d5dbb",
+        "android_client_info": {
+          "package_name": "com.ed.ed"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "1039682530786-oksiopsiagarlocb4rdjnhothjsvmlg2.apps.googleusercontent.com",
           "client_type": 3

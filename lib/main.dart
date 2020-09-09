@@ -1,3 +1,4 @@
+import 'package:delilo/screens/authenticate/getlocation.dart';
 import 'package:delilo/screens/authenticate/signin.dart';
 import 'package:delilo/screens/home/homepage.dart';
 import 'package:delilo/screens/seller/authenticate/selleregister.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
             }
 
             if (snapshot.data == null || snapshot.data.uid == null) {
-              return Wrapper();
+              return GetLocationPage();
             }
 
             return HomePageScreen();
