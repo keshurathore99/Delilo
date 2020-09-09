@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             }
 
             if (snapshot.data == null || snapshot.data.uid == null) {
-              return GetLocationPage();
+              return Wrapper();
             }
 
             return HomePageScreen();
