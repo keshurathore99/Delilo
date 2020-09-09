@@ -1,3 +1,4 @@
+import 'package:delilo/constants/decoration_constants.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -10,18 +11,6 @@ class SellerRegisterScreen extends StatefulWidget {
 }
 
 class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
-  final GlobalKey<FormFieldState> __passwordkey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> _usernamekey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> _emailkey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> _mobilenumberkey =
-      GlobalKey<FormFieldState>();
-  String currentText;
-  TextEditingController textEditingController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     double wid = displayWidth(context);
@@ -45,7 +34,7 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                         "assets/images/dellologo.png",
                       )),
                   Container(
-                    height: 240,
+                    height: 200,
                     child: Align(
                       alignment: Alignment(0, -1),
                       child: Column(
@@ -59,24 +48,14 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                               elevation: 5,
                               shape: StadiumBorder(),
                               child: TextFormField(
-                                key: _usernamekey,
                                 enableInteractiveSelection: true,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 4),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30))),
-                                    prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 10, 0),
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 35,
-                                        color: Colors.black.withOpacity(.75),
-                                      ),
-                                    ),
-                                    hintText: "Enter Username"),
-                                validator: (value) {},
+                                decoration:
+                                    registerTextFieldDecoration.copyWith(
+                                        hintText: 'Username',
+                                        prefixIcon: Icon(
+                                          Icons.person,
+                                          color: Colors.black45,
+                                        )),
                               ),
                             ),
                           ),
@@ -86,24 +65,14 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                               elevation: 5,
                               shape: StadiumBorder(),
                               child: TextFormField(
-                                key: _emailkey,
                                 enableInteractiveSelection: true,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 4),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30))),
-                                    prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 10, 0),
-                                      child: Icon(
-                                        Icons.email,
-                                        size: 35,
-                                        color: Colors.black.withOpacity(.75),
-                                      ),
-                                    ),
-                                    hintText: "Enter Email"),
-                                validator: (value) {},
+                                decoration:
+                                    registerTextFieldDecoration.copyWith(
+                                        hintText: 'Email',
+                                        prefixIcon: Icon(
+                                          Icons.email,
+                                          color: Colors.black45,
+                                        )),
                               ),
                             ),
                           ),
@@ -113,24 +82,14 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                               elevation: 5,
                               shape: StadiumBorder(),
                               child: TextFormField(
-                                key: _mobilenumberkey,
                                 enableInteractiveSelection: true,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(width: 4),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30))),
-                                    prefixIcon: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 10, 0),
-                                      child: Icon(
-                                        Icons.phone,
-                                        size: 35,
-                                        color: Colors.black.withOpacity(.75),
-                                      ),
-                                    ),
-                                    hintText: "Enter Phone"),
-                                validator: (value) {},
+                                decoration:
+                                    registerTextFieldDecoration.copyWith(
+                                        hintText: 'Phone',
+                                        prefixIcon: Icon(
+                                          Icons.phone,
+                                          color: Colors.black45,
+                                        )),
                               ),
                             ),
                           ),
@@ -172,20 +131,10 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                   fieldWidth: 40,
                                   activeFillColor: Colors.white,
                                 ),
-                                //animationDuration: Duration(milliseconds: 300),
-                                //backgroundColor: Colors.blue.shade50,
+                                backgroundColor: Colors.transparent,
                                 enableActiveFill: true,
+                                onChanged: (String value) {},
                                 //errorAnimationController: errorController,
-                                controller: textEditingController,
-                                onCompleted: (v) {
-                                  print("Completed");
-                                },
-                                onChanged: (value) {
-                                  print(value);
-                                  setState(() {
-                                    currentText = value;
-                                  });
-                                },
                               ),
                             ),
                           ],
@@ -215,10 +164,13 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                               elevation: 1,
                               shape: StadiumBorder(),
                               child: TextFormField(
-                                //key: __passwordkey,
                                 enableInteractiveSelection: true,
                                 maxLines: 5,
                                 decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 1),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
                                     fillColor: Colors.white,
                                     filled: true,
                                     border: OutlineInputBorder(
@@ -226,7 +178,6 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(30))),
                                     hintText: "Type Your Address..."),
-                                validator: (value) {},
                               ),
                             ),
                           ),
@@ -239,9 +190,12 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                           elevation: 5,
                           shape: StadiumBorder(),
                           child: TextFormField(
-                            // key: _usernamekey,
                             enableInteractiveSelection: true,
                             decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 1),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30))),
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(width: 4),
                                     borderRadius:
@@ -257,7 +211,6 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                 ),
                                 hintText:
                                     "Attach ID (in Backend implementation)"),
-                            validator: (value) {},
                           ),
                         ),
                       ),
