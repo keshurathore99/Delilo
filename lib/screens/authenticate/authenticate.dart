@@ -424,7 +424,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                         'uid': user.uid,
                                         'cartProducts': [],
                                       });
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>

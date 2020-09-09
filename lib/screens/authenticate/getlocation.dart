@@ -204,8 +204,9 @@ class _GetLocationPageState extends State<GetLocationPage> {
                                 'longitude': myLongitude,
                                 'location': _addressController.text,
                               });
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => SigninPage()));
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => SigninPage()));
                               setState(() {
                                 _loading = false;
                               });
