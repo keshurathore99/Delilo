@@ -394,10 +394,21 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     setState(() {
                                       _loading = true;
                                     });
-                                    await FirebaseAuth.instance
-                                        .createUserWithEmailAndPassword(
-                                            email: emailController.text,
-                                            password: passwordController.text);
+                                    try {
+                                      await FirebaseAuth.instance
+                                          .createUserWithEmailAndPassword(
+                                              email: emailController.text,
+                                              password:
+                                                  passwordController.text);
+                                    } on PlatformException catch (e) {
+                                      key.currentState.showSnackBar(
+                                          SnackBar(content: Text(e.code)));
+                                      return;
+                                    } catch (e) {
+                                      key.currentState.showSnackBar(
+                                          SnackBar(content: Text(e)));
+                                      return;
+                                    }
 
                                     final user = await FirebaseAuth.instance
                                         .currentUser();

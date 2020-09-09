@@ -67,9 +67,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     onPressed: () async {
-//                                    final user = await FirebaseAuth.instance.currentUser();
-//                                    final uid = user.uid;
-
                                       setState(() {
                                         _loading = true;
                                       });
