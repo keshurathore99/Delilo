@@ -1,5 +1,6 @@
 import 'package:delilo/constants/decoration_constants.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'package:delilo/screens/seller/authenticate/selleregister.dart';
 import 'package:delilo/screens/seller/home/sellerhomesceen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,6 @@ class _SellerSigninScreenState extends State<SellerSigninScreen> {
                     ),
                   ],
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 58.0),
                   child: Row(
@@ -171,7 +171,25 @@ class _SellerSigninScreenState extends State<SellerSigninScreen> {
                     ],
                   ),
                 ),
-                //Container(height: 37,child: Align(alignment: Alignment.bottomCenter,child: RichText(text: TextSpan(style: TextStyle(color: Colors.black87,fontSize: 20),children: [TextSpan(text: "Dont have a Account? "),TextSpan(text: "Register",style: TextStyle(color: Colors.green))])))),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => SellerRegisterScreen()));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: RichText(
+                        text: TextSpan(
+                            style:
+                                TextStyle(color: Colors.black87, fontSize: 20),
+                            children: [
+                          TextSpan(text: "Dont have a Account? "),
+                          TextSpan(
+                              text: "Register",
+                              style: TextStyle(color: Colors.green))
+                        ])),
+                  ),
+                ),
               ],
             ),
           ),

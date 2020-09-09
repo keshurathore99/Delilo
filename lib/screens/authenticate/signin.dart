@@ -1,6 +1,8 @@
+import 'package:delilo/constants/decoration_constants.dart';
 import 'package:delilo/screens/authenticate/authenticate.dart';
 import 'package:delilo/screens/authenticate/signinphone.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'package:delilo/screens/home/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,11 +17,8 @@ class SigninPage extends StatefulWidget {
 
 class _SigninPageState extends State<SigninPage> {
   final _emailController = TextEditingController();
-
   final _passwordController = TextEditingController();
-
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   bool loading = false;
 
   @override
@@ -55,21 +54,12 @@ class _SigninPageState extends State<SigninPage> {
                       child: TextFormField(
                         controller: _emailController,
                         enableInteractiveSelection: true,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(width: 4),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              child: Icon(
-                                Icons.email,
-                                size: 35,
-                                color: Colors.black.withOpacity(.75),
-                              ),
-                            ),
-                            hintText: "Enter Email"),
-                        validator: (value) {},
+                        decoration: registerTextFieldDecoration.copyWith(
+                            hintText: 'Email',
+                            prefixIcon: Icon(
+                              Icons.email,
+                              color: Colors.black45,
+                            )),
                       ),
                     ),
                   ),
@@ -83,21 +73,12 @@ class _SigninPageState extends State<SigninPage> {
                       obscureText: true,
                       controller: _passwordController,
                       enableInteractiveSelection: true,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(width: 4),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            child: Icon(
-                              Icons.lock,
-                              size: 35,
-                              color: Colors.black.withOpacity(.75),
-                            ),
-                          ),
-                          hintText: "Enter Password"),
-                      validator: (value) {},
+                      decoration: registerTextFieldDecoration.copyWith(
+                          hintText: 'Password',
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: Colors.black45,
+                          )),
                     ),
                   ),
                 ),
@@ -189,9 +170,12 @@ class _SigninPageState extends State<SigninPage> {
                                     .signInWithEmailAndPassword(
                                         email: _emailController.text,
                                         password: _passwordController.text);
-                                if (result.user.uid != null) {
-                                  Navigator.pushReplacementNamed(
-                                      context, '/homescreen');
+                                if (result.user != null) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              HomePageScreen()));
                                   _scaffoldKey.currentState.showSnackBar(
                                       SnackBar(
                                           content: Text('Login Successful')));

@@ -1,5 +1,6 @@
 import 'package:delilo/constants/decoration_constants.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'package:delilo/screens/seller/authenticate/sellersignin.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -191,26 +192,10 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                           shape: StadiumBorder(),
                           child: TextFormField(
                             enableInteractiveSelection: true,
-                            decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30))),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 4),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30))),
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  child: Icon(
-                                    Icons.attach_file,
-                                    size: 35,
-                                    color: Colors.black.withOpacity(.75),
-                                  ),
-                                ),
+                            decoration: registerTextFieldDecoration.copyWith(
                                 hintText:
-                                    "Attach ID (in Backend implementation)"),
+                                    "Attach ID (in Backend implementation)",
+                                prefixIcon: Icon(Icons.attach_file)),
                           ),
                         ),
                       ),
@@ -238,6 +223,26 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                   style: TextStyle(color: Colors.white),
                                 ))),
                       ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => SellerSigninScreen()));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                              style: TextStyle(
+                                  color: Colors.black87, fontSize: 20),
+                              children: [
+                                TextSpan(text: "Already Have an Account? "),
+                                TextSpan(
+                                    text: "Login",
+                                    style: TextStyle(color: Colors.green))
+                              ])),
                     ),
                   ),
                 ],
