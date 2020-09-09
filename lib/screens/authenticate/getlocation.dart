@@ -67,10 +67,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     onPressed: () async {
-                                      setState(() {
-                                        _loading = true;
-                                      });
-
                                       final permission =
                                           await GeolocatorPlatform.instance
                                               .requestPermission();
@@ -79,12 +75,36 @@ class _GetLocationPageState extends State<GetLocationPage> {
                                           permission ==
                                               LocationPermission
                                                   .deniedForever) {
-                                        _scaffoldKey.currentState.showSnackBar(
-                                            SnackBar(
-                                                content: Text(
-                                                    'Please Enable Location Permission First')));
+                                        _scaffoldKey.currentState
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                            'Please Enable Location Permission First',
+                                          ),
+                                        ));
                                         return;
                                       }
+
+                                      if (await GeolocatorPlatform.instance
+                                              .isLocationServiceEnabled() ==
+                                          false) {
+                                        _scaffoldKey.currentState
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                              'Enable Location Service First'),
+                                          action: SnackBarAction(
+                                            onPressed: () async {
+                                              await GeolocatorPlatform.instance
+                                                  .openLocationSettings();
+                                            },
+                                            label: 'Enable',
+                                          ),
+                                        ));
+                                        return;
+                                      }
+
+                                      setState(() {
+                                        _loading = true;
+                                      });
 
                                       final myPosition =
                                           await GeolocatorPlatform.instance
