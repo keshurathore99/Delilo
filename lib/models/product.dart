@@ -3,6 +3,9 @@ import 'package:flutter/foundation.dart';
 
 class Product {
   final String imageUrl;
+  final String image2;
+  final String image3;
+  final String image4;
   final String productName;
   final String shopName;
   final int price;
@@ -21,5 +24,8 @@ class Product {
       @required this.colors,
       @required this.description,
       @required this.reviews,
+      @required this.image2,
+      @required this.image3,
+      @required this.image4,
       this.index});
 }

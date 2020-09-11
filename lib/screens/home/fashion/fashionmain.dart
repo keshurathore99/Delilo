@@ -165,7 +165,13 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                                 ? 'description'
                                                 : smallShot
                                                     .data.data['description'],
-                                            reviews: []),
+                                            reviews: [],
+                                            image2:
+                                                snapshot.data.data['image2'],
+                                            image3:
+                                                snapshot.data.data['image3'],
+                                            image4:
+                                                snapshot.data.data['image4']),
                                       ));
                                 });
                           },
@@ -225,16 +231,18 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                     );
                                   }
                                   print(smallShot.data['name']);
-                                  return SecondProductItemForFashionScreen(Product(
-                                      imageUrl: smallShot.data['image1'],
-                                      productName: smallShot.data['name'],
-                                      shopName: smallShot.data['shop_name'],
-                                      price: int.parse(smallShot.data['price']),
-                                      ratings: 4.3,
-                                      colors: [Colors.green],
-                                      description:
-                                          smallShot.data['description'],
-                                      reviews: []));
+                                  return SecondProductItemForFashionScreen(
+                                      Product(
+                                          imageUrl: smallShot.data['image1'],
+                                          productName: smallShot.data['name'],
+                                          shopName: smallShot.data['shop_name'],
+                                          price: int.parse(
+                                              smallShot.data['price']),
+                                          ratings: 4.3,
+                                          colors: [Colors.green],
+                                          description:
+                                              smallShot.data['description'],
+                                          reviews: []));
                                 },
                               );
                             }).toList());
