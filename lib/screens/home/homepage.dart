@@ -71,7 +71,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     ),
                                   ),
                                   hintText: "Search from Products, Shops"),
-                              validator: (value) {},
                             ),
                           ),
                         ),
@@ -169,7 +168,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
         }), //GestureDetector(child: Image.asset('assets/images/u.png'),onTap: (){Scaffold.of(context).openDrawer();},),
         centerTitle: true,
         title: Container(
-            height: 100, width: 140, child: Image.asset('assets/j.png')),
+            height: 100,
+            width: 140,
+            child: Image.asset('assets/dellologo.png')),
         backgroundColor: Colors.white,
         actions: [
           Padding(

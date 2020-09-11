@@ -399,59 +399,21 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     _loading = true;
                                   });
 
-                                  try {
-                                    final authResult = await FirebaseAuth
-                                        .instance
-                                        .createUserWithEmailAndPassword(
-                                            email: emailController.text,
-                                            password: passwordController.text);
-                                    if (authResult.user != null) {
-                                      print(userNameController.text);
-                                      print(emailController.text);
-                                      print(phoneController.text);
-                                      print(authResult.user.uid);
-                                      await Firestore.instance
-                                          .collection('users')
-                                          .document(authResult.user.uid)
-                                          .setData({
-                                        'name': userNameController.text,
-                                        'email': emailController.text,
-                                        'phone': phoneController.text,
-                                        'uid': authResult.user.uid,
-                                        'cartProducts': [],
-                                        'type': 'Buyer',
-                                      });
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  GetLocationPage()));
-                                      setState(() {
-                                        _loading = false;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        _loading = false;
-                                      });
-                                      key.currentState.showSnackBar(SnackBar(
-                                          content: Text(
-                                              'There is Some Problem Please Try Later')));
-                                    }
-                                  } on PlatformException catch (e) {
-                                    setState(() {
-                                      _loading = false;
-                                    });
-                                    key.currentState.showSnackBar(
-                                        SnackBar(content: Text(e.code)));
-                                    return;
-                                  } catch (e) {
-                                    setState(() {
-                                      _loading = false;
-                                    });
-                                    key.currentState.showSnackBar(
-                                        SnackBar(content: Text(e.toString())));
-                                    return;
-                                  }
+                                  final Map<String, dynamic> map = {
+                                    'email': emailController.text,
+                                    'password': passwordController.text,
+                                    'name': userNameController.text,
+                                    'phone': phoneController.text,
+                                    'cartProducts': [],
+                                    'type': 'Buyer',
+                                  };
+
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => GetLocationPage(
+                                                loginDetails: map,
+                                              )));
                                 },
                                 child: Text("Register",
                                     style: TextStyle(

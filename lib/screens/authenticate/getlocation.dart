@@ -3,12 +3,16 @@ import 'package:delilo/screens/authenticate/signin.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class GetLocationPage extends StatefulWidget {
   static const routeName = '/getLocationPage';
+  final Map<String, dynamic> loginDetails;
+
+  GetLocationPage({this.loginDetails});
 
   @override
   _GetLocationPageState createState() => _GetLocationPageState();
@@ -201,9 +205,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
                       width: wid * .8,
                       child: FlatButton(
                           onPressed: () async {
-                            final user =
-                                await FirebaseAuth.instance.currentUser();
-
                             if (_addressController.text.isEmpty) {
                               _scaffoldKey.currentState.showSnackBar(SnackBar(
                                   content:
@@ -215,30 +216,61 @@ class _GetLocationPageState extends State<GetLocationPage> {
                               _loading = true;
                             });
 
-                            if (user != null) {
-                              await Firestore.instance
-                                  .collection('users')
-                                  .document(user.uid)
-                                  .updateData({
-                                'latitude': myLatitude,
-                                'longitude': myLongitude,
-                                'location': _addressController.text,
-                              });
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => SigninPage()));
+                            try {
+                              final authResult = await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                      email: widget.loginDetails['email'],
+                                      password:
+                                          widget.loginDetails['password']);
+                              if (authResult.user != null) {
+                                widget.loginDetails.forEach((key, value) {
+                                  print(key + '' + value.toString());
+                                });
+
+                                await Firestore.instance
+                                    .collection('users')
+                                    .document(authResult.user.uid)
+                                    .setData({
+                                  ...widget.loginDetails,
+                                  'latitude': myLatitude,
+                                  'longitude': myLongitude,
+                                  'location': _addressController.text
+                                });
+
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => SigninPage()));
+
+                                setState(() {
+                                  _loading = false;
+                                });
+                              } else {
+                                setState(() {
+                                  _loading = false;
+                                });
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                    content: Text(
+                                        'There is Some Problem Please Try Later')));
+                              }
+                            } on PlatformException catch (e) {
                               setState(() {
                                 _loading = false;
                               });
-                            } else {
+                              _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(content: Text(e.code)));
+                              return;
+                            } catch (e) {
                               setState(() {
                                 _loading = false;
                               });
-                              _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text(
-                                      'There is Some Problem Please Try Again Later')));
+                              _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(content: Text(e.toString())));
                               return;
                             }
+
+                            setState(() {
+                              _loading = true;
+                            });
                           },
                           child: Text(
                             "Sign up",

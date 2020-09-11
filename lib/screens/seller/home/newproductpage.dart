@@ -199,8 +199,8 @@ class _NewProductPageState extends State<NewProductPage> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: 40,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: MaterialButton(
                     minWidth: 20,
                     elevation: 5,
@@ -294,8 +294,7 @@ class _NewProductPageState extends State<NewProductPage> {
                           'shop_name': 'Hello Shop',
                           'description': _descriptionController.text,
                           'reviews': [],
-                          'sellerUid': uid,
-                          'ratings' : 0.0
+                          'ratings': 0.0
                         });
 
                         if (image1 != null) {
@@ -339,7 +338,23 @@ class _NewProductPageState extends State<NewProductPage> {
                             .document(category['category'])
                             .collection(category['clothType'])
                             .document(ref.documentID)
-                            .updateData({'productId': ref.documentID});
+                            .updateData(
+                                {'productId': ref.documentID, 'sellerId': uid});
+
+                        final snapshot = await Firestore.instance
+                            .collection('sellers')
+                            .document(uid)
+                            .get();
+
+                        final productsList = snapshot.data['products'] as List;
+                        productsList.add(
+                            'fashion/${category['category']}/${category['clothType']}/${ref.documentID}');
+                        await Firestore.instance
+                            .collection('sellers')
+                            .document(uid)
+                            .updateData({
+                          'products': [...productsList],
+                        });
 
                         setState(() {
                           _loading = false;
