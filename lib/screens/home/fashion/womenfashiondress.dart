@@ -29,7 +29,6 @@ class _WomenDressDetailPageState extends State<WomenDressDetailPage> {
                 elevation: 5,
                 shape: StadiumBorder(),
                 child: TextFormField(
-                  // key: __passwordkey,
                   enableInteractiveSelection: true,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -44,7 +43,6 @@ class _WomenDressDetailPageState extends State<WomenDressDetailPage> {
                         ),
                       ),
                       hintText: "Search for Products"),
-                  validator: (value) {},
                 ),
               ),
             ),
@@ -82,14 +80,13 @@ class _WomenDressDetailPageState extends State<WomenDressDetailPage> {
                     .map(
                       (product) => MainProductItem(
                           product: Product(
-                              imageUrl:
-                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                              imageUrl: product.data['image1'],
                               productName: product.data['name'],
                               shopName: product.data['shop_name'],
                               price:
                                   int.parse(product.data['price'].toString()),
                               ratings: product.data['ratings'] == null
-                                  ? 0
+                                  ? 0.0
                                   : product.data['ratings'],
                               colors: [Colors.black],
                               description: product.data['description'],

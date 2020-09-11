@@ -60,7 +60,6 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                                 ),
                               ),
                               hintText: "Search for Products"),
-                          validator: (value) {},
                         ),
                       ),
                     ),
@@ -90,8 +89,6 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                       child: PageView.builder(
                         itemCount: snapshot.data.documents.length,
                         controller: PageController(viewportFraction: 0.4),
-//                  onPageChanged: (int index) =>
-//                      setState(() => _babyIndex = index),
                         itemBuilder: (_, i) {
                           final String productName =
                               snapshot.data.documents[i].data['name'];
@@ -103,6 +100,8 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                               snapshot.data.documents[i].data['description'];
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
+                          final productImage =
+                              snapshot.data.documents[i].data['image1'];
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -117,8 +116,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl:
-                                  'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/miniclasix-baby-three-piece-set-1528834907.jpg',
+                              imageUrl: productImage,
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -159,8 +157,6 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                       child: PageView.builder(
                         itemCount: snapshot.data.documents.length,
                         controller: PageController(viewportFraction: 0.4),
-//                  onPageChanged: (int index) =>
-//                      setState(() => _girlsIndex = index),
                         itemBuilder: (_, i) {
                           final String productName =
                               snapshot.data.documents[i].data['name'];
@@ -172,6 +168,8 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                               snapshot.data.documents[i].data['description'];
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
+                          final productImage =
+                              snapshot.data.documents[i].data['image1'];
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -186,8 +184,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl:
-                                  'https://images-na.ssl-images-amazon.com/images/I/61CHLqGACJL._UL1024_.jpg',
+                              imageUrl: productImage,
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -228,8 +225,6 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                       child: PageView.builder(
                         itemCount: snapshot.data.documents.length,
                         controller: PageController(viewportFraction: 0.4),
-//                  onPageChanged: (int index) =>
-//                      setState(() => _boysIndex = index),
                         itemBuilder: (_, i) {
                           final String productName =
                               snapshot.data.documents[i].data['name'];
@@ -241,6 +236,9 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                               snapshot.data.documents[i].data['description'];
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
+                          final productImage =
+                              snapshot.data.documents[i].data['image1'];
+
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -255,8 +253,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl:
-                                  'https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/productimage/2019/12/15/7567b28d-2a76-482f-a182-98f3d50cfeb21576371862251-1.jpg',
+                              imageUrl: productImage,
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),

@@ -62,7 +62,6 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                                 ),
                               ),
                               hintText: "Search for Products"),
-                          validator: (value) {},
                         ),
                       ),
                     ),
@@ -92,8 +91,6 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                       child: PageView.builder(
                         itemCount: snapshot.data.documents.length,
                         controller: PageController(viewportFraction: 0.4),
-//                        onPageChanged: (int index) =>
-//                            setState(() => _suitIndex = index),
                         itemBuilder: (_, i) {
                           final String productName =
                               snapshot.data.documents[i].data['name'];
@@ -105,6 +102,8 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                               snapshot.data.documents[i].data['description'];
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
+                          final productImage =
+                              snapshot.data.documents[i].data['image1'];
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -119,8 +118,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl:
-                                  'https://5.imimg.com/data5/MB/PF/MY-3693506/designer-mens-suits-500x500.jpg',
+                              imageUrl: productImage,
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -175,6 +173,8 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                               snapshot.data.documents[i].data['description'];
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
+                          final String productImage =
+                              snapshot.data.documents[i].data['image1'];
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -189,8 +189,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl:
-                                  'https://5.imimg.com/data5/UY/QK/MY-37155066/check-men-shirt-500x500.jpg',
+                              imageUrl: productImage,
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -243,6 +242,8 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                               snapshot.data.documents[i].data['description'];
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
+                          final String productImage =
+                              snapshot.data.documents[i].data['image1'];
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -257,8 +258,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl:
-                                  'https://images-na.ssl-images-amazon.com/images/I/51xPUBS17SL._UX522_.jpg',
+                              imageUrl: productImage,
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),

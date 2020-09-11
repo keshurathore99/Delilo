@@ -66,7 +66,6 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                   ),
                                 ),
                                 hintText: "Search fro Products, Shops"),
-                            validator: (value) {},
                           ),
                         ),
                       ),
@@ -150,7 +149,7 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                       child: MainProductItem(
                                         product: Product(
                                             imageUrl:
-                                                'https://n3.sdlcdn.com/imgs/a/p/5/Karyn-Silver-Color-Party-Wear-SDL081527004-1-4d06c.jpg',
+                                                smallShot.data.data['image1'],
                                             productName:
                                                 smallShot.data.data['name'],
                                             shopName: smallShot
@@ -227,8 +226,7 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                   }
                                   print(smallShot.data['name']);
                                   return SecondProductItemForFashionScreen(Product(
-                                      imageUrl:
-                                          'https://n3.sdlcdn.com/imgs/a/p/5/Karyn-Silver-Color-Party-Wear-SDL081527004-1-4d06c.jpg',
+                                      imageUrl: smallShot.data['image1'],
                                       productName: smallShot.data['name'],
                                       shopName: smallShot.data['shop_name'],
                                       price: int.parse(smallShot.data['price']),

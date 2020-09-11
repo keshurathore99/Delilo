@@ -43,7 +43,6 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                         elevation: 5,
                         shape: StadiumBorder(),
                         child: TextFormField(
-                          // key: __passwordkey,
                           enableInteractiveSelection: true,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -60,7 +59,6 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                                 ),
                               ),
                               hintText: "Search for Products"),
-                          validator: (value) {},
                         ),
                       ),
                     ),
@@ -90,8 +88,6 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                       child: PageView.builder(
                         itemCount: snapshot.data.documents.length,
                         controller: PageController(viewportFraction: 0.4),
-//                  onPageChanged: (int index) =>
-//                      setState(() => _dressIndex = index),
                         itemBuilder: (_, i) {
                           final String productName =
                               snapshot.data.documents[i].data['name'];
@@ -103,6 +99,8 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                               snapshot.data.documents[i].data['description'];
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
+                          final productImage =
+                              snapshot.data.documents[i].data['image1'];
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -117,8 +115,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl:
-                                  'https://rukminim1.flixcart.com/image/714/857/jqfinww0/dress/8/y/w/xxl-ragini-blue-reyans-original-imafcduaa5b5pghg.jpeg?q=50',
+                              imageUrl: productImage,
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -170,6 +167,8 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                               snapshot.data.documents[i].data['description'];
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
+                          final productImage =
+                              snapshot.data.documents[i].data['image1'];
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -184,8 +183,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl:
-                                  'https://rukminim1.flixcart.com/image/714/857/top/y/f/h/m-ep1602-pink-rare-original-imaeqct5fbzghe4q.jpeg?q=50',
+                              imageUrl: productImage,
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
@@ -225,8 +223,6 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                       child: PageView.builder(
                         itemCount: snapshot.data.documents.length,
                         controller: PageController(viewportFraction: 0.4),
-//                  onPageChanged: (int index) =>
-//                      setState(() => _traditionalIndex = index),
                         itemBuilder: (_, i) {
                           final String productName =
                               snapshot.data.documents[i].data['name'];
@@ -238,6 +234,8 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                               snapshot.data.documents[i].data['description'];
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
+                          final productImage =
+                              snapshot.data.documents[i].data['image1'];
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -252,8 +250,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl:
-                                  'https://ksbeautifulartandcraft.com/wp-content/uploads/2018/01/3128fcab-2e34-4174-839b-ec8a9ba83272.jpg',
+                              imageUrl: productImage,
                               productName: productName,
                               shopName: shopName,
                               price: int.parse(price),
