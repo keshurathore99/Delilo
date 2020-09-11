@@ -81,6 +81,9 @@ class _WomenDressDetailPageState extends State<WomenDressDetailPage> {
                       (product) => MainProductItem(
                           product: Product(
                               imageUrl: product.data['image1'],
+                              image2: product.data['image2'],
+                              image3: product.data['image3'],
+                              image4: product.data['image4'],
                               productName: product.data['name'],
                               shopName: product.data['shop_name'],
                               price:

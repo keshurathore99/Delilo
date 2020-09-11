@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/product.dart';
-import 'package:delilo/models/review.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
 import 'package:delilo/widgets/category_for_fashion_page.dart';
@@ -117,18 +116,12 @@ class _FashionMainPageState extends State<FashionMainPage> {
 
                       final refList = snapshot.data.data['ref'] as List;
 
-//                      Firestore.instance
-//                          .document(refList[0])
-//                          .get()
-//                          .then((value) => print(value.data));
-
                       return Container(
                         height: displayHeight(context) / 2,
                         width: width,
                         child: PageView.builder(
                           itemCount: refList.length,
                           controller: PageController(viewportFraction: 0.4),
-//                    onPageChanged: (index) => setState(() => _index = index),
                           itemBuilder: (_, index) {
                             return FutureBuilder<DocumentSnapshot>(
                                 future: Firestore.instance
@@ -144,34 +137,27 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                       ),
                                     );
                                   }
+                                  final snap = smallShot.data.data;
                                   return Transform.scale(
                                       scale: 1,
                                       child: MainProductItem(
                                         product: Product(
-                                            imageUrl:
-                                                smallShot.data.data['image1'],
-                                            productName:
-                                                smallShot.data.data['name'],
-                                            shopName: smallShot
-                                                .data.data['shop_name'],
-                                            price: int.parse(smallShot
-                                                .data.data['price']
-                                                .toString()),
+                                            imageUrl: snap['image1'],
+                                            productName: snap['name'],
+                                            shopName: snap['shop_name'],
+                                            price: int.parse(
+                                                snap['price'].toString()),
                                             ratings: 4,
                                             colors: [Colors.black],
-                                            description: smallShot.data
-                                                        .data['description'] ==
-                                                    null
-                                                ? 'description'
-                                                : smallShot
-                                                    .data.data['description'],
+                                            description:
+                                                snap['description'] == null
+                                                    ? 'description'
+                                                    : smallShot.data
+                                                        .data['description'],
                                             reviews: [],
-                                            image2:
-                                                snapshot.data.data['image2'],
-                                            image3:
-                                                snapshot.data.data['image3'],
-                                            image4:
-                                                snapshot.data.data['image4']),
+                                            image2: snap['image2'],
+                                            image3: snap['image3'],
+                                            image4: snap['image4']),
                                       ));
                                 });
                           },
@@ -230,19 +216,20 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                       child: CircularProgressIndicator(),
                                     );
                                   }
-                                  print(smallShot.data['name']);
+                                  final snap = smallShot.data;
                                   return SecondProductItemForFashionScreen(
                                       Product(
-                                          imageUrl: smallShot.data['image1'],
-                                          productName: smallShot.data['name'],
-                                          shopName: smallShot.data['shop_name'],
-                                          price: int.parse(
-                                              smallShot.data['price']),
+                                          image2: snap['image2'],
+                                          imageUrl: snap['image1'],
+                                          productName: snap['name'],
+                                          shopName: snap['shop_name'],
+                                          price: int.parse(snap['price']),
                                           ratings: 4.3,
                                           colors: [Colors.green],
-                                          description:
-                                              smallShot.data['description'],
-                                          reviews: []));
+                                          description: snap['description'],
+                                          reviews: [],
+                                          image4: snap['image4'],
+                                          image3: snap['image3']));
                                 },
                               );
                             }).toList());
@@ -255,17 +242,4 @@ class _FashionMainPageState extends State<FashionMainPage> {
       ),
     );
   }
-
-//  [
-//  SecondProductItemForFashionScreen(Product(
-//  imageUrl:
-//  'https://n3.sdlcdn.com/imgs/a/p/5/Karyn-Silver-Color-Party-Wear-SDL081527004-1-4d06c.jpg',
-//  productName: 'Casual Wear',
-//  shopName: 'Robust Shop',
-//  price: 999,
-//  ratings: 4.8,
-//  colors: [Colors.black],
-//  description: 'Hello Friends',
-//  reviews: [])),
-//  ],
 }

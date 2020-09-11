@@ -12,10 +12,6 @@ class MensFashionScreen extends StatefulWidget {
 }
 
 class _MensFashionScreenState extends State<MensFashionScreen> {
-//  int _suitIndex = 0;
-//  int _shirtIndex = 0;
-//  int _tShirtIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     double width = displayWidth(context);
@@ -92,18 +88,8 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                         itemCount: snapshot.data.documents.length,
                         controller: PageController(viewportFraction: 0.4),
                         itemBuilder: (_, i) {
-                          final String productName =
-                              snapshot.data.documents[i].data['name'];
-                          final String shopName =
-                              snapshot.data.documents[i].data['shop_name'];
-                          final String price =
-                              snapshot.data.documents[i].data['price'];
-                          final String description =
-                              snapshot.data.documents[i].data['description'];
-                          final reviews = snapshot
-                              .data.documents[i].data['reviews'] as List;
-                          final productImage =
-                              snapshot.data.documents[i].data['image1'];
+                          final snap = snapshot.data.documents[i].data;
+                          final reviews = snap['reviews'] as List;
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -118,13 +104,16 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl: productImage,
-                              productName: productName,
-                              shopName: shopName,
-                              price: int.parse(price),
+                              imageUrl: snap['image1'],
+                              image2: snap['image2'],
+                              image3: snap['image3'],
+                              image4: snap['image4'],
+                              productName: snap['name'],
+                              shopName: snap['shop_name'],
+                              price: int.parse(snap['price']),
                               ratings: 4.8,
                               colors: [Colors.black],
-                              description: description,
+                              description: snap['description'],
                               reviews: reviewList);
 
                           return Transform.scale(
@@ -160,21 +149,10 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                       child: PageView.builder(
                         itemCount: snapshot.data.documents.length,
                         controller: PageController(viewportFraction: 0.4),
-//                        onPageChanged: (int index) =>
-//                            setState(() => _shirtIndex = index),
                         itemBuilder: (_, i) {
-                          final String productName =
-                              snapshot.data.documents[i].data['name'];
-                          final String shopName =
-                              snapshot.data.documents[i].data['shop_name'];
-                          final String price =
-                              snapshot.data.documents[i].data['price'];
-                          final String description =
-                              snapshot.data.documents[i].data['description'];
+                          final snap = snapshot.data.documents[i].data;
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
-                          final String productImage =
-                              snapshot.data.documents[i].data['image1'];
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -189,13 +167,16 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl: productImage,
-                              productName: productName,
-                              shopName: shopName,
-                              price: int.parse(price),
+                              imageUrl: snap['image1'],
+                              image2: snap['image2'],
+                              image3: snap['image3'],
+                              image4: snap['image4'],
+                              productName: snap['name'],
+                              shopName: snap['shop_name'],
+                              price: int.parse(snap['price']),
                               ratings: 4.5,
                               colors: [Colors.black],
-                              description: description,
+                              description: snap['description'],
                               reviews: reviewList);
 
                           return Transform.scale(
@@ -229,21 +210,10 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                       child: PageView.builder(
                         itemCount: snapshot.data.documents.length,
                         controller: PageController(viewportFraction: 0.4),
-//                  onPageChanged: (int index) =>
-//                      setState(() => _tShirtIndex = index),
                         itemBuilder: (_, i) {
-                          final String productName =
-                              snapshot.data.documents[i].data['name'];
-                          final String shopName =
-                              snapshot.data.documents[i].data['shop_name'];
-                          final String price =
-                              snapshot.data.documents[i].data['price'];
-                          final String description =
-                              snapshot.data.documents[i].data['description'];
+                          final snap = snapshot.data.documents[i].data;
                           final reviews = snapshot
                               .data.documents[i].data['reviews'] as List;
-                          final String productImage =
-                              snapshot.data.documents[i].data['image1'];
                           final List<Review> reviewList = [];
 
                           for (var review in reviews) {
@@ -258,13 +228,16 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                           }
 
                           final product = Product(
-                              imageUrl: productImage,
-                              productName: productName,
-                              shopName: shopName,
-                              price: int.parse(price),
+                              imageUrl: snap['image1'],
+                              image2: snap['image2'],
+                              image3: snap['image3'],
+                              image4: snap['image4'],
+                              productName: snap['name'],
+                              shopName: snap['shop_name'],
+                              price: int.parse(snap['price']),
                               ratings: 4.1,
                               colors: [Colors.black],
-                              description: description,
+                              description: snap['description'],
                               reviews: reviewList);
 
                           return Transform.scale(
