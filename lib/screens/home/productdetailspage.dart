@@ -15,11 +15,15 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
   int _index = 0;
-  int imageCount = 1;
+  int imageCount = 0;
+  String _imageToShow;
 
   @override
   Widget build(BuildContext context) {
     double width = displayWidth(context);
+    if (widget.product.imageUrl != null) {
+      imageCount++;
+    }
     if (widget.product.image2 != null) {
       imageCount++;
     }
@@ -29,6 +33,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     if (widget.product.image4 != null) {
       imageCount++;
     }
+
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
@@ -59,11 +64,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   child: PageView.builder(
                     itemCount: imageCount,
                     controller: PageController(viewportFraction: 1),
-                    onPageChanged: (int index) =>
-                        setState(() => _index = index),
                     itemBuilder: (_, i) {
+                      if (i == 0)
+                        _imageToShow = widget.product.imageUrl;
+                      else if (i == 1)
+                        _imageToShow = widget.product.image2;
+                      else if (i == 2)
+                        _imageToShow = widget.product.image3;
+                      else if (i == 3) _imageToShow = widget.product.image4;
+
                       return Transform.scale(
-                        scale: i == _index ? 1 : 0.9,
+                        scale: 1,
                         child: Card(
                           elevation: 6,
                           shape: RoundedRectangleBorder(
@@ -76,8 +87,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: FadeInImage(
-                                    image:
-                                        NetworkImage(widget.product.imageUrl),
+                                    image: NetworkImage(_imageToShow),
                                     placeholder: AssetImage(
                                         'assets/fashion/fashion7.jpg'),
                                   )),
