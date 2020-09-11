@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/product.dart';
 import 'package:delilo/models/review.dart';
 import 'package:delilo/widgets/category_row.dart';
+import 'package:delilo/widgets/loading_bar_for_main_tile.dart';
 import 'package:delilo/widgets/main_product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
@@ -74,12 +75,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                       .getDocuments(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Container(
-                        height: displayHeight(context) / 2,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
+                      return LoadingBarForMainTile();
                     }
                     return Container(
                       width: width,
@@ -136,12 +132,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                       .getDocuments(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Container(
-                        height: displayHeight(context) / 2,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
+                      return LoadingBarForMainTile();
                     }
                     return Container(
                       width: width,
@@ -197,12 +188,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                       .getDocuments(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Container(
-                        height: displayHeight(context) / 2,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
+                      return LoadingBarForMainTile();
                     }
                     return Container(
                       width: width,

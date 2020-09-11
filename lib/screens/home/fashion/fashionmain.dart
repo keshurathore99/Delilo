@@ -3,6 +3,7 @@ import 'package:delilo/models/product.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
 import 'package:delilo/widgets/category_for_fashion_page.dart';
+import 'package:delilo/widgets/loading_bar_for_main_tile.dart';
 import 'package:delilo/widgets/main_product_item.dart';
 import 'package:delilo/widgets/second_product_item_for_fashion_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,8 +17,6 @@ class FashionMainPage extends StatefulWidget {
 }
 
 class _FashionMainPageState extends State<FashionMainPage> {
-  int _index = 0;
-
   @override
   Widget build(BuildContext context) {
     final width = displayWidth(context);
@@ -48,7 +47,6 @@ class _FashionMainPageState extends State<FashionMainPage> {
                           elevation: 5,
                           shape: StadiumBorder(),
                           child: TextFormField(
-                            // key: __passwordkey,
                             enableInteractiveSelection: true,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
@@ -98,12 +96,7 @@ class _FashionMainPageState extends State<FashionMainPage> {
                         .get(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container(
-                          height: displayHeight(context) / 2,
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
+                        return LoadingBarForMainTile();
                       }
                       if (!snapshot.data.exists) {
                         return Container(
@@ -130,12 +123,7 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                 builder: (context, smallShot) {
                                   if (smallShot.connectionState ==
                                       ConnectionState.waiting) {
-                                    return Container(
-                                      height: displayHeight(context) / 2,
-                                      child: Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    );
+                                    return LoadingBarForMainTile();
                                   }
                                   final snap = smallShot.data.data;
                                   return Transform.scale(
