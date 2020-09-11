@@ -52,11 +52,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1039682530786-o6i0jb41ogq70iltqufdalg3vhc6qq48.apps.googleusercontent.com",
+          "client_id": "1039682530786-esr29hv7137outbdgj56jdbgcknb6moa.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.cws.delilo",
-            "certificate_hash": "c82d3dc76414e15c7a3cba732719acabb09f8d01"
+            "certificate_hash": "be85e377be5b1ed274e429a6c9eb4268ea438e12"
           }
         },
         {

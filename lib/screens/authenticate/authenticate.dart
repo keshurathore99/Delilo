@@ -371,6 +371,12 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     return;
                                   }
 
+                                  if (phoneController.text.length != 10) {
+                                    key.currentState.showSnackBar(SnackBar(
+                                        content: Text(
+                                            'Please Enter a Valid Phone Number')));
+                                  }
+
                                   bool result = false;
 
                                   try {
@@ -389,71 +395,63 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
 //                                    return;
 //                                  }
 
+                                  setState(() {
+                                    _loading = true;
+                                  });
+
                                   try {
-                                    setState(() {
-                                      _loading = true;
-                                    });
-                                    try {
-                                      await FirebaseAuth.instance
-                                          .createUserWithEmailAndPassword(
-                                              email: emailController.text,
-                                              password:
-                                                  passwordController.text);
-                                    } on PlatformException catch (e) {
-                                      key.currentState.showSnackBar(
-                                          SnackBar(content: Text(e.code)));
-                                      return;
-                                    } catch (e) {
-                                      key.currentState.showSnackBar(
-                                          SnackBar(content: Text(e)));
-                                      return;
-                                    }
-
-                                    final user = await FirebaseAuth.instance
-                                        .currentUser();
-
-                                    if (user != null) {
+                                    final authResult = await FirebaseAuth
+                                        .instance
+                                        .createUserWithEmailAndPassword(
+                                            email: emailController.text,
+                                            password: passwordController.text);
+                                    if (authResult.user != null) {
+                                      print(userNameController.text);
+                                      print(emailController.text);
+                                      print(phoneController.text);
+                                      print(authResult.user.uid);
                                       await Firestore.instance
                                           .collection('users')
-                                          .document(user.uid)
+                                          .document(authResult.user.uid)
                                           .setData({
                                         'name': userNameController.text,
                                         'email': emailController.text,
                                         'phone': phoneController.text,
-                                        'uid': user.uid,
+                                        'uid': authResult.user.uid,
                                         'cartProducts': [],
+                                        'type': 'Buyer',
                                       });
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   GetLocationPage()));
+                                      setState(() {
+                                        _loading = false;
+                                      });
                                     } else {
+                                      setState(() {
+                                        _loading = false;
+                                      });
                                       key.currentState.showSnackBar(SnackBar(
                                           content: Text(
                                               'There is Some Problem Please Try Later')));
                                     }
-
-                                    setState(() {
-                                      _loading = false;
-                                    });
                                   } on PlatformException catch (e) {
                                     setState(() {
                                       _loading = false;
                                     });
                                     key.currentState.showSnackBar(
                                         SnackBar(content: Text(e.code)));
+                                    return;
                                   } catch (e) {
+                                    setState(() {
+                                      _loading = false;
+                                    });
                                     key.currentState.showSnackBar(
-                                        SnackBar(content: Text(e)));
+                                        SnackBar(content: Text(e.toString())));
+                                    return;
                                   }
-
-//                                  } else {
-//                                    key.currentState.showSnackBar(SnackBar(
-//                                      content: Text(
-//                                          'Please Fill All The Fields First'),
-//                                    ));
-//                                  }
                                 },
                                 child: Text("Register",
                                     style: TextStyle(
