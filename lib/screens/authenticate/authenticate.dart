@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:flutter_otp/flutter_otp.dart';
 
 class AuthenticateScreen extends StatefulWidget {
   static const routeName = '/authenticate';
@@ -45,7 +44,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
 
   final key = GlobalKey<ScaffoldState>();
   bool _loading = false;
-  final flutterOtp = FlutterOtp();
+//  final flutterOtp = FlutterOtp();
   String otp;
 
   @override
@@ -222,9 +221,9 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                             return;
                           }
                           try {
-                            flutterOtp.sendOtp(
-                              phoneController.text,
-                            );
+//                            flutterOtp.sendOtp(
+//                              phoneController.text,
+//                            );
                           } catch (e) {
                             key.currentState.showSnackBar(SnackBar(
                               content: Text(
@@ -375,20 +374,20 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                   bool result = false;
 
                                   try {
-                                    result = flutterOtp
-                                        .resultChecker(int.parse(otp));
+//                                    result = flutterOtp
+//                                        .resultChecker(int.parse(otp));
                                   } catch (e) {
                                     key.currentState.showSnackBar(
                                         SnackBar(content: Text(e)));
                                     return;
                                   }
 
-                                  if (result == false) {
-                                    key.currentState.showSnackBar(SnackBar(
-                                        content: Text(
-                                            'Your Entered OTP is Wrong Please Try Again')));
-                                    return;
-                                  }
+//                                  if (result == false) {
+//                                    key.currentState.showSnackBar(SnackBar(
+//                                        content: Text(
+//                                            'Your Entered OTP is Wrong Please Try Again')));
+//                                    return;
+//                                  }
 
                                   try {
                                     setState(() {
