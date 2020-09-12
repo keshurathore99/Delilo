@@ -15,7 +15,6 @@ class NewProductPage extends StatefulWidget {
 }
 
 class _NewProductPageState extends State<NewProductPage> {
-  int _index = 0;
   String categoryselectedoption;
   List<String> categoryselectedoptionlist = [
     "Men's Suit",
@@ -27,6 +26,20 @@ class _NewProductPageState extends State<NewProductPage> {
     "Baby Cloths",
     "Girl Kids",
     "Boy Kids",
+  ];
+
+  String mainCategorySelected;
+
+  final mainCategoryList = [
+    'Mobile',
+    'Fashion',
+    'Household',
+    'Beauty & Health',
+    'Toys & Baby Products',
+    'Party & Gatherings',
+    'Sports',
+    'Dairy',
+    'Travel & Explore',
   ];
 
   String colorselectedoption;
@@ -41,6 +54,7 @@ class _NewProductPageState extends State<NewProductPage> {
   File _image3;
   File _image4;
   bool _loading = false;
+  bool isFashionCategory = false;
 
   @override
   Widget build(BuildContext context) {
@@ -96,25 +110,61 @@ class _NewProductPageState extends State<NewProductPage> {
                 ),
                 addButton(),
                 Container(
-                  padding: EdgeInsets.all(22.0),
+                  padding: EdgeInsets.symmetric(horizontal: 22),
                   child: ListTile(
                     //title: Text("Your Current Location"),
                     title: DropdownButtonHideUnderline(
                       child: DropdownButton(
-                        hint: Text('Please Choose The Category'),
-                        value: categoryselectedoption,
+                        hint: Text('Category'),
+                        value: mainCategorySelected,
                         onChanged: (newValue) {
                           setState(() {
-                            categoryselectedoption = newValue;
+                            mainCategorySelected = newValue;
                           });
+                          if (mainCategorySelected == 'Fashion') {
+                            setState(() {
+                              isFashionCategory = true;
+                            });
+                          } else {
+                            setState(() {
+                              isFashionCategory = false;
+                            });
+                          }
                         },
-                        items: categoryselectedoptionlist.map((selectedoption) {
+                        items: mainCategoryList.map((selectedoption) {
                           return DropdownMenuItem(
                             child: new Text(selectedoption),
                             value: selectedoption,
                           );
                         }).toList(),
                       ),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(22.0),
+                  child: ListTile(
+                    //title: Text("Your Current Location"),
+                    title: DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                          hint: Text('Please Choose The Category'),
+                          value: isFashionCategory == false
+                              ? null
+                              : categoryselectedoption,
+                          onChanged: (newValue) {
+                            setState(() {
+                              categoryselectedoption = newValue;
+                            });
+                          },
+                          items: isFashionCategory == true
+                              ? categoryselectedoptionlist
+                                  .map((selectedoption) {
+                                  return DropdownMenuItem(
+                                    child: new Text(selectedoption),
+                                    value: selectedoption,
+                                  );
+                                }).toList()
+                              : null),
                     ),
                   ),
                 ),
@@ -210,11 +260,20 @@ class _NewProductPageState extends State<NewProductPage> {
                       if (_nameController.text.isEmpty ||
                           _priceController.text.isEmpty ||
                           _descriptionController.text.isEmpty ||
-                          categoryselectedoption == null) {
+                          mainCategorySelected == null) {
                         _scaffoldKey.currentState.showSnackBar(SnackBar(
                           content: Text('Please Fill All The Fields First'),
                         ));
                         return;
+                      }
+
+                      if (mainCategorySelected == 'Fashion') {
+                        if (categoryselectedoption == null) {
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(
+                              content:
+                                  Text('Please Select Sub Category First')));
+                          return;
+                        }
                       }
 
                       if (_image1 == null) {
@@ -281,7 +340,89 @@ class _NewProductPageState extends State<NewProductPage> {
                             .showSnackBar(SnackBar(content: Text(e)));
                       }
 
-                      final category = selectCategory();
+                      final mainCategory = selectMainCategory();
+
+                      if (mainCategory != 'fashion') {
+                        setState(() {
+                          _loading = true;
+                        });
+
+                        final docRef = await Firestore.instance
+                            .collection(mainCategory)
+                            .add({
+                          'name': _nameController.text,
+                          'price': _priceController.text,
+                          'shop_name': 'Hello Shop',
+                          'description': _descriptionController.text,
+                          'reviews': [],
+                          'ratings': 0.0
+                        });
+
+                        if (image1 != null) {
+                          Firestore.instance
+                              .collection(mainCategory)
+                              .document(docRef.documentID)
+                              .updateData({'image1': image1});
+                        }
+
+                        if (image2 != null) {
+                          Firestore.instance
+                              .collection(mainCategory)
+                              .document(docRef.documentID)
+                              .updateData({'image2': image2});
+                        }
+
+                        if (image3 != null) {
+                          Firestore.instance
+                              .collection(mainCategory)
+                              .document(docRef.documentID)
+                              .updateData({'image3': image3});
+                        }
+
+                        if (image4 != null) {
+                          Firestore.instance
+                              .collection(mainCategory)
+                              .document(docRef.documentID)
+                              .updateData({'image4': image4});
+                        }
+
+                        await Firestore.instance
+                            .collection(mainCategory)
+                            .document(docRef.documentID)
+                            .updateData({
+                          'productId': docRef.documentID,
+                          'sellerId': uid
+                        });
+
+                        final snapshot = await Firestore.instance
+                            .collection('sellers')
+                            .document(uid)
+                            .get();
+
+                        final productsList = snapshot.data['products'] as List;
+                        productsList.add('$mainCategory/${docRef.documentID}');
+
+                        await Firestore.instance
+                            .collection('sellers')
+                            .document(uid)
+                            .updateData({
+                          'products': [...productsList],
+                        });
+
+                        setState(() {
+                          _loading = false;
+                        });
+
+                        _scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content:
+                                Text('New Product Uploaded Successfully')));
+
+                        Navigator.of(context).pop();
+
+                        return;
+                      }
+
+                      final category = selectSubCategory();
 
                       try {
                         final ref = await Firestore.instance
@@ -415,7 +556,7 @@ class _NewProductPageState extends State<NewProductPage> {
     );
   }
 
-  Map<String, String> selectCategory() {
+  Map<String, String> selectSubCategory() {
     final Map<String, String> map = {};
 
     switch (categoryselectedoption) {
@@ -470,5 +611,50 @@ class _NewProductPageState extends State<NewProductPage> {
     }
 
     return map;
+  }
+
+  String selectMainCategory() {
+    String category;
+    switch (mainCategorySelected) {
+      case 'Mobile':
+        category = 'mobile';
+        break;
+
+      case 'Fashion':
+        category = 'fashion';
+        break;
+
+      case 'Household':
+        category = 'household';
+        break;
+
+      case 'Beauty & Health':
+        category = 'beauty';
+        break;
+
+      case 'Toys & Baby Products':
+        category = 'toys';
+        break;
+
+      case 'Party & Gatherings':
+        category = 'party';
+        break;
+
+      case 'Sports':
+        category = 'sports';
+        break;
+
+      case 'Dairy':
+        category = 'dairy';
+        break;
+
+      case 'Travel & Explore':
+        category = 'travel';
+        break;
+
+      default:
+        category = 'null';
+    }
+    return category;
   }
 }

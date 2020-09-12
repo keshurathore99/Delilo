@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/seller_model.dart';
+import 'package:delilo/screens/home/cart.dart';
 import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
 import 'package:delilo/widgets/seller_card_for_homescreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:geolocator/geolocator.dart';
@@ -115,7 +115,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
         BottomNavigationBarItem(
           icon: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/cart');
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => CartPage()));
             },
             child: Container(
                 height: 50,
