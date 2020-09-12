@@ -12,8 +12,19 @@ class _CartPageState extends State<CartPage> {
     double width = displayWidth(context);
     return Scaffold(
       appBar: AppBar(
-        leading:GestureDetector(child:  Icon(Icons.arrow_back_ios,color: Colors.green,),onTap: (){Navigator.pop(context);},),
-        title: Text("My Cart",style: TextStyle(color: Colors.black,fontSize: 25),),
+        leading: GestureDetector(
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.green,
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          "My Cart",
+          style: TextStyle(color: Colors.black, fontSize: 25),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -43,39 +54,6 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
       ),
-      /*bottomNavigationBar: Container(
-        height: width*.4,
-        width: width*.9,
-        child: BottomNavigationBar(
-          //backgroundColor: Colors.blue,
-          selectedItemColor: Colors.white,
-
-          items: <BottomNavigationBarItem>[
-
-           BottomNavigationBarItem(
-              icon: Container(), */ /*Container(
-                  height: 50,
-                  width: 120,
-                  decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.all(Radius.circular(50))),
-                  child: Container(
-                      color: Colors.green,
-                      child: Center(
-                        child: Text(
-                          "Buy Now",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ))),*/ /*
-              title: Container(),
-            ),
-            BottomNavigationBarItem(
-              icon:
-              title: Container(),
-            ),
-          ],
-        ),
-      ),*/
       bottomSheet: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
@@ -85,7 +63,10 @@ class _CartPageState extends State<CartPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Divider(color: Colors.brown,thickness: 2,),
+              Divider(
+                color: Colors.brown,
+                thickness: 2,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
@@ -95,62 +76,35 @@ class _CartPageState extends State<CartPage> {
                 ],
               ),
               GestureDetector(
-                onTap: (){Navigator.pushNamed(context, '/payment');},
+                onTap: () {
+                  Navigator.pushNamed(context, '/payment');
+                },
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom:8.0),
+                  padding: const EdgeInsets.only(bottom: 8.0),
                   child: Material(
-                    child:          Center(child: Container(decoration: BoxDecoration(color: Colors.green,borderRadius: BorderRadius.all(Radius.circular(10))),height: 50,width:width*.8,child: FlatButton(child: Text("Buy Now",style: TextStyle(color: Colors.white,fontSize: 20),),onPressed: (){},))),
-
-      ),
+                    child: Center(
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            height: 50,
+                            width: width * .8,
+                            child: FlatButton(
+                              child: Text(
+                                "Buy Now",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                              onPressed: () {},
+                            ))),
+                  ),
                 ),
               ),
             ],
           ),
         ),
       ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.green,
-          selectedItemColor: Colors.white,
-
-          items:  <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(28))
-                  ),
-                  child: Icon(Icons.home,color: Colors.green,)),
-              title: Container(),
-
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                  height: 50,
-                  width: 50,
-                  /*decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(30))
-                  ),*/
-                  child: Icon(Icons.shopping_cart,color: Colors.white,)),
-              title: Container(),
-
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                  height: 50,
-                  width: 50,
-                  /* decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(30))
-                  ),*/
-                  child: Icon(Icons.person,color: Colors.white,)),
-              title: Container(),
-
-            ),
-          ],
-        )
     );
   }
 }

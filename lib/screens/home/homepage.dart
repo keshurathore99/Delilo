@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/seller_model.dart';
+import 'package:delilo/screens/home/account.dart';
 import 'package:delilo/screens/home/cart.dart';
 import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
 import 'package:delilo/widgets/seller_card_for_homescreen.dart';
@@ -13,6 +14,8 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
+  int _index = 0;
+
   @override
   Widget build(BuildContext context) {
 //    FirebaseAuth.instance.signOut();
@@ -28,127 +31,48 @@ class _HomePageScreenState extends State<HomePageScreen> {
 //      'imageUrl':
 //          'https://static.toiimg.com/thumb/72975551.cms?width=680&height=512&imgsize=881753',
 //    });
+    Widget child;
 
-    double width = displayWidth(context);
+    switch (_index) {
+      case 0:
+        child = MainHomeScreen();
+        break;
+      case 1:
+        child = CartPage();
+        break;
+      case 2:
+        child = AccountInfo();
+        break;
+    }
+
     return Scaffold(
         drawer: MyDrawer(),
         appBar: homeScreenAppBar(),
-        body: FutureBuilder<List<Seller>>(
-            future: fetchShops(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: width * .8,
-                          child: Material(
-                            elevation: 5,
-                            shape: StadiumBorder(),
-                            child: TextFormField(
-                              // key: __passwordkey,
-                              enableInteractiveSelection: true,
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(width: 4),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(30))),
-                                  prefixIcon: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                    child: Icon(
-                                      Icons.search,
-                                      size: 35,
-                                      color: Colors.green.withOpacity(.75),
-                                    ),
-                                  ),
-                                  hintText: "Search from Products, Shops"),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                      child: ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            return SellerCardForHomeScreen(
-                                shopName: snapshot.data[index].shopName,
-                                shopCategory: snapshot.data[index].shopCategory,
-                                distance: snapshot.data[index].distance,
-                                stars: snapshot.data[index].stars,
-                                imageUrl: snapshot.data[index].imageUrl);
-                          })),
-                ],
-              );
-            }),
+        body: child,
         bottomNavigationBar: bottomNavigationBar());
   }
 
   BottomNavigationBar bottomNavigationBar() {
     return BottomNavigationBar(
+      onTap: (index) {
+        setState(() {
+          _index = index;
+        });
+      },
+      currentIndex: _index,
       backgroundColor: Colors.green,
       selectedItemColor: Colors.white,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(28))),
-              child: Icon(
-                Icons.home,
-                color: Colors.green,
-              )),
+          icon: Icon(Icons.home),
           title: Container(),
         ),
         BottomNavigationBarItem(
-          icon: GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => CartPage()));
-            },
-            child: Container(
-                height: 50,
-                width: 50,
-                /*decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(30))
-                    ),*/
-                child: Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                )),
-          ),
+          icon: Icon(Icons.shopping_cart),
           title: Container(),
         ),
         BottomNavigationBarItem(
-          icon: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/accountinfo');
-            },
-            child: Container(
-                height: 50,
-                width: 50,
-                /* decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(30))
-                    ),*/
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                )),
-          ),
+          icon: Icon(Icons.person),
           title: Container(),
         ),
       ],
@@ -185,6 +109,75 @@ class _HomePageScreenState extends State<HomePageScreen> {
         ],
       ),
     );
+  }
+}
+
+class MainHomeScreen extends StatefulWidget {
+  @override
+  _MainHomeScreenState createState() => _MainHomeScreenState();
+}
+
+class _MainHomeScreenState extends State<MainHomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final width = displayWidth(context);
+    return FutureBuilder<List<Seller>>(
+        future: fetchShops(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: width * .8,
+                      child: Material(
+                        elevation: 5,
+                        shape: StadiumBorder(),
+                        child: TextFormField(
+                          enableInteractiveSelection: true,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 4),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30))),
+                              prefixIcon: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child: Icon(
+                                  Icons.search,
+                                  size: 35,
+                                  color: Colors.green.withOpacity(.75),
+                                ),
+                              ),
+                              hintText: "Search from Products, Shops"),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        return SellerCardForHomeScreen(
+                            shopName: snapshot.data[index].shopName,
+                            shopCategory: snapshot.data[index].shopCategory,
+                            distance: snapshot.data[index].distance,
+                            stars: snapshot.data[index].stars,
+                            imageUrl: snapshot.data[index].imageUrl);
+                      })),
+            ],
+          );
+        });
   }
 
   Future<List<Seller>> fetchShops() async {
