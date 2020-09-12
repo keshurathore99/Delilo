@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/screens/home/paymentpage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 
 class CartPage extends StatefulWidget {
+  final userUid;
+  CartPage({this.userUid});
+
   @override
   _CartPageState createState() => _CartPageState();
 }
@@ -9,110 +15,119 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
-    double width = displayWidth(context);
     return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.green,
-          ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text(
-          "My Cart",
-          style: TextStyle(color: Colors.black, fontSize: 25),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Center(
-        child: Container(
-          child: ListView(
-            children: [
-              ProductCard(
-                productid: 1,
-                price: 400,
-                name: "product 1",
-                imageurl: "dd",
-              ),
-              ProductCard(
-                productid: 1,
-                price: 500,
-                name: "product 2",
-                imageurl: "dd",
-              ),
-              ProductCard(
-                productid: 1,
-                price: 600,
-                name: "product 3",
-                imageurl: "dd",
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-          width: width * .95,
-          height: width * .4,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Divider(
-                color: Colors.brown,
-                thickness: 2,
-              ),
-              Row(
+      appBar: _appBar(),
+      body: StreamBuilder<DocumentSnapshot>(
+          stream: Firestore.instance
+              .collection('users')
+              .document(widget.userUid)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            final cartProducts = snapshot.data.data['cartProducts'] as List;
+
+            if (cartProducts.length == 0) {
+              return Center(
+                child: Text('Cart is Empty'),
+              );
+            }
+
+            return Center(
+              child: Container(),
+            );
+          }),
+      bottomSheet: _bottomSheetBuyNow(),
+    );
+  }
+
+  Widget _bottomSheetBuyNow() {
+    final width = displayWidth(context);
+
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+        width: width * .95,
+        height: width * .3,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Divider(
+              color: Colors.brown,
+              thickness: 2,
+            ),
+            Container(
+              width: width * .8,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text("Your Order"),
-                  Text("RS 1500"),
+                  Text('0'),
                 ],
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/payment');
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Material(
-                    child: Center(
-                        child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            height: 50,
-                            width: width * .8,
-                            child: FlatButton(
-                              child: Text(
-                                "Buy Now",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
-                              ),
-                              onPressed: () {},
-                            ))),
-                  ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => PaymentPage()));
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Material(
+                  child: Center(
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          height: 50,
+                          width: width * .8,
+                          child: FlatButton(
+                            child: Text(
+                              "Buy Now",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            onPressed: () {},
+                          ))),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _appBar() {
+    return AppBar(
+      leading: GestureDetector(
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.green,
+        ),
+        onTap: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: Text(
+        "My Cart",
+        style: TextStyle(color: Colors.black, fontSize: 25),
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
     );
   }
 }
 
 class ProductCard extends StatefulWidget {
   final String name;
-
-  //final String description;
   final int price;
   int productid;
   final String imageurl;
@@ -134,7 +149,6 @@ class _ProductCardState extends State<ProductCard> {
       child: Container(
         width: width * .7,
         height: width * .25,
-        //color: Colors.black87.withOpacity(.85),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -151,19 +165,11 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                   margin: EdgeInsets.all(10),
                   child: Image.asset(
-                    'assets/images/3.png',
+                    'assets/3.png',
                     height: width * .23,
                     width: width * .28,
                     fit: BoxFit.cover,
                   ),
-
-                  /*child: Image.network(
-                    widget.imageurl,
-                    width: width * .12,
-                    height: width * .12,
-                    fit: BoxFit.cover,
-                    //color: Colors.black87,
-                  ),*/
                 ),
               ),
               Column(

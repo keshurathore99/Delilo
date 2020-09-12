@@ -4,6 +4,7 @@ import 'package:delilo/screens/home/account.dart';
 import 'package:delilo/screens/home/cart.dart';
 import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
 import 'package:delilo/widgets/seller_card_for_homescreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:geolocator/geolocator.dart';
@@ -15,6 +16,7 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreenState extends State<HomePageScreen> {
   int _index = 0;
+  String uid;
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +34,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
 //          'https://static.toiimg.com/thumb/72975551.cms?width=680&height=512&imgsize=881753',
 //    });
     Widget child;
+    FirebaseAuth.instance.currentUser().then((value) => uid = value.uid);
 
     switch (_index) {
       case 0:
         child = MainHomeScreen();
         break;
       case 1:
-        child = CartPage();
+        child = CartPage(userUid: uid,);
         break;
       case 2:
         child = AccountInfo();
