@@ -1,5 +1,4 @@
 import 'package:delilo/screens/auxillary/customclasses.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SellerCardForHomeScreen extends StatelessWidget {

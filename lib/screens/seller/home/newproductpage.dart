@@ -355,7 +355,8 @@ class _NewProductPageState extends State<NewProductPage> {
                           'shop_name': 'Hello Shop',
                           'description': _descriptionController.text,
                           'reviews': [],
-                          'ratings': 0.0
+                          'ratings': 0.0,
+                          'productType': mainCategory,
                         });
 
                         if (image1 != null) {
@@ -435,7 +436,12 @@ class _NewProductPageState extends State<NewProductPage> {
                           'shop_name': 'Hello Shop',
                           'description': _descriptionController.text,
                           'reviews': [],
-                          'ratings': 0.0
+                          'ratings': 0.0,
+                          'productType': 'fashion' +
+                              ' ' +
+                              category['category'] +
+                              ' ' +
+                              category['clothType'],
                         });
 
                         if (image1 != null) {

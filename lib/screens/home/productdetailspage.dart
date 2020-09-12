@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/product.dart';
 import 'package:delilo/widgets/user_review.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -17,6 +18,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   int _index = 0;
   int imageCount = 0;
   String _imageToShow;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(top: 80.0),
@@ -232,9 +235,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     height: 50,
                     width: displayWidth(context) * .8,
                     child: FlatButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/cart');
-                        },
+                        onPressed: addToCart,
                         child: Text(
                           "Add To Cart",
                           style: TextStyle(color: Colors.green, fontSize: 15),
@@ -273,5 +274,37 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ],
       ),
     );
+  }
+
+  void addToCart() async {
+    final user = await FirebaseAuth.instance.currentUser();
+    final userUid = user.uid;
+
+    final snapshot =
+        await Firestore.instance.collection('users').document(userUid).get();
+    final productList = snapshot.data['cartProducts'] as List;
+
+    if (widget.product.productType.contains('fashion')) {
+      _scaffoldKey.currentState.showSnackBar(
+          SnackBar(content: Text('This is Not working at his time')));
+      return;
+    }
+
+    productList
+        .add('${widget.product.productType}/${widget.product.productId}');
+
+    try {
+      await Firestore.instance
+          .collection('users')
+          .document(userUid)
+          .updateData({'cartProducts': productList});
+
+      _scaffoldKey.currentState
+          .showSnackBar(SnackBar(content: Text('Added To Cart')));
+    } catch (e) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text('There is Some Problem in Cart Please Try Again')));
+      return;
+    }
   }
 }

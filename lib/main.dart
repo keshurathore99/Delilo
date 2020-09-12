@@ -80,8 +80,6 @@ class MyApp extends StatelessWidget {
                 return SellerHomeScreen();
               },
             );
-
-            return HomePageScreen();
           }),
     );
   }

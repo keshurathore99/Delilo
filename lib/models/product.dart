@@ -14,6 +14,8 @@ class Product {
   final String description;
   final List<Review> reviews;
   final int index;
+  final String productType;
+  final String productId;
 
   Product(
       {@required this.imageUrl,
@@ -27,5 +29,7 @@ class Product {
       @required this.image2,
       @required this.image3,
       @required this.image4,
+      @required this.productType,
+      @required this.productId,
       this.index});
 }

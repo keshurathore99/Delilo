@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/screens/seller/home/newproductpage.dart';
 import 'package:delilo/screens/seller/home/sellercatgorylisting.dart';
 import 'package:delilo/screens/seller/home/sellerdrawer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 
