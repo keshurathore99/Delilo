@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MenuItemTile extends StatelessWidget {
-  final String path;
+  final Widget pageToOpen;
   final String title;
   final String imageRoute;
-  MenuItemTile(this.path, this.title, this.imageRoute);
+  MenuItemTile(this.pageToOpen, this.title, this.imageRoute);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, path);
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => pageToOpen));
       },
       child: ListTile(
         leading: Image.asset(imageRoute),

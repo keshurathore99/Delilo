@@ -1,9 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:delilo/screens/authenticate/getlocation.dart';
-import 'package:delilo/screens/authenticate/signin.dart';
 import 'package:delilo/screens/home/homepage.dart';
-import 'package:delilo/screens/seller/authenticate/selleregister.dart';
-import 'package:delilo/screens/seller/home/newproductpage.dart';
 import 'package:delilo/screens/seller/home/sellerhomesceen.dart';
 import 'package:delilo/screens/wrapper.dart';
 import 'package:delilo/services/navigation.dart';
