@@ -41,7 +41,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
         child = MainHomeScreen();
         break;
       case 1:
-        child = CartPage(userUid: uid,);
+        child = CartPage(
+          userUid: uid,
+        );
         break;
       case 2:
         child = AccountInfo();
@@ -55,30 +57,34 @@ class _HomePageScreenState extends State<HomePageScreen> {
         bottomNavigationBar: bottomNavigationBar());
   }
 
-  BottomNavigationBar bottomNavigationBar() {
-    return BottomNavigationBar(
-      onTap: (index) {
-        setState(() {
-          _index = index;
-        });
-      },
-      currentIndex: _index,
-      backgroundColor: Colors.green,
-      selectedItemColor: Colors.white,
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          title: Container(),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart),
-          title: Container(),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          title: Container(),
-        ),
-      ],
+  Widget bottomNavigationBar() {
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+          topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+      child: BottomNavigationBar(
+        onTap: (index) {
+          setState(() {
+            _index = index;
+          });
+        },
+        currentIndex: _index,
+        backgroundColor: Colors.green,
+        selectedItemColor: Colors.white,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Container(),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            title: Container(),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            title: Container(),
+          ),
+        ],
+      ),
     );
   }
 

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/models/product.dart';
 import 'package:delilo/screens/home/paymentpage.dart';
+import 'package:delilo/screens/home/productdetailspage.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 
@@ -16,31 +18,67 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
-      body: StreamBuilder<DocumentSnapshot>(
-          stream: Firestore.instance
-              .collection('users')
-              .document(widget.userUid)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+      body: Column(
+        children: [
+          Expanded(
+            child: StreamBuilder<DocumentSnapshot>(
+                stream: Firestore.instance
+                    .collection('users')
+                    .document(widget.userUid)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-            final cartProducts = snapshot.data.data['cartProducts'] as List;
+                  final cartProducts =
+                      snapshot.data.data['cartProducts'] as List;
 
-            if (cartProducts.length == 0) {
-              return Center(
-                child: Text('Cart is Empty'),
-              );
-            }
+                  if (cartProducts.length == 0) {
+                    return Center(
+                      child: Text('Cart is Empty'),
+                    );
+                  }
 
-            return Center(
-              child: Container(),
-            );
-          }),
-      bottomSheet: _bottomSheetBuyNow(),
+                  return ListView.builder(
+                      itemCount: cartProducts.length,
+                      itemBuilder: (context, index) {
+                        return FutureBuilder<DocumentSnapshot>(
+                            future: Firestore.instance
+                                .document(cartProducts[index])
+                                .get(),
+                            builder: (context, smallShot) {
+                              if (smallShot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: Container(),
+                                );
+                              }
+                              final snap = smallShot.data.data;
+                              final product = Product(
+                                  imageUrl: snap['image1'],
+                                  productName: snap['name'],
+                                  shopName: snap['shop_name'],
+                                  price: int.parse(snap['price']),
+                                  ratings: 4.3,
+                                  colors: [Colors.black26],
+                                  description: snap['description'],
+                                  reviews: [],
+                                  image2: snap['image2'],
+                                  image3: snap['image3'],
+                                  image4: snap['image4'],
+                                  productType: snap['productType'],
+                                  productId: snap['productId']);
+                              return ProductCard(product);
+                            });
+                      });
+                }),
+          ),
+          _bottomSheetBuyNow(),
+        ],
+      ),
     );
   }
 
@@ -58,7 +96,7 @@ class _CartPageState extends State<CartPage> {
           children: [
             Divider(
               color: Colors.brown,
-              thickness: 2,
+              thickness: 1,
             ),
             Container(
               width: width * .8,
@@ -85,15 +123,17 @@ class _CartPageState extends State<CartPage> {
                               color: Colors.green,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
-                          height: 50,
+                          height: 40,
                           width: width * .8,
                           child: FlatButton(
                             child: Text(
                               "Buy Now",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                              style: TextStyle(color: Colors.white),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => PaymentPage()));
+                            },
                           ))),
                 ),
               ),
@@ -126,130 +166,122 @@ class _CartPageState extends State<CartPage> {
 }
 
 class ProductCard extends StatefulWidget {
-  final String name;
-  final int price;
-  int productid;
-  final String imageurl;
-
-  //final String category;
-  ProductCard({this.price, this.productid, this.name, this.imageurl});
+  final Product product;
+  ProductCard(this.product);
 
   @override
   _ProductCardState createState() => _ProductCardState();
 }
 
 class _ProductCardState extends State<ProductCard> {
+  int quantity = 1;
+
   @override
   Widget build(BuildContext context) {
     double width = displayWidth(context);
-    return Card(
-      semanticContainer: true,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Container(
-        width: width * .7,
-        height: width * .25,
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                height: width * .4,
-                width: width * .34,
-                child: Card(
-                  semanticContainer: true,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  margin: EdgeInsets.all(10),
-                  child: Image.asset(
-                    'assets/3.png',
-                    height: width * .23,
-                    width: width * .28,
-                    fit: BoxFit.cover,
-                  ),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ProductDetailPage(product: widget.product)));
+      },
+      child: Card(
+        semanticContainer: true,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Container(
+          width: width * .7,
+          height: width * .25,
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  width: width * .34,
+                  child: Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      margin: EdgeInsets.only(right: 10),
+                      child: FadeInImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(widget.product.imageUrl),
+                        placeholder: AssetImage('assets/fashion/fashion7.jpg'),
+                      )),
                 ),
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //direction: Axis.vertical,
-
-                children: [
-                  Text(
-                    widget.name.toUpperCase(),
-                    style:
-                        TextStyle(color: Colors.black87, fontSize: width * .04),
-                  ),
-                  Text(
-                    "Shop Name",
-                    style:
-                        TextStyle(color: Colors.black87, fontSize: width * .04),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: GestureDetector(
-                            onTap: () {
+                      Text(
+                        widget.product.productName,
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: width * .04,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        widget.product.shopName,
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: width * .04,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.remove),
+                            onPressed: () {
+                              if (quantity < 2) {
+                                return;
+                              }
                               setState(() {
-                                widget.productid = widget.productid - 1;
+                                quantity--;
                               });
                             },
-                            child: CircleAvatar(
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.black,
-                              ),
-                              radius: 13,
-                              backgroundColor: Colors.grey[300],
-                            )),
-                      ),
-                      Text(widget.productid.toString()),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: GestureDetector(
-                            onTap: () {
+                          ),
+                          Text(quantity.toString()),
+                          IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: () {
                               setState(() {
-                                widget.productid = widget.productid + 1;
+                                quantity++;
                               });
                             },
-                            child: CircleAvatar(
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.black,
-                              ),
-                              radius: 13,
-                              backgroundColor: Colors.grey[300],
-                            )),
-                      ),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 6.0),
-                child: Align(
-                  alignment: Alignment(-1, -.8),
-                  child: Text(
-                    "Price: Rs ${widget.price.toString()}",
-                    style:
-                        TextStyle(color: Colors.black87, fontSize: width * .04),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: Align(
+                    alignment: Alignment(-1, -.8),
+                    child: Text(
+                      "₹ ${(widget.product.price * quantity).toString()}",
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: width * .04,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        elevation: 5,
+        margin: EdgeInsets.all(5),
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      elevation: 5,
-      margin: EdgeInsets.all(10),
     );
   }
 }
