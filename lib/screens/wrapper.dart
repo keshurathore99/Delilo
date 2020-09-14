@@ -15,17 +15,16 @@ class _WrapperState extends State<Wrapper> {
     double wid = displayWidth(context);
     return SafeArea(
       child: Scaffold(
-        body: /*FashionMainPage(),*/ Center(
+        body: Center(
           child: Container(
             width: wid,
             height: hit,
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/back.png'),
-                    fit: BoxFit.fitWidth)),
+                    fit: BoxFit.cover)),
             child: Column(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 40.0),
