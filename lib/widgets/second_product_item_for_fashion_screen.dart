@@ -24,6 +24,8 @@ class SecondProductItemForFashionScreen extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: FadeInImage(
+                height: displayHeight(context) / 2,
+                fit: BoxFit.cover,
                 placeholder: AssetImage('assets/fashion/fashion7.jpg'),
                 image: NetworkImage(product.imageUrl),
               ),

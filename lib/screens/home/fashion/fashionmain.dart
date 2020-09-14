@@ -176,7 +176,7 @@ class _FashionMainPageState extends State<FashionMainPage> {
                   ],
                 ),
                 Container(
-                  height: 500,
+                  height: displayHeight(context),
                   child: FutureBuilder<DocumentSnapshot>(
                       future: Firestore.instance
                           .collection('fashion')
@@ -194,6 +194,8 @@ class _FashionMainPageState extends State<FashionMainPage> {
                             snapshot.data.data['ref_for_second_item'] as List;
 
                         return GridView.count(
+                            childAspectRatio:
+                                displayWidth(context) / displayHeight(context),
                             crossAxisCount: 2,
                             children: list.map((product) {
                               return FutureBuilder(
