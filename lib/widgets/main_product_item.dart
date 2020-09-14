@@ -45,7 +45,7 @@ class MainProductItem extends StatelessWidget {
                         bottomRight: Radius.circular(20),
                         bottomLeft: Radius.circular(20))),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 2,vertical: 2),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [

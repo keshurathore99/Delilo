@@ -1,4 +1,5 @@
 import 'package:delilo/models/product.dart';
+import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:delilo/screens/home/productdetailspage.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,8 @@ class SecondProductItemForFashionScreen extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            width: displayWidth(context) / 2.4,
+            padding: EdgeInsets.symmetric(vertical: 5),
             decoration: BoxDecoration(
                 color: Colors.green, borderRadius: BorderRadius.circular(15)),
             child: Column(
