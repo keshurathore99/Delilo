@@ -1,3 +1,4 @@
+import 'package:carousel_images/carousel_images.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/seller_model.dart';
 import 'package:delilo/screens/home/account.dart';
@@ -110,6 +111,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               );
             }
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -124,6 +126,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                           child: TextFormField(
                             enableInteractiveSelection: true,
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(0),
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(width: 4),
                                     borderRadius:
@@ -143,6 +146,49 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                       ),
                     ],
                   ),
+                ),
+                FutureBuilder<DocumentSnapshot>(
+                    future: Firestore.instance
+                        .collection('corousel_images')
+                        .document('images')
+                        .get(),
+                    builder: (context, smallShot) {
+                      if (smallShot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      final List<String> images = [];
+                      (smallShot.data.data['images'] as List)
+                          .forEach((element) {
+                        images.add(element);
+                      });
+                      return CarouselImages(
+                        scaleFactor: 1,
+                        listImages: images,
+                        height: displayHeight(context) * 0.15,
+                        borderRadius: 5,
+                        cachedNetworkImage: true,
+                        verticalAlignment: Alignment.topCenter,
+                        onTap: (index) {
+                          print('Tapped on page $index');
+                        },
+                      );
+                    }),
+                Row(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Text(
+                          'Nearby Shops',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        )),
+                    Expanded(child: Container()),
+                  ],
                 ),
                 Expanded(
                     child: ListView.builder(
