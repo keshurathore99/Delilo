@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/screens/home/beauty_and_health/beauty_main_screen.dart';
 import 'package:delilo/screens/home/dairy/dairy_main_screen.dart';
 import 'package:delilo/screens/home/fashion/fashionmain.dart';
@@ -10,6 +11,7 @@ import 'package:delilo/screens/home/sports/sports_main_screen.dart';
 import 'package:delilo/screens/home/toys_and_baby_products/toys_and_baby_main_screen.dart';
 import 'package:delilo/screens/home/travel/travel_main_screen.dart';
 import 'package:delilo/widgets/menu_item_tile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -42,10 +44,29 @@ class MyDrawer extends StatelessWidget {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Text(
-                                  "Name",
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                                FutureBuilder<FirebaseUser>(
+                                    future: FirebaseAuth.instance.currentUser(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Text('Loading');
+                                      }
+                                      return FutureBuilder<DocumentSnapshot>(
+                                          future: Firestore.instance
+                                              .collection('users')
+                                              .document(snapshot.data.uid)
+                                              .get(),
+                                          builder: (context, smallShot) {
+                                            if(smallShot.connectionState == ConnectionState.waiting){
+                                              return Text('Loading');
+                                            }
+                                            return Text(
+                                              smallShot.data.data['name'],
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            );
+                                          });
+                                    }),
                                 Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(10, 15, 0, 0),

@@ -101,7 +101,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   Widget build(BuildContext context) {
     final width = displayWidth(context);
     return Scaffold(
-      appBar: homeScreenAppBar(),
+      appBar: homeScreenAppBar(context),
       body: FutureBuilder<List<Seller>>(
           future: fetchShops(),
           builder: (context, snapshot) {
@@ -126,7 +126,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                           child: TextFormField(
                             enableInteractiveSelection: true,
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(0),
+                                contentPadding: EdgeInsets.all(0),
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(width: 4),
                                     borderRadius:
@@ -240,14 +240,14 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     return distanceInMetre / 1000;
   }
 
-  Widget homeScreenAppBar() {
+  Widget homeScreenAppBar(contexts) {
     return PreferredSize(
       preferredSize: Size.fromHeight(60.0),
       child: AppBar(
         leading: Builder(builder: (context) {
-          return GestureDetector(
+          return InkWell(
             onTap: () {
-              Scaffold.of(context).openDrawer();
+              Scaffold.of(contexts).openDrawer();
             },
             child: Image.asset('assets/u.png'),
           );
