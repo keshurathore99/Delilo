@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/product.dart';
+import 'package:delilo/screens/home/cart.dart';
 import 'package:delilo/widgets/user_review.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -262,7 +263,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         width: displayWidth(context) * .8,
                         child: FlatButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/cart');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CartPage()));
                             },
                             child: Text(
                               "Pay Now",
@@ -285,9 +289,28 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     final productList = snapshot.data['cartProducts'] as List;
 
     if (widget.product.productType.contains('fashion')) {
-      _scaffoldKey.currentState.showSnackBar(
-          SnackBar(content: Text('This is Not working at his time')));
-      return;
+      final query = widget.product.productType.split(' ');
+      final mainCategory = query[0];
+      final category = query[1];
+      final subCategory = query[2];
+
+      productList.add(
+          '$mainCategory/$category/$subCategory/${widget.product.productId}');
+
+      try {
+        await Firestore.instance
+            .collection('users')
+            .document(userUid)
+            .updateData({'cartProducts': productList});
+
+        _scaffoldKey.currentState
+            .showSnackBar(SnackBar(content: Text('Added To Cart')));
+        return;
+      } catch (e) {
+        _scaffoldKey.currentState
+            .showSnackBar(SnackBar(content: Text(e.toString())));
+        return;
+      }
     }
 
     productList
