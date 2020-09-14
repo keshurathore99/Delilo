@@ -17,17 +17,36 @@ class CategoryRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Text(
-            title,
-            style: TextStyle(fontSize: 20, color: Colors.green),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.green,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 2),
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  height: 2,
+                  width: 30,
+                  decoration: BoxDecoration(
+                      color: Colors.black87,
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+              )
+            ],
           ),
           Container(
               decoration: BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.all(Radius.circular(30))),
               height: 30,
-              width: displayWidth(context) * .2,
               child: FlatButton(
+                  textColor: Colors.white,
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => WomenDressDetailPage(
@@ -35,7 +54,7 @@ class CategoryRow extends StatelessWidget {
                               clothType: clothType,
                             )));
                   },
-                  child: Text("More"))),
+                  child: Text("Show More"))),
         ],
       ),
     );

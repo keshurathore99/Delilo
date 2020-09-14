@@ -66,7 +66,9 @@ class MyDrawer extends StatelessWidget {
                           alignment: Alignment(1, 1),
                           child: Text(
                             "Rate Us",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: Colors.white,
+                                decoration: TextDecoration.underline),
                           )),
                     ),
                   ],
