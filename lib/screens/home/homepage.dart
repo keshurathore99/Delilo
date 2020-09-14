@@ -46,13 +46,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
         );
         break;
       case 2:
-        child = AccountInfo();
+        child = AccountInfo(
+          userUid: uid,
+        );
         break;
     }
 
     return Scaffold(
         drawer: MyDrawer(),
-        appBar: homeScreenAppBar(),
         body: child,
         bottomNavigationBar: bottomNavigationBar());
   }
@@ -87,38 +88,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
       ),
     );
   }
-
-  Widget homeScreenAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(60.0),
-      child: AppBar(
-        leading: Builder(builder: (context) {
-          return GestureDetector(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: Image.asset('assets/u.png'),
-          );
-        }), //GestureDetector(child: Image.asset('assets/images/u.png'),onTap: (){Scaffold.of(context).openDrawer();},),
-        centerTitle: true,
-        title: Container(
-            height: 100,
-            width: 140,
-            child: Image.asset('assets/dellologo.png')),
-        backgroundColor: Colors.white,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Icon(
-              Icons.notifications,
-              color: Colors.green,
-              size: 35,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class MainHomeScreen extends StatefulWidget {
@@ -130,63 +99,66 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final width = displayWidth(context);
-    return FutureBuilder<List<Seller>>(
-        future: fetchShops(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: width * .8,
-                      child: Material(
-                        elevation: 5,
-                        shape: StadiumBorder(),
-                        child: TextFormField(
-                          enableInteractiveSelection: true,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 4),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30))),
-                              prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                child: Icon(
-                                  Icons.search,
-                                  size: 35,
-                                  color: Colors.green.withOpacity(.75),
+    return Scaffold(
+      appBar: homeScreenAppBar(),
+      body: FutureBuilder<List<Seller>>(
+          future: fetchShops(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: width * .8,
+                        child: Material(
+                          elevation: 5,
+                          shape: StadiumBorder(),
+                          child: TextFormField(
+                            enableInteractiveSelection: true,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 4),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30))),
+                                prefixIcon: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  child: Icon(
+                                    Icons.search,
+                                    size: 35,
+                                    color: Colors.green.withOpacity(.75),
+                                  ),
                                 ),
-                              ),
-                              hintText: "Search from Products, Shops"),
+                                hintText: "Search from Products, Shops"),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                  child: ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
-                        return SellerCardForHomeScreen(
-                            shopName: snapshot.data[index].shopName,
-                            shopCategory: snapshot.data[index].shopCategory,
-                            distance: snapshot.data[index].distance,
-                            stars: snapshot.data[index].stars,
-                            imageUrl: snapshot.data[index].imageUrl);
-                      })),
-            ],
-          );
-        });
+                Expanded(
+                    child: ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return SellerCardForHomeScreen(
+                              shopName: snapshot.data[index].shopName,
+                              shopCategory: snapshot.data[index].shopCategory,
+                              distance: snapshot.data[index].distance,
+                              stars: snapshot.data[index].stars,
+                              imageUrl: snapshot.data[index].imageUrl);
+                        })),
+              ],
+            );
+          }),
+    );
   }
 
   Future<List<Seller>> fetchShops() async {
@@ -220,5 +192,37 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     final distanceInMetre = GeolocatorPlatform.instance
         .distanceBetween(myLatitude, myLongitude, latitude, longitude);
     return distanceInMetre / 1000;
+  }
+
+  Widget homeScreenAppBar() {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(60.0),
+      child: AppBar(
+        leading: Builder(builder: (context) {
+          return GestureDetector(
+            onTap: () {
+              Scaffold.of(context).openDrawer();
+            },
+            child: Image.asset('assets/u.png'),
+          );
+        }), //GestureDetector(child: Image.asset('assets/images/u.png'),onTap: (){Scaffold.of(context).openDrawer();},),
+        centerTitle: true,
+        title: Container(
+            height: 100,
+            width: 140,
+            child: Image.asset('assets/dellologo.png')),
+        backgroundColor: Colors.white,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Icon(
+              Icons.notifications,
+              color: Colors.green,
+              size: 35,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

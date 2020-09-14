@@ -105,7 +105,10 @@ class _CartPageState extends State<CartPage> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text("Your Order"),
-                  Text('0'),
+                  Text(
+                    '₹ 0',
+                    style: TextStyle(color: Colors.green),
+                  ),
                 ],
               ),
             ),
