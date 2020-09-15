@@ -50,7 +50,6 @@ class MyApp extends StatelessWidget {
                     ),
                     body: Center(
                       child: CircularProgressIndicator(),
-
                     ),
                   );
                 }
@@ -78,7 +77,9 @@ class MyApp extends StatelessWidget {
                     },
                   );
                 }
-                return SellerHomeScreen();
+                return SellerHomeScreen(
+                  userUid: snapshot.data.uid,
+                );
               },
             );
           }),

@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/screens/seller/home/newproductpage.dart';
 import 'package:delilo/screens/seller/home/sellercatgorylisting.dart';
 import 'package:delilo/screens/seller/home/sellerdrawer.dart';
+import 'package:delilo/seller%20widgets/seller_home_screen_card.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 
 class SellerHomeScreen extends StatefulWidget {
+  final String userUid;
+  SellerHomeScreen({@required this.userUid});
+
   @override
   _SellerHomeScreenState createState() => _SellerHomeScreenState();
 }
@@ -32,50 +37,174 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
           );
         }),
       ),
-      body: Center(
-        child: Container(
-          width: wid * .95,
-          child: ListView(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                      decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(.5),
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      height: 35,
-                      width: wid * .25,
-                      child: FlatButton(
-                          onPressed: () {},
-                          child: Text(
-                            "All Items",
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                          ))),
-                  Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      height: 35,
-                      width: wid * .25,
-                      child: FlatButton(
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => OutOfStock()),
-                                (route) => false);
-                          },
-                          child: Text(
-                            "Out Of Stock",
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
-                          ))),
-                ],
+      body: FutureBuilder<DocumentSnapshot>(
+          future: Firestore.instance
+              .collection('sellers')
+              .document(widget.userUid)
+              .get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            final sellerProducts = snapshot.data.data['products'] as List;
+            if (sellerProducts.length == 0) {
+              return Center(
+                child: Text(
+                  'No Products Till Now',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              );
+            }
+            final fashionList = sellerProducts
+                .where((element) =>
+                    element.toString().toLowerCase().contains('fashion'))
+                .toList();
+
+            final mobileList = sellerProducts
+                .where((element) =>
+                    element.toString().toLowerCase().contains('mobile'))
+                .toList();
+
+            final beautyList = sellerProducts
+                .where((element) =>
+                    element.toString().toLowerCase().contains('beauty'))
+                .toList();
+
+            final dairyList = sellerProducts
+                .where((element) =>
+                    element.toString().toLowerCase().contains('dairy'))
+                .toList();
+
+            final householdList = sellerProducts
+                .where((element) =>
+                    element.toString().toLowerCase().contains('household'))
+                .toList();
+
+            final sportsList = sellerProducts
+                .where((element) =>
+                    element.toString().toLowerCase().contains('sport'))
+                .toList();
+
+            final toysList = sellerProducts
+                .where((element) =>
+                    element.toString().toLowerCase().contains('toys'))
+                .toList();
+
+            final travelList = sellerProducts
+                .where((element) =>
+                    element.toString().toLowerCase().contains('travel'))
+                .toList();
+
+            final partyList = sellerProducts
+                .where((element) =>
+                    element.toString().toLowerCase().contains('party'))
+                .toList();
+
+            return Center(
+              child: Container(
+                width: wid * .95,
+                child: ListView(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.green.withOpacity(.5),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                            height: 35,
+                            width: wid * .25,
+                            child: FlatButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "All Items",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ))),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                            height: 35,
+                            width: wid * .25,
+                            child: FlatButton(
+                                onPressed: () {
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => OutOfStock()),
+                                      (route) => false);
+                                },
+                                child: Text(
+                                  "Out Of Stock",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
+                                ))),
+                      ],
+                    ),
+                    fashionList.length == 0
+                        ? Container()
+                        : SellerHomeScreenCard(
+                            'Fashion',
+                            fashionList.length,
+                          ),
+                    mobileList.length == 0
+                        ? Container()
+                        : SellerHomeScreenCard(
+                            'Mobile',
+                            mobileList.length,
+                          ),
+                    dairyList.length == 0
+                        ? Container()
+                        : SellerHomeScreenCard(
+                            'Dairy',
+                            dairyList.length,
+                          ),
+                    beautyList.length == 0
+                        ? Container()
+                        : SellerHomeScreenCard(
+                            'Beauty',
+                            beautyList.length,
+                          ),
+                    householdList.length == 0
+                        ? Container()
+                        : SellerHomeScreenCard(
+                            'Household',
+                            householdList.length,
+                          ),
+                    sportsList.length == 0
+                        ? Container()
+                        : SellerHomeScreenCard(
+                            'Sports',
+                            sportsList.length,
+                          ),
+                    toysList.length == 0
+                        ? Container()
+                        : SellerHomeScreenCard(
+                            'Toys',
+                            toysList.length,
+                          ),
+                    partyList.length == 0
+                        ? Container()
+                        : SellerHomeScreenCard(
+                            'Party',
+                            partyList.length,
+                          ),
+                    travelList.length == 0
+                        ? Container()
+                        : SellerHomeScreenCard(
+                            'Travel',
+                            travelList.length,
+                          ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
+            );
+          }),
     );
   }
 }

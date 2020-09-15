@@ -144,13 +144,17 @@ class _SellerSigninScreenState extends State<SellerSigninScreen> {
                                         .signInWithEmailAndPassword(
                                             email: _emailController.text,
                                             password: _passwordController.text);
+                                    final user = await FirebaseAuth.instance
+                                        .currentUser();
 
                                     if (auth.user != null) {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  SellerHomeScreen()));
+                                                  SellerHomeScreen(
+                                                    userUid: user.uid,
+                                                  )));
                                     }
                                     setState(() {
                                       loading = false;

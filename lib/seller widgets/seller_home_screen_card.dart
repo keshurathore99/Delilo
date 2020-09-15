@@ -16,32 +16,36 @@ class SellerHomeScreenCard extends StatelessWidget {
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: Container(
-          height: 100,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.max,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
                     title,
-                    style: TextStyle(color: Colors.green),
+                    style: TextStyle(
+                        color: Colors.green, fontWeight: FontWeight.bold),
                   ),
-                  Text(items.toString()),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(items.toString() + ' Items'),
                 ],
               ),
-              Align(alignment: Alignment(1, -.8), child: Text("EDIT")),
-            ],
-          ),
+            ),
+            Align(alignment: Alignment(1, -.8), child: Text("EDIT")),
+          ],
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        elevation: 5,
-        margin: EdgeInsets.all(10),
+        elevation: 2,
+        margin: EdgeInsets.all(5),
       ),
     );
   }
