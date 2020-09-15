@@ -246,7 +246,8 @@ class _PaymentPageState extends State<PaymentPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AdressPage()));
+                                      builder: (context) => AdressPage(
+                                          priceToPay: widget.priceToPay)));
                             },
                             child: Text(
                               "Pay Now",
@@ -266,6 +267,9 @@ class _PaymentPageState extends State<PaymentPage> {
 //Container(color: Colors.white,child: Center(child: Text("Buy Now",style: TextStyle(color: Colors.green,fontSize: 18),),))
 
 class AdressPage extends StatefulWidget {
+  final String priceToPay;
+  AdressPage({@required this.priceToPay});
+
   @override
   _AdressPageState createState() => _AdressPageState();
 }
@@ -359,6 +363,8 @@ class _AdressPageState extends State<AdressPage> {
                             'mobile': _mobileContoller.text,
                             'alterMobile': _altMobileController.text,
                             'dateTime': DateTime.now(),
+                            'price': widget.priceToPay,
+                            'type': 'Cash on Delivery'
                           });
 
                           await Firestore.instance
