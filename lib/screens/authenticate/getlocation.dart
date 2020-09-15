@@ -234,7 +234,9 @@ class _GetLocationPageState extends State<GetLocationPage> {
                                   ...widget.loginDetails,
                                   'latitude': myLatitude,
                                   'longitude': myLongitude,
-                                  'location': _addressController.text
+                                  'location': _addressController.text,
+                                  'orders': [],
+                                  'notifications': [],
                                 });
 
                                 Navigator.of(context).pushReplacement(

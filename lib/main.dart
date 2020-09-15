@@ -50,10 +50,11 @@ class MyApp extends StatelessWidget {
                     ),
                     body: Center(
                       child: CircularProgressIndicator(),
+
                     ),
                   );
                 }
-                if (smallShot.data.data == null) {
+                if (smallShot.data == null) {
                   return FutureBuilder<DocumentSnapshot>(
                     future: Firestore.instance
                         .collection('users')

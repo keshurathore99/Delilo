@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/seller_model.dart';
 import 'package:delilo/screens/home/account.dart';
 import 'package:delilo/screens/home/cart.dart';
-import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
+import 'package:delilo/widgets/drawer.dart';
+import 'package:delilo/widgets/main_search_bar.dart';
 import 'package:delilo/widgets/seller_card_for_homescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -97,6 +98,9 @@ class MainHomeScreen extends StatefulWidget {
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
+  final TextEditingController _controller = TextEditingController();
+  List<Seller> filteredList = [];
+
   @override
   Widget build(BuildContext context) {
     final width = displayWidth(context);
@@ -115,34 +119,53 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
                     children: [
-                      Container(
-                        width: width * .8,
-                        child: Material(
-                          elevation: 5,
-                          shape: StadiumBorder(),
-                          child: TextFormField(
-                            enableInteractiveSelection: true,
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(0),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 4),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30))),
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  child: Icon(
-                                    Icons.search,
-                                    size: 35,
-                                    color: Colors.green.withOpacity(.75),
-                                  ),
-                                ),
-                                hintText: "Search from Products, Shops"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: displayWidth(context) * .8,
+                            child: Material(
+                              elevation: 5,
+                              shape: StadiumBorder(),
+                              child: TextFormField(
+                                onChanged: (value) {
+                                  setState(() {
+                                    filteredList = snapshot.data
+                                        .where((element) => element.shopName
+                                            .toLowerCase()
+                                            .contains(value.toLowerCase()))
+                                        .toList();
+                                  });
+                                },
+                                controller: _controller,
+                                enableInteractiveSelection: true,
+                                decoration: InputDecoration(
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 1, color: Colors.green),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
+                                    contentPadding: EdgeInsets.all(0),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(width: 4),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30))),
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 0),
+                                      child: Icon(
+                                        Icons.search,
+                                        size: 35,
+                                        color: Colors.green.withOpacity(.75),
+                                      ),
+                                    ),
+                                    hintText: "Search from Products, Shops"),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
@@ -191,16 +214,29 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   ],
                 ),
                 Expanded(
-                    child: ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return SellerCardForHomeScreen(
-                              shopName: snapshot.data[index].shopName,
-                              shopCategory: snapshot.data[index].shopCategory,
-                              distance: snapshot.data[index].distance,
-                              stars: snapshot.data[index].stars,
-                              imageUrl: snapshot.data[index].imageUrl);
-                        })),
+                    child: filteredList.length == 0
+                        ? ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return SellerCardForHomeScreen(
+                                  shopName: snapshot.data[index].shopName,
+                                  shopCategory:
+                                      snapshot.data[index].shopCategory,
+                                  distance: snapshot.data[index].distance,
+                                  stars: snapshot.data[index].stars,
+                                  imageUrl: snapshot.data[index].imageUrl);
+                            })
+                        : ListView.builder(
+                            itemCount: filteredList.length,
+                            itemBuilder: (context, index) {
+                              return SellerCardForHomeScreen(
+                                  shopName: filteredList[index].shopName,
+                                  shopCategory:
+                                      filteredList[index].shopCategory,
+                                  distance: filteredList[index].distance,
+                                  stars: filteredList[index].stars,
+                                  imageUrl: filteredList[index].imageUrl);
+                            })),
               ],
             );
           }),

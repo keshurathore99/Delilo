@@ -49,7 +49,10 @@ class MyDrawer extends StatelessWidget {
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
-                                        return Text('Loading');
+                                        return Text(
+                                          'Loading',
+                                          style: TextStyle(color: Colors.white),
+                                        );
                                       }
                                       return FutureBuilder<DocumentSnapshot>(
                                           future: Firestore.instance
@@ -57,7 +60,8 @@ class MyDrawer extends StatelessWidget {
                                               .document(snapshot.data.uid)
                                               .get(),
                                           builder: (context, smallShot) {
-                                            if(smallShot.connectionState == ConnectionState.waiting){
+                                            if (smallShot.connectionState ==
+                                                ConnectionState.waiting) {
                                               return Text('Loading');
                                             }
                                             return Text(
