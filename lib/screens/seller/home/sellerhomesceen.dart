@@ -149,57 +149,39 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
                     fashionList.length == 0
                         ? Container()
                         : SellerHomeScreenCard(
-                            'Fashion',
-                            fashionList.length,
-                          ),
+                            'Fashion', fashionList.length, fashionList),
                     mobileList.length == 0
                         ? Container()
                         : SellerHomeScreenCard(
-                            'Mobile',
-                            mobileList.length,
-                          ),
+                            'Mobile', mobileList.length, mobileList),
                     dairyList.length == 0
                         ? Container()
                         : SellerHomeScreenCard(
-                            'Dairy',
-                            dairyList.length,
-                          ),
+                            'Dairy', dairyList.length, dairyList),
                     beautyList.length == 0
                         ? Container()
                         : SellerHomeScreenCard(
-                            'Beauty',
-                            beautyList.length,
-                          ),
+                            'Beauty', beautyList.length, beautyList),
                     householdList.length == 0
                         ? Container()
                         : SellerHomeScreenCard(
-                            'Household',
-                            householdList.length,
-                          ),
+                            'Household', householdList.length, householdList),
                     sportsList.length == 0
                         ? Container()
                         : SellerHomeScreenCard(
-                            'Sports',
-                            sportsList.length,
-                          ),
+                            'Sports', sportsList.length, sportsList),
                     toysList.length == 0
                         ? Container()
                         : SellerHomeScreenCard(
-                            'Toys',
-                            toysList.length,
-                          ),
+                            'Toys', toysList.length, toysList),
                     partyList.length == 0
                         ? Container()
                         : SellerHomeScreenCard(
-                            'Party',
-                            partyList.length,
-                          ),
+                            'Party', partyList.length, partyList),
                     travelList.length == 0
                         ? Container()
                         : SellerHomeScreenCard(
-                            'Travel',
-                            travelList.length,
-                          ),
+                            'Travel', travelList.length, travelList),
                   ],
                 ),
               ),

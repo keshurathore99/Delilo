@@ -4,14 +4,19 @@ import 'package:flutter/material.dart';
 class SellerHomeScreenCard extends StatelessWidget {
   final String title;
   final int items;
-  SellerHomeScreenCard(this.title, this.items);
+  final List itemList;
+  SellerHomeScreenCard(this.title, this.items, this.itemList);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => SellerCategoryListing()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SellerCategoryListing(
+                      uploadedProducts: itemList,
+                    )));
       },
       child: Card(
         semanticContainer: true,
