@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
                     ),
                   );
                 }
-                if (smallShot.data == null) {
+                if (smallShot.data.data == null) {
                   return FutureBuilder<DocumentSnapshot>(
                     future: Firestore.instance
                         .collection('users')

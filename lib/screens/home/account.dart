@@ -385,12 +385,128 @@ class _AccountInfoState extends State<AccountInfo> {
                           child: Container(
                             height: 180,
                             width: width * .9,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 38.0),
-                                  child: Text(snap['location']),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 38.0),
+                                      child: Text(snap['location']),
+                                    )
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => Dialog(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        'Change Address',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: TextField(
+                                                        minLines: 1,
+                                                        maxLines: 3,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .multiline,
+                                                        controller:
+                                                            _addressController,
+                                                        decoration: InputDecoration(
+                                                            contentPadding:
+                                                                EdgeInsets.only(
+                                                                    left: 8),
+                                                            hintText:
+                                                                'New Address',
+                                                            focusedBorder: OutlineInputBorder(
+                                                                borderSide: BorderSide(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    width: 1)),
+                                                            border:
+                                                                OutlineInputBorder()),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.symmetric(
+                                                          horizontal:
+                                                              displayWidth(
+                                                                      context) *
+                                                                  0.25),
+                                                      child: RaisedButton(
+                                                        textColor: Colors.white,
+                                                        color: Colors.green,
+                                                        onPressed: () async {
+                                                          if (_addressController
+                                                              .text.isEmpty) {
+                                                            _scaffoldKey
+                                                                .currentState
+                                                                .showSnackBar(
+                                                                    SnackBar(
+                                                                        content:
+                                                                            Text('Address Cannot Be Empty')));
+                                                          }
+                                                          await Firestore
+                                                              .instance
+                                                              .collection(
+                                                                  'users')
+                                                              .document(widget
+                                                                  .userUid)
+                                                              .updateData({
+                                                            'location':
+                                                                _addressController
+                                                                    .text
+                                                          });
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          _scaffoldKey
+                                                              .currentState
+                                                              .showSnackBar(SnackBar(
+                                                                  content: Text(
+                                                                      'Updated Successfully')));
+                                                          setState(() {
+                                                            snap['location'] =
+                                                                _addressController
+                                                                    .text;
+                                                          });
+                                                        },
+                                                        child: FittedBox(
+                                                            child:
+                                                                Text('Save')),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ));
+                                  },
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.black26,
+                                  ),
                                 )
                               ],
                             ),
