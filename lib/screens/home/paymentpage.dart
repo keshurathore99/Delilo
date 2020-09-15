@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/screens/home/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
@@ -426,22 +427,22 @@ class _OrderPlacedState extends State<OrderPlaced> {
     return Scaffold(
       body: Center(
         child: Card(
-          semanticContainer: true,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Container(
-            height: 400,
-            color: Colors.white.withOpacity(.6),
-            child: Center(
-                child: Column(
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                    backgroundColor: Colors.green,
-                    child: Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 40,
-                    )),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: CircleAvatar(
+                      backgroundColor: Colors.green,
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 40,
+                      )),
+                ),
                 Text(
                   "Ordered Succesfully\n",
                   style: TextStyle(fontSize: 30, color: Colors.green),
@@ -451,30 +452,19 @@ class _OrderPlacedState extends State<OrderPlaced> {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, color: Colors.black),
                 ),
-                GestureDetector(
-                  // onTap: (){Navigator.pushNamed(context, '/payment');},
-                  child: Material(
-                    child: Container(
-                        height: 50,
-                        width: width * .5,
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(50))),
-                        child: Container(
-                            color: Colors.green[700],
-                            child: Center(
-                              child: Text(
-                                "Check Status",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ))),
+                ButtonTheme(
+                  height: 40,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    textColor: Colors.white,
+                    color: Colors.green,
+                    onPressed: () {},
+                    child: Text('Check Status'),
                   ),
-                ),
+                )
               ],
-            )),
+            ),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
@@ -496,7 +486,9 @@ class _OrderPlacedState extends State<OrderPlaced> {
                   width: width * .8,
                   child: FlatButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/homescreen');
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                       child: Text(
                         "Continue Shopping",
