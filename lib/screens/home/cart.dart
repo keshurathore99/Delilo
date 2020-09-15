@@ -114,8 +114,10 @@ class _CartPageState extends State<CartPage> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => PaymentPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => PaymentPage(
+                          priceToPay: '2233',
+                        )));
               },
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
@@ -135,7 +137,9 @@ class _CartPageState extends State<CartPage> {
                             ),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PaymentPage()));
+                                  builder: (context) => PaymentPage(
+                                        priceToPay: '2233',
+                                      )));
                             },
                           ))),
                 ),
