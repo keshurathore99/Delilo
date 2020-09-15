@@ -1,11 +1,10 @@
 import 'package:carousel_images/carousel_images.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/buyer%20widgets/drawer.dart';
+import 'package:delilo/buyer%20widgets/seller_card_for_homescreen.dart';
 import 'package:delilo/models/seller_model.dart';
 import 'package:delilo/screens/home/account.dart';
 import 'package:delilo/screens/home/cart.dart';
-import 'package:delilo/widgets/drawer.dart';
-import 'package:delilo/widgets/main_search_bar.dart';
-import 'package:delilo/widgets/seller_card_for_homescreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';

@@ -28,7 +28,7 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
             onTap: () {
               Scaffold.of(context).openDrawer();
             },
-            child: Image.asset('assets/images/u.png'),
+            child: Image.asset('assets/u.png'),
           );
         }),
       ),
@@ -37,10 +37,6 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
           width: wid * .95,
           child: ListView(
             children: [
-              Text(
-                "Tester Alert:Design has been updated for Seller Flow from previous PDF document \n The Design implemented is the new & Aceepted design",
-                style: TextStyle(color: Colors.red),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -51,9 +47,7 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
                       height: 35,
                       width: wid * .25,
                       child: FlatButton(
-                          onPressed: () {
-                            /*Navigator.pushNamed(context, '/sellerhome');*/
-                          },
+                          onPressed: () {},
                           child: Text(
                             "All Items",
                             style: TextStyle(color: Colors.white, fontSize: 12),
@@ -66,195 +60,17 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
                       width: wid * .25,
                       child: FlatButton(
                           onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, '/outofstock', (route) => false);
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OutOfStock()),
+                                (route) => false);
                           },
                           child: Text(
                             "Out Of Stock",
                             style: TextStyle(color: Colors.grey, fontSize: 12),
                           ))),
                 ],
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/categorylisting');
-                },
-                child: Card(
-                  semanticContainer: true,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: Container(
-                    height: 100,
-                    // color: Colors.redAccent.withOpacity(.6),
-                    child: Center(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "Fashion",
-                              style: TextStyle(color: Colors.green),
-                            ),
-                            Text("122 Items"),
-                          ],
-                        ),
-                        Align(
-                            alignment: Alignment(1, -.8), child: Text("EDIT")),
-                      ],
-                    )),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  elevation: 5,
-                  margin: EdgeInsets.all(10),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/categorylisting');
-                },
-                child: Card(
-                  semanticContainer: true,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: Container(
-                    height: 100,
-                    child: Center(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "Category 2",
-                              style: TextStyle(color: Colors.green),
-                            ),
-                            Text("90 Items"),
-                          ],
-                        ),
-                        Align(
-                            alignment: Alignment(1, -.8), child: Text("EDIT")),
-                      ],
-                    )),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  elevation: 5,
-                  margin: EdgeInsets.all(10),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SellerCategoryListing()));
-                },
-                child: Card(
-                  semanticContainer: true,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: Container(
-                    height: 100,
-                    // color: Colors.redAccent.withOpacity(.6),
-                    child: Center(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "Category 3",
-                              style: TextStyle(color: Colors.green),
-                            ),
-                            Text("50 Items"),
-                          ],
-                        ),
-                        Align(
-                            alignment: Alignment(1, -.8), child: Text("EDIT")),
-                      ],
-                    )),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  elevation: 5,
-                  margin: EdgeInsets.all(10),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/categorylisting');
-                },
-                child: Card(
-                  semanticContainer: true,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: Container(
-                    height: 100,
-                    // color: Colors.redAccent.withOpacity(.6),
-                    child: Center(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "Category 4",
-                              style: TextStyle(color: Colors.green),
-                            ),
-                            Text("20 Items"),
-                          ],
-                        ),
-                        Align(
-                            alignment: Alignment(1, -.8), child: Text("EDIT")),
-                      ],
-                    )),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  elevation: 5,
-                  margin: EdgeInsets.all(10),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 40.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.green[700],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        height: 55,
-                        width: wid * .75,
-                        child: FlatButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NewProductPage()));
-                            },
-                            child: Text(
-                              "Add New",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ))),
-                  ],
-                ),
               ),
             ],
           ),

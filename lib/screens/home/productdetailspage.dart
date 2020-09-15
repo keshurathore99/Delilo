@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/buyer%20widgets/user_review.dart';
 import 'package:delilo/models/product.dart';
 import 'package:delilo/screens/home/cart.dart';
-import 'package:delilo/widgets/user_review.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';

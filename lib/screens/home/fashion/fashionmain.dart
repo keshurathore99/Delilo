@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/buyer%20widgets/category_for_fashion_page.dart';
+import 'package:delilo/buyer%20widgets/drawer.dart';
+import 'package:delilo/buyer%20widgets/loading_bar_for_main_tile.dart';
+import 'package:delilo/buyer%20widgets/main_product_item.dart';
+import 'package:delilo/buyer%20widgets/second_product_item_for_fashion_screen.dart';
 import 'package:delilo/models/product.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
-import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
-import 'package:delilo/widgets/category_for_fashion_page.dart';
-import 'package:delilo/widgets/loading_bar_for_main_tile.dart';
-import 'package:delilo/widgets/main_product_item.dart';
-import 'package:delilo/widgets/second_product_item_for_fashion_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

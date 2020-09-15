@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/buyer%20widgets/main_product_item.dart';
 import 'package:delilo/models/product.dart';
-import 'package:delilo/widgets/main_product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 

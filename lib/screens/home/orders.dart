@@ -1,4 +1,4 @@
-import 'file:///C:/Users/lenovo/Desktop/Delilo/lib/widgets/drawer.dart';
+import 'package:delilo/buyer%20widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 
