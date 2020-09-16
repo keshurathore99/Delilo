@@ -3,6 +3,7 @@ import 'package:delilo/screens/seller/home/newproductpage.dart';
 import 'package:delilo/screens/seller/home/sellerdrawer.dart';
 import 'package:delilo/screens/seller/home/sellerhomesceen.dart';
 import 'package:delilo/seller%20widgets/category_listing_tile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SellerCategoryListing extends StatefulWidget {
@@ -74,9 +75,12 @@ class _SellerCategoryListingState extends State<SellerCategoryListing> {
                       borderRadius: BorderRadius.circular(20)),
                   textColor: Colors.black87,
                   color: Colors.black12,
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => OutOfStock()));
+                  onPressed: () async {
+                    final user = await FirebaseAuth.instance.currentUser();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => OutOfStock(
+                              userUid: user.uid,
+                            )));
                   },
                 )
               ],

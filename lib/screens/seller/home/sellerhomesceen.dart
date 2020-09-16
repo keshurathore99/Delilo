@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/screens/seller/home/newproductpage.dart';
 import 'package:delilo/screens/seller/home/sellercatgorylisting.dart';
 import 'package:delilo/screens/seller/home/sellerdrawer.dart';
+import 'package:delilo/seller%20widgets/category_listing_tile.dart';
 import 'package:delilo/seller%20widgets/seller_home_screen_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 
@@ -112,7 +114,7 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
                       children: [
                         Container(
                             decoration: BoxDecoration(
-                                color: Colors.green.withOpacity(.5),
+                                color: Colors.green,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30))),
                             height: 35,
@@ -132,11 +134,15 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
                             height: 35,
                             width: wid * .25,
                             child: FlatButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  final user =
+                                      await FirebaseAuth.instance.currentUser();
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => OutOfStock()),
+                                          builder: (context) => OutOfStock(
+                                                userUid: user.uid,
+                                              )),
                                       (route) => false);
                                 },
                                 child: Text(
@@ -192,15 +198,21 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
 }
 
 class OutOfStock extends StatefulWidget {
+  final userUid;
+  OutOfStock({@required this.userUid});
+
   @override
   _OutOfStockState createState() => _OutOfStockState();
 }
 
 class _OutOfStockState extends State<OutOfStock> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     double wid = displayWidth(context);
     return Scaffold(
+      key: _scaffoldKey,
       drawer: SellerDrawer(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -214,19 +226,15 @@ class _OutOfStockState extends State<OutOfStock> {
             onTap: () {
               Scaffold.of(context).openDrawer();
             },
-            child: Image.asset('assets/images/u.png'),
+            child: Image.asset('assets/u.png'),
           );
         }),
       ),
       body: Center(
         child: Container(
           width: wid * .95,
-          child: ListView(
+          child: Column(
             children: [
-              Text(
-                "Design has been updated for Seller Flow from previous PDF document \n The Design implemented is the new & Aceepted design",
-                style: TextStyle(color: Colors.red),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -237,9 +245,15 @@ class _OutOfStockState extends State<OutOfStock> {
                       height: 35,
                       width: wid * .25,
                       child: FlatButton(
-                          onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, '/sellerhome', (route) => false);
+                          onPressed: () async {
+                            final user =
+                                await FirebaseAuth.instance.currentUser();
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SellerHomeScreen(userUid: user.uid)),
+                                (route) => false);
                           },
                           child: Text(
                             "All Items",
@@ -252,156 +266,58 @@ class _OutOfStockState extends State<OutOfStock> {
                       height: 35,
                       width: wid * .25,
                       child: FlatButton(
-                          onPressed: () {
-                            /*Navigator.pushNamed(context, '/sellerhome');*/
-                          },
+                          onPressed: () {},
                           child: Text(
                             "Out Of Stock",
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           ))),
                 ],
               ),
-              Card(
-                semanticContainer: true,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: Container(
-                  height: 100,
-                  // color: Colors.redAccent.withOpacity(.6),
-                  child: Center(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Image.asset('assets/images/Union1.png'),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            "Item 1",
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          // Text("122 Items"),
-                        ],
-                      ),
-                      Align(alignment: Alignment(1, -.8), child: Text("EDIT")),
-                    ],
-                  )),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 5,
-                margin: EdgeInsets.all(10),
+              Expanded(
+                child: FutureBuilder<DocumentSnapshot>(
+                    future: Firestore.instance
+                        .collection('sellers')
+                        .document(widget.userUid)
+                        .get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      final productList =
+                          snapshot.data.data['products'] as List;
+
+                      if (productList.length == 0) {
+                        return Center(
+                          child: Text('No Products Are Out Of Stock'),
+                        );
+                      }
+
+                      return ListView.builder(
+                        itemBuilder: (context, index) {
+                          return FutureBuilder<DocumentSnapshot>(
+                              future: Firestore.instance
+                                  .document(productList[index])
+                                  .get(),
+                              builder: (context, smallShot) {
+                                if (smallShot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Container();
+                                }
+
+                                if (smallShot.data.data['inStock'] == false)
+                                  return CategoryListingTile(
+                                      smallShot.data.data,
+                                      productList[index],
+                                      _scaffoldKey);
+                                return Container();
+                              });
+                        },
+                        itemCount: productList.length,
+                      );
+                    }),
               ),
-              Card(
-                semanticContainer: true,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: Container(
-                  height: 100,
-                  // color: Colors.redAccent.withOpacity(.6),
-                  child: Center(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Image.asset('assets/images/Union1.png'),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            "Item 2",
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          //Text("90 Items"),
-                        ],
-                      ),
-                      Align(alignment: Alignment(1, -.8), child: Text("EDIT")),
-                    ],
-                  )),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 5,
-                margin: EdgeInsets.all(10),
-              ),
-              Card(
-                semanticContainer: true,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: Container(
-                  height: 100,
-                  // color: Colors.redAccent.withOpacity(.6),
-                  child: Center(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Image.asset('assets/images/Union1.png'),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            "Item 3",
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          // Text("50 Items"),
-                        ],
-                      ),
-                      Align(alignment: Alignment(1, -.8), child: Text("EDIT")),
-                    ],
-                  )),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 5,
-                margin: EdgeInsets.all(10),
-              ),
-              Card(
-                semanticContainer: true,
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                child: Container(
-                  height: 100,
-                  // color: Colors.redAccent.withOpacity(.6),
-                  child: Center(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Image.asset('assets/images/Union1.png'),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            "Item 4",
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          //Text("20 Items"),
-                        ],
-                      ),
-                      Align(alignment: Alignment(1, -.8), child: Text("EDIT")),
-                    ],
-                  )),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 5,
-                margin: EdgeInsets.all(10),
-              ),
-              /* Padding(
-                padding: const EdgeInsets.only(top:58.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(decoration: BoxDecoration(color: Colors.green[700],borderRadius: BorderRadius.all(Radius.circular(30))),height: 55,width:wid*.75,child: FlatButton(onPressed: (){Navigator.pushNamed(context, '/sellerhome');}, child: Text("Add New",style: TextStyle(color: Colors.white,fontSize: 20),))),
-                  ],
-                ),
-              ),*/
             ],
           ),
         ),
