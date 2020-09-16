@@ -70,7 +70,8 @@ class _CartPageState extends State<CartPage> {
                                   image3: snap['image3'],
                                   image4: snap['image4'],
                                   productType: snap['productType'],
-                                  productId: snap['productId']);
+                                  productId: snap['productId'],
+                                  inStock: snap['inStock']);
                               return ProductCard(product);
                             });
                       });

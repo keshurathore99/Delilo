@@ -16,6 +16,7 @@ class Product {
   final int index;
   final String productType;
   final String productId;
+  final String inStock;
 
   Product(
       {@required this.imageUrl,
@@ -31,5 +32,6 @@ class Product {
       @required this.image4,
       @required this.productType,
       @required this.productId,
+      @required this.inStock,
       this.index});
 }

@@ -76,6 +76,7 @@ class ToysAndBabyProducts extends StatelessWidget {
                     .map(
                       (product) => MainProductItem(
                           product: Product(
+                              inStock: product.data['inStock'],
                               productId: product.data['productId'],
                               productType: product.data['productType'],
                               imageUrl: product.data['image1'],

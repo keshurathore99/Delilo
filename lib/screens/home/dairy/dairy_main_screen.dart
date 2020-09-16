@@ -91,7 +91,8 @@ class DairyMainScreen extends StatelessWidget {
                                   : product.data['ratings'],
                               colors: [Colors.black],
                               description: product.data['description'],
-                              reviews: [])),
+                              reviews: [],
+                              inStock: product.data['inStock'])),
                     )
                     .toList(),
               );

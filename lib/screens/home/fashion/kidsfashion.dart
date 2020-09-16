@@ -110,7 +110,8 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                               reviews: reviewList,
                               image2: snap['image2'],
                               image3: snap['image3'],
-                              image4: snap['image4']);
+                              image4: snap['image4'],
+                              inStock: snap['inStock']);
 
                           return Transform.scale(
                               scale: 1,
@@ -169,7 +170,8 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                               reviews: reviewList,
                               image2: snap['image2'],
                               image3: snap['image3'],
-                              image4: snap['image4']);
+                              image4: snap['image4'],
+                              inStock: snap['inStock']);
 
                           return Transform.scale(
                               scale: 1,
@@ -217,6 +219,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                           }
 
                           final product = Product(
+                              inStock: snap['inStock'],
                               productId: snap['productId'],
                               productType: snap['productType'],
                               imageUrl: snap['image1'],
