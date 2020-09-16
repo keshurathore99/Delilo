@@ -76,6 +76,7 @@ class DairyMainScreen extends StatelessWidget {
                     .map(
                       (product) => MainProductItem(
                           product: Product(
+                              sellerId: product.data['sellerId'],
                               productId: product.data['productId'],
                               productType: product.data['productType'],
                               imageUrl: product.data['image1'],

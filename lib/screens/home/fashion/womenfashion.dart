@@ -98,6 +98,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                           }
 
                           final product = Product(
+                              sellerId: snap['sellerId'],
                               inStock: snap['inStock'],
                               productId: snap['productId'],
                               productType: snap['productType'],
@@ -157,6 +158,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                           }
 
                           final product = Product(
+                              sellerId: snap['sellerId'],
                               inStock: snap['inStock'],
                               productId: snap['productId'],
                               productType: snap['productType'],
@@ -216,6 +218,7 @@ class _WomenFashionScreenState extends State<WomenFashionScreen> {
                           }
 
                           final product = Product(
+                              sellerId: snap['sellerId'],
                               inStock: snap['inStock'],
                               productId: snap['productId'],
                               productType: snap['productType'],

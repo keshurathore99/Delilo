@@ -58,6 +58,7 @@ class _CartPageState extends State<CartPage> {
                               }
                               final snap = smallShot.data.data;
                               final product = Product(
+                                  sellerId: snap['sellerId'],
                                   imageUrl: snap['image1'],
                                   productName: snap['name'],
                                   shopName: snap['shop_name'],

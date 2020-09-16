@@ -77,6 +77,7 @@ class BeautyMainScreen extends StatelessWidget {
                     .map(
                       (product) => MainProductItem(
                           product: Product(
+                              sellerId: product.data['sellerId'],
                               inStock: product.data['inStock'],
                               productId: product.data['productId'],
                               productType: product.data['productType'],

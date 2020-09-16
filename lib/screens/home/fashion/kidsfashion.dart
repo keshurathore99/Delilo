@@ -98,6 +98,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                           }
 
                           final product = Product(
+                              sellerId: snap['sellerId'],
                               productId: snap['productId'],
                               productType: snap['productType'],
                               imageUrl: snap['image1'],
@@ -158,6 +159,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                           }
 
                           final product = Product(
+                              sellerId: snap['sellerId'],
                               productId: snap['productId'],
                               productType: snap['productType'],
                               imageUrl: snap['image1'],
@@ -219,6 +221,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                           }
 
                           final product = Product(
+                              sellerId: snap['sellerId'],
                               inStock: snap['inStock'],
                               productId: snap['productId'],
                               productType: snap['productType'],

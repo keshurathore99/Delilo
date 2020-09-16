@@ -16,6 +16,7 @@ class Product {
   final int index;
   final String productType;
   final String productId;
+  final String sellerId;
   final bool inStock;
 
   Product(
@@ -33,5 +34,6 @@ class Product {
       @required this.productType,
       @required this.productId,
       @required this.inStock,
+      @required this.sellerId,
       this.index});
 }

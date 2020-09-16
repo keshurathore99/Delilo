@@ -218,16 +218,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     return Container(
       height: 80,
       child: BottomNavigationBar(
-        //backgroundColor: Colors.blue,
         selectedItemColor: Colors.white,
-
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Container(
                 height: 50,
                 width: 120,
                 decoration: BoxDecoration(
-                    //color: Colors.green,
                     borderRadius: BorderRadius.all(Radius.circular(50))),
                 child: Container(
                     decoration: BoxDecoration(
@@ -271,11 +268,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         height: 50,
                         width: displayWidth(context) * .8,
                         child: FlatButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              final user =
+                                  await FirebaseAuth.instance.currentUser();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CartPage()));
+                                      builder: (context) => CartPage(
+                                            userUid: user.uid,
+                                          )));
                             },
                             child: Text(
                               "Pay Now",

@@ -130,6 +130,7 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                       scale: 1,
                                       child: MainProductItem(
                                         product: Product(
+                                            sellerId: snap['sellerId'],
                                             inStock: snap['inStock'],
                                             productId: snap['productId'],
                                             productType: snap['productType'],
@@ -212,6 +213,7 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                   final snap = smallShot.data;
                                   return SecondProductItemForFashionScreen(
                                       Product(
+                                          sellerId: snap['sellerId'],
                                           inStock: snap['inStock'],
                                           productId: snap['productId'],
                                           productType: snap['productType'],
