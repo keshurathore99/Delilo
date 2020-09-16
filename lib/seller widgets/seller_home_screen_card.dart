@@ -5,7 +5,8 @@ class SellerHomeScreenCard extends StatelessWidget {
   final String title;
   final int items;
   final List itemList;
-  SellerHomeScreenCard(this.title, this.items, this.itemList);
+  final String productType;
+  SellerHomeScreenCard(this.title, this.items, this.itemList, this.productType);
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class SellerHomeScreenCard extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => SellerCategoryListing(
                       uploadedProducts: itemList,
+                      productType: productType,
                     )));
       },
       child: Card(

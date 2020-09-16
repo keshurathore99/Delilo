@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/screens/seller/home/newproductpage.dart';
+import 'package:delilo/screens/seller/home/out_of_stock_screen_for_single_category.dart';
 import 'package:delilo/screens/seller/home/sellerdrawer.dart';
 import 'package:delilo/screens/seller/home/sellerhomesceen.dart';
 import 'package:delilo/seller%20widgets/category_listing_tile.dart';
@@ -8,7 +9,8 @@ import 'package:flutter/material.dart';
 
 class SellerCategoryListing extends StatefulWidget {
   final List uploadedProducts;
-  SellerCategoryListing({@required this.uploadedProducts});
+  final String productType;
+  SellerCategoryListing({@required this.uploadedProducts, this.productType});
 
   @override
   _SellerCategoryListingState createState() => _SellerCategoryListingState();
@@ -52,38 +54,42 @@ class _SellerCategoryListingState extends State<SellerCategoryListing> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                FlatButton(
-                  child: Text('All Items'),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  textColor: Colors.green,
-                  color: Colors.green.withOpacity(0.2),
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => SellerCategoryListing(
-                            uploadedProducts: widget.uploadedProducts)));
-                  },
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                FlatButton(
-                  child: Text('Out of Stock'),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  textColor: Colors.black87,
-                  color: Colors.black12,
-                  onPressed: () async {
-                    final user = await FirebaseAuth.instance.currentUser();
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => OutOfStock(
-                              userUid: user.uid,
-                            )));
-                  },
-                )
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  FlatButton(
+                    child: Text('All Items'),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    textColor: Colors.green,
+                    color: Colors.green.withOpacity(0.2),
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => SellerCategoryListing(
+                              uploadedProducts: widget.uploadedProducts)));
+                    },
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  FlatButton(
+                    child: Text('Out of Stock'),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    textColor: Colors.black87,
+                    color: Colors.black12,
+                    onPressed: () async {
+                      final user = await FirebaseAuth.instance.currentUser();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => OutOfScreenForSingleCategory(
+                              widget.uploadedProducts,
+                              user.uid,
+                              widget.productType)));
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(
