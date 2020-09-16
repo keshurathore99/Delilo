@@ -3,6 +3,7 @@ import 'package:delilo/screens/home/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'dart:math' as math;
 
 class PaymentPage extends StatefulWidget {
   final String priceToPay;
@@ -354,8 +355,19 @@ class _AdressPageState extends State<AdressPage> {
                               .document(user.uid)
                               .get();
 
-                          final orderList = snapshot.data['orders'] as List;
-                          orderList.add({
+                          final orderId = int.parse(DateTime.now()
+                              .millisecondsSinceEpoch
+                              .toString()
+                              .substring(0, 9));
+
+                          List orderList = [];
+
+                          final sellerSnapshot = await Firestore.instance
+                              .collection('sellers')
+                              .document(snapshot.data['sellerId'])
+                              .get();
+
+                          final orderData = {
                             'name': _nameController.text,
                             'address': _addressContoller.text,
                             'pincode': _pinController.text,
@@ -364,13 +376,53 @@ class _AdressPageState extends State<AdressPage> {
                             'alterMobile': _altMobileController.text,
                             'dateTime': DateTime.now(),
                             'price': widget.priceToPay,
-                            'type': 'Cash on Delivery'
-                          });
+                            'type': 'Cash on Delivery',
+                            'orderId': orderId,
+                          };
 
-                          await Firestore.instance
+                          if (sellerSnapshot.data.containsKey('newOrders')) {
+                            final sellerNewOrdersList =
+                                snapshot.data['newOrders'] as List;
+
+                            sellerNewOrdersList.add(orderData);
+                            await Firestore.instance
+                                .collection('sellers')
+                                .document(snapshot.data['sellerId'])
+                                .updateData({'newOrders': sellerNewOrdersList});
+                          } else {
+                            await Firestore.instance
+                                .collection('sellers')
+                                .document(snapshot.data['sellerId'])
+                                .updateData({
+                              'newOrders': [orderData],
+                            });
+                          }
+
+                          final userSnapshot = await Firestore.instance
                               .collection('users')
                               .document(user.uid)
-                              .updateData({'orders': orderList});
+                              .get();
+
+                          if (userSnapshot.data.containsKey('newOrders')) {
+                            final userNewOrders =
+                                userSnapshot.data['newOrders'] as List;
+                            final String pathToOrder =
+                                'sellers/${snapshot.data['sellerId']}';
+                            userNewOrders.add(pathToOrder);
+                            await Firestore.instance
+                                .collection('users')
+                                .document(user.uid)
+                                .updateData({'newOrders': userNewOrders});
+                          } else {
+                            await Firestore.instance
+                                .collection('users')
+                                .document(user.uid)
+                                .updateData({
+                              'newOrders': [
+                                'sellers/${snapshot.data['sellerId']}'
+                              ]
+                            });
+                          }
 
                           Navigator.push(
                               context,
