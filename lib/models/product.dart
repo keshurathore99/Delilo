@@ -16,7 +16,7 @@ class Product {
   final int index;
   final String productType;
   final String productId;
-  final String inStock;
+  final bool inStock;
 
   Product(
       {@required this.imageUrl,

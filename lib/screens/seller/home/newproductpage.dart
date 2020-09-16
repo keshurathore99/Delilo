@@ -357,6 +357,7 @@ class _NewProductPageState extends State<NewProductPage> {
                           'reviews': [],
                           'ratings': 0.0,
                           'productType': mainCategory,
+                          'inStock': true
                         });
 
                         if (image1 != null) {
@@ -442,6 +443,7 @@ class _NewProductPageState extends State<NewProductPage> {
                               category['category'] +
                               ' ' +
                               category['clothType'],
+                          'inStock': true,
                         });
 
                         if (image1 != null) {

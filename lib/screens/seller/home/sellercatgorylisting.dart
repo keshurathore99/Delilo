@@ -4,7 +4,6 @@ import 'package:delilo/screens/seller/home/sellerdrawer.dart';
 import 'package:delilo/screens/seller/home/sellerhomesceen.dart';
 import 'package:delilo/seller%20widgets/category_listing_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:delilo/screens/auxillary/customclasses.dart';
 
 class SellerCategoryListing extends StatefulWidget {
   final List uploadedProducts;

@@ -13,7 +13,6 @@ class CategoryListingTile extends StatefulWidget {
 }
 
 class _CategoryListingTileState extends State<CategoryListingTile> {
-  bool inStock = true;
   TextEditingController _nameController = TextEditingController();
 
   @override
@@ -76,11 +75,21 @@ class _CategoryListingTileState extends State<CategoryListingTile> {
               ),
               Switch(
                   activeColor: Colors.green,
-                  value: inStock,
-                  onChanged: (value) {
+                  value: widget.product['inStock'],
+                  onChanged: (value) async {
                     setState(() {
-                      inStock = value;
+                      widget.product['inStock'] = value;
                     });
+                    try {
+                      await Firestore.instance
+                          .document(widget.pathToDoc)
+                          .updateData({'inStock': widget.product['inStock']});
+                      widget.scaffoldKey.currentState.showSnackBar(
+                          SnackBar(content: Text('Updated Successfully')));
+                    } catch (e) {
+                      widget.scaffoldKey.currentState
+                          .showSnackBar(SnackBar(content: Text(e.toString())));
+                    }
                   }),
             ],
           ),

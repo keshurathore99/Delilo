@@ -236,17 +236,26 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     height: 50,
                     width: displayWidth(context) * .8,
                     child: FlatButton(
-                        onPressed: addToCart,
+                        onPressed:
+                            widget.product.inStock == true ? addToCart : null,
                         child: Text(
-                          "Add To Cart",
+                          widget.product.inStock == true
+                              ? "Add To Cart"
+                              : 'Out Of Stock',
                           style: TextStyle(color: Colors.green, fontSize: 15),
                         )))),
             title: Container(),
           ),
           BottomNavigationBarItem(
             icon: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/cart');
+                onTap: () async {
+                  final user = await FirebaseAuth.instance.currentUser();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CartPage(
+                                userUid: user.uid,
+                              )));
                 },
                 child: Container(
                     height: 50,
