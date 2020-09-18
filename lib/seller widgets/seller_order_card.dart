@@ -71,7 +71,7 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
                         color: Colors.green),
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Text(
-                      'Not Paid',
+                      widget.orderData['type'],
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -137,12 +137,17 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
     }
 
     final user = await FirebaseAuth.instance.currentUser();
-    final orderSnapshot = await Firestore.instance
+    final orderRef = Firestore.instance
         .collection('sellers')
         .document(user.uid)
         .collection('orders')
-        .document(widget.orderData['userUid'])
-        .get();
+        .document(widget.orderData['userUid']);
+
+    final userRef = Firestore.instance
+        .collection('users')
+        .document(widget.orderData['userUid']);
+
+    final orderSnapshot = await orderRef.get();
 
     final pastOrderList = orderSnapshot.data[widget.pastListName] as List;
     final newOrderList = orderSnapshot.data[widget.newListName] as List;
@@ -153,19 +158,22 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
         (e) => e['uniqueProductId'] == widget.orderData['uniqueProductId']);
 
     try {
-      await Firestore.instance
-          .collection('sellers')
-          .document(user.uid)
-          .collection('orders')
-          .document(widget.orderData['userUid'])
-          .updateData({widget.pastListName: pastOrderList});
+      await orderRef.updateData({widget.pastListName: pastOrderList});
+      await orderRef.updateData({widget.newListName: newOrderList});
 
-      await Firestore.instance
-          .collection('sellers')
-          .document(user.uid)
-          .collection('orders')
-          .document(widget.orderData['userUid'])
-          .updateData({widget.newListName: newOrderList});
+      final userSnapshot = await userRef.get();
+
+      final notificationList = userSnapshot.data['notifications'] as List;
+
+      if (notificationList != null) {
+        notificationList.add({
+          'message':
+              'Your Order For ${widget.orderData['productName']} is ${widget.orderData['status']}',
+          'dateTime': DateTime.now(),
+        });
+
+        await userRef.updateData({'notifications': notificationList});
+      }
     } catch (e) {
       Scaffold.of(context).showSnackBar(
           SnackBar(content: Text('There is Some Problem' + e.toString())));
