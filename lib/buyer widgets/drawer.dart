@@ -12,7 +12,6 @@ import 'package:delilo/screens/home/toys_and_baby_products/toys_and_baby_main_sc
 import 'package:delilo/screens/home/travel/travel_main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'menu_item_tile.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -30,7 +29,12 @@ class MyDrawer extends StatelessWidget {
                 child: Column(
                   children: [
                     Align(
-                        alignment: Alignment(-1, -1), child: Icon(Icons.close)),
+                        alignment: Alignment(-1, -1),
+                        child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Icon(Icons.close))),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
                       child: Center(
@@ -66,7 +70,7 @@ class MyDrawer extends StatelessWidget {
                                               return Text('Loading');
                                             }
                                             return Text(
-                                              smallShot.data.data['name'],
+                                              'xxxxxxxx',
                                               style: TextStyle(
                                                   color: Colors.white),
                                             );

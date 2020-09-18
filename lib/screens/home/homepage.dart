@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/buyer%20widgets/drawer.dart';
 import 'package:delilo/buyer%20widgets/seller_card_for_homescreen.dart';
 import 'package:delilo/models/seller_model.dart';
+import 'package:delilo/screens/authenticate/authenticate.dart';
 import 'package:delilo/screens/home/account.dart';
 import 'package:delilo/screens/home/cart.dart';
+import 'package:delilo/screens/home/notifications_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
@@ -294,12 +296,19 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             child: Image.asset('assets/dellologo.png')),
         backgroundColor: Colors.white,
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Icon(
-              Icons.notifications,
-              color: Colors.green,
-              size: 35,
+          InkWell(
+            onTap: () async {
+              final user = await FirebaseAuth.instance.currentUser();
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => NotificationScreen(user.uid)));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Icon(
+                Icons.notifications,
+                color: Colors.green,
+                size: 35,
+              ),
             ),
           ),
         ],

@@ -170,6 +170,7 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
           'message':
               'Your Order For ${widget.orderData['productName']} is ${widget.orderData['status']}',
           'dateTime': DateTime.now(),
+          'productImage': widget.orderData['productImage'],
         });
 
         await userRef.updateData({'notifications': notificationList});
