@@ -37,7 +37,7 @@ class ReadyOrderScreen extends StatelessWidget {
           final realList = [];
 
           snapshot.data.documents.forEach((smallShot) {
-            final newOrderList = smallShot.data['picked'] as List;
+            final newOrderList = smallShot.data['ready'] as List;
             newOrderList.forEach((element) {
               realList.add(element);
             });
@@ -46,7 +46,7 @@ class ReadyOrderScreen extends StatelessWidget {
           if (realList.length == 0) {
             return Center(
               child: Text(
-                'No Order is Picked',
+                'No Order is Ready',
                 style: TextStyle(color: Colors.green),
               ),
             );
@@ -56,8 +56,9 @@ class ReadyOrderScreen extends StatelessWidget {
             children: realList
                 .map((e) => SellerOrdersCard(
                       orderData: e,
-                      onNextButtonPressed: null,
                       nextButtonTitle: 'Move To Picked',
+                      pastListName: 'ready',
+                      newListName: 'picked',
                     ))
                 .toList(),
           );

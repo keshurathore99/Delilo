@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/seller%20widgets/seller_order_card.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class NewOrderScreen extends StatelessWidget {
   final String sellerUid;
@@ -47,8 +48,9 @@ class NewOrderScreen extends StatelessWidget {
             children: realList
                 .map((e) => SellerOrdersCard(
                       orderData: e,
-                      onNextButtonPressed: null,
                       nextButtonTitle: 'Move To Packaging',
+                      pastListName: 'newOrders',
+                      newListName: 'packing',
                     ))
                 .toList(),
           );

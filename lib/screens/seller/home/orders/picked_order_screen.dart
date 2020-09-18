@@ -56,8 +56,9 @@ class PickedOrderScreen extends StatelessWidget {
             children: realList
                 .map((e) => SellerOrdersCard(
                       orderData: e,
-                      onNextButtonPressed: null,
                       nextButtonTitle: 'Move To Shipping',
+                      pastListName: 'picked',
+                      newListName: 'shipping',
                     ))
                 .toList(),
           );

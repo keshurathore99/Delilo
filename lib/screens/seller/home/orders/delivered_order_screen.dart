@@ -55,9 +55,11 @@ class DeliveredOrderScreen extends StatelessWidget {
           return ListView(
             children: realList
                 .map((e) => SellerOrdersCard(
+                      isDeliveredPage: true,
                       orderData: e,
-                      onNextButtonPressed: null,
-                      nextButtonTitle: 'Move To Ready',
+                      nextButtonTitle: 'Delivered',
+                      pastListName: 'delivered',
+                      newListName: 'delivered',
                     ))
                 .toList(),
           );

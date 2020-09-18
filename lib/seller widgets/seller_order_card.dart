@@ -1,13 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SellerOrdersCard extends StatefulWidget {
   final Map<String, dynamic> orderData;
   final String nextButtonTitle;
-  final Function onNextButtonPressed;
+  final String pastListName;
+  final String newListName;
+  final bool isDeliveredPage;
   SellerOrdersCard({
     @required this.orderData,
     @required this.nextButtonTitle,
-    @required this.onNextButtonPressed,
+    @required this.pastListName,
+    @required this.newListName,
+    this.isDeliveredPage: false,
   });
 
   @override
@@ -92,20 +98,25 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.green[700],
-                      borderRadius: BorderRadius.all(Radius.circular(30))),
-                  height: 35,
-                  child: FlatButton(
-                      onPressed: () {},
-                      child: Text(
-                        widget.nextButtonTitle,
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ))),
-            ),
+            widget.isDeliveredPage
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.green[700],
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                        height: 35,
+                        child: FlatButton(
+                            onPressed: moveToOther,
+                            child: Text(
+                              widget.nextButtonTitle,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ))),
+                  ),
           ],
         ),
       ),
@@ -115,5 +126,42 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
       elevation: 5,
       margin: EdgeInsets.all(6),
     );
+  }
+
+  Future<void> moveToOther() async {
+    final user = await FirebaseAuth.instance.currentUser();
+    final orderSnapshot = await Firestore.instance
+        .collection('sellers')
+        .document(user.uid)
+        .collection('orders')
+        .document(widget.orderData['userUid'])
+        .get();
+
+    final pastOrderList = orderSnapshot.data[widget.pastListName] as List;
+    final newOrderList = orderSnapshot.data[widget.newListName] as List;
+
+    widget.orderData['status'] = widget.newListName;
+    newOrderList.add(widget.orderData);
+    pastOrderList.removeWhere(
+        (e) => e['uniqueProductId'] == widget.orderData['uniqueProductId']);
+
+    try {
+      await Firestore.instance
+          .collection('sellers')
+          .document(user.uid)
+          .collection('orders')
+          .document(widget.orderData['userUid'])
+          .updateData({widget.pastListName: pastOrderList});
+
+      await Firestore.instance
+          .collection('sellers')
+          .document(user.uid)
+          .collection('orders')
+          .document(widget.orderData['userUid'])
+          .updateData({widget.newListName: newOrderList});
+    } catch (e) {
+      Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text('There is Some Problem' + e.toString())));
+    }
   }
 }

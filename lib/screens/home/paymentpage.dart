@@ -386,7 +386,8 @@ class _AdressPageState extends State<AdressPage> {
                                     .toString()
                                     .substring(0, 4));
 
-                                print(_mainList.length);
+                                final randomNumber =
+                                math.Random().nextInt(999999999);
 
                                 final orderData = {
                                   'name': _nameController.text,
@@ -404,7 +405,9 @@ class _AdressPageState extends State<AdressPage> {
                                   'productId': product.productId,
                                   'productImage': product.imageUrl,
                                   'sellerId': product.sellerId,
-                                  'otp': otp
+                                  'otp': otp,
+                                  'userUid': user.uid,
+                                  'uniqueProductId': randomNumber
 //                                  'color': product.colors,
                                 };
 
