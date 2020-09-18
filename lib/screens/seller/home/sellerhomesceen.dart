@@ -22,7 +22,9 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
 //    FirebaseAuth.instance.signOut();
     double wid = displayWidth(context);
     return Scaffold(
-      drawer: SellerDrawer(),
+      drawer: SellerDrawer(
+        sellerUid: widget.userUid,
+      ),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

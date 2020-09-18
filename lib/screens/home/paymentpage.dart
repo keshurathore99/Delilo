@@ -469,6 +469,8 @@ class _AdressPageState extends State<AdressPage> {
                                 _loading = false;
                               });
 
+                              await userRef.updateData({'cartProducts': []});
+
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
