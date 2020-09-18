@@ -14,6 +14,8 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  List<Product> _list = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +75,7 @@ class _CartPageState extends State<CartPage> {
                                   productType: snap['productType'],
                                   productId: snap['productId'],
                                   inStock: snap['inStock']);
+                              _list.add(product);
                               return ProductCard(product);
                             });
                       });
@@ -140,8 +143,7 @@ class _CartPageState extends State<CartPage> {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PaymentPage(
-                                        priceToPay: '2233',
-                                      )));
+                                      priceToPay: '2233', productList: _list)));
                             },
                           ))),
                 ),

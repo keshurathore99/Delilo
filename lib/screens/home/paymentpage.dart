@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/models/product.dart';
 import 'package:delilo/screens/home/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'dart:math' as math;
 
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+
 class PaymentPage extends StatefulWidget {
   final String priceToPay;
-  PaymentPage({@required this.priceToPay});
+  final List<Product> productList;
+  PaymentPage({@required this.priceToPay, this.productList});
 
   @override
   _PaymentPageState createState() => _PaymentPageState();
@@ -248,7 +252,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => AdressPage(
-                                          priceToPay: widget.priceToPay)));
+                                          priceToPay: widget.priceToPay,
+                                          productList: widget.productList)));
                             },
                             child: Text(
                               "Pay Now",
@@ -269,7 +274,8 @@ class _PaymentPageState extends State<PaymentPage> {
 
 class AdressPage extends StatefulWidget {
   final String priceToPay;
-  AdressPage({@required this.priceToPay});
+  final List<Product> productList;
+  AdressPage({@required this.priceToPay, this.productList});
 
   @override
   _AdressPageState createState() => _AdressPageState();
@@ -283,158 +289,206 @@ class _AdressPageState extends State<AdressPage> {
       _mobileContoller = TextEditingController(),
       _altMobileController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _loading = false;
+  List<Product> _mainList;
+
+  @override
+  void initState() {
+    super.initState();
+    _mainList = widget.productList;
+  }
 
   @override
   Widget build(BuildContext context) {
     double wid = displayWidth(context);
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.green[700],
-        title: Text(
-          "Cash On Delivery",
-          style: TextStyle(color: Colors.white, fontSize: 18),
+    return ModalProgressHUD(
+      inAsyncCall: _loading,
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.green[700],
+          title: Text(
+            "Cash On Delivery",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
         ),
-      ),
-      body: Center(
-        child: Container(
-          width: wid * .8,
-          child: ListView(
-            children: [
-              _textField(_nameController, TextInputType.name, 'Full Name'),
-              _textField(
-                  _addressContoller, TextInputType.multiline, 'Full Address',
-                  isAddress: true),
-              _textField(_pinController, TextInputType.number, 'Pincode'),
-              _textField(
-                  _nearbyLandmark, TextInputType.text, 'Nearby Landmark'),
-              _textField(
-                  _mobileContoller, TextInputType.phone, 'Mobile Number'),
-              _textField(_altMobileController, TextInputType.phone,
-                  'Alter Mobile Number'),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, bottom: 18),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    height: 40,
-                    width: wid * .8,
-                    child: FlatButton(
-                        onPressed: () async {
-                          if (_nameController.text.isEmpty ||
-                              _addressContoller.text.isEmpty ||
-                              _pinController.text.isEmpty ||
-                              _addressContoller.text.isEmpty ||
-                              _mobileContoller.text.isEmpty ||
-                              _altMobileController.text.isEmpty) {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text('Please Fill All Fields First')));
-                            return;
-                          }
-                          if (_mobileContoller.text.length != 10 ||
-                              _altMobileController.text.length != 10) {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text(
-                                    'Please Enter a Valid Mobile Number')));
-                            return;
-                          }
+        body: Center(
+          child: Container(
+            width: wid * .8,
+            child: ListView(
+              children: [
+                _textField(_nameController, TextInputType.name, 'Full Name'),
+                _textField(
+                    _addressContoller, TextInputType.multiline, 'Full Address',
+                    isAddress: true),
+                _textField(_pinController, TextInputType.number, 'Pincode'),
+                _textField(
+                    _nearbyLandmark, TextInputType.text, 'Nearby Landmark'),
+                _textField(
+                    _mobileContoller, TextInputType.phone, 'Mobile Number'),
+                _textField(_altMobileController, TextInputType.phone,
+                    'Alter Mobile Number'),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0, bottom: 18),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      height: 40,
+                      width: wid * .8,
+                      child: FlatButton(
+                          onPressed: () async {
+                            if (_nameController.text.isEmpty ||
+                                _addressContoller.text.isEmpty ||
+                                _pinController.text.isEmpty ||
+                                _addressContoller.text.isEmpty ||
+                                _mobileContoller.text.isEmpty ||
+                                _altMobileController.text.isEmpty) {
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content:
+                                      Text('Please Fill All Fields First')));
+                              return;
+                            }
+                            if (_mobileContoller.text.length != 10 ||
+                                _altMobileController.text.length != 10) {
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Please Enter a Valid Mobile Number')));
+                              return;
+                            }
 
-                          if (_mobileContoller.text ==
-                              _altMobileController.text) {
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                content: Text(
-                                    'Both Mobile Numbers Cannot Be Same')));
-                            return;
-                          }
-                          final user =
-                              await FirebaseAuth.instance.currentUser();
-                          final snapshot = await Firestore.instance
-                              .collection('users')
-                              .document(user.uid)
-                              .get();
+                            if (_mobileContoller.text ==
+                                _altMobileController.text) {
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Both Mobile Numbers Cannot Be Same')));
+                              return;
+                            }
 
-                          final orderId = int.parse(DateTime.now()
-                              .millisecondsSinceEpoch
-                              .toString()
-                              .substring(0, 9));
+                            try {
+                              setState(() {
+                                _loading = true;
+                              });
 
-                          List orderList = [];
+                              final user =
+                                  await FirebaseAuth.instance.currentUser();
 
-                          final sellerSnapshot = await Firestore.instance
-                              .collection('sellers')
-                              .document(snapshot.data['sellerId'])
-                              .get();
+                              final orderId = _generateOrderId();
 
-                          final orderData = {
-                            'name': _nameController.text,
-                            'address': _addressContoller.text,
-                            'pincode': _pinController.text,
-                            'nearByLandMark': _nameController.text,
-                            'mobile': _mobileContoller.text,
-                            'alterMobile': _altMobileController.text,
-                            'dateTime': DateTime.now(),
-                            'price': widget.priceToPay,
-                            'type': 'Cash on Delivery',
-                            'orderId': orderId,
-                          };
+                              final userRef = Firestore.instance
+                                  .collection('users')
+                                  .document(user.uid);
 
-                          if (sellerSnapshot.data.containsKey('newOrders')) {
-                            final sellerNewOrdersList =
-                                snapshot.data['newOrders'] as List;
+                              for (Product product in _mainList) {
+                                final otp = int.parse(DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toString()
+                                    .substring(0, 4));
 
-                            sellerNewOrdersList.add(orderData);
-                            await Firestore.instance
-                                .collection('sellers')
-                                .document(snapshot.data['sellerId'])
-                                .updateData({'newOrders': sellerNewOrdersList});
-                          } else {
-                            await Firestore.instance
-                                .collection('sellers')
-                                .document(snapshot.data['sellerId'])
-                                .updateData({
-                              'newOrders': [orderData],
+                                print(_mainList.length);
+
+                                final orderData = {
+                                  'name': _nameController.text,
+                                  'address': _addressContoller.text,
+                                  'pincode': _pinController.text,
+                                  'nearByLandMark': _nameController.text,
+                                  'mobile': _mobileContoller.text,
+                                  'alterMobile': _altMobileController.text,
+                                  'dateTime': DateTime.now(),
+                                  'price': product.price,
+                                  'type': 'Cash on Delivery',
+                                  'orderId': orderId,
+                                  'productName': product.productName,
+                                  'productType': product.productType,
+                                  'productId': product.productId,
+                                  'productImage': product.imageUrl,
+                                  'sellerId': product.sellerId,
+                                  'otp': otp
+//                                  'color': product.colors,
+                                };
+
+                                final ordersRef = Firestore.instance
+                                    .collection('sellers')
+                                    .document(product.sellerId)
+                                    .collection('orders')
+                                    .document(user.uid);
+
+                                final sellerOrdersSnapshot =
+                                    await ordersRef.get();
+
+                                if (!sellerOrdersSnapshot.exists) {
+                                  await ordersRef.setData({
+                                    'newOrders': [orderData],
+                                    'packing': [],
+                                    'ready': [],
+                                    'picked': [],
+                                    'shipping': [],
+                                    'delivered': [],
+                                  });
+
+                                  final userSnapshot = await userRef.get();
+
+                                  if (userSnapshot.data['newOrders'] == null) {
+                                    await userRef.updateData({
+                                      'newOrders': [
+                                        'sellers/${product.sellerId}/orders/${user.uid}',
+                                      ],
+                                      'pastOrders': [],
+                                    });
+                                  } else {
+                                    final newOrderList =
+                                        userSnapshot.data['newOrders'] as List;
+                                    newOrderList.add(
+                                        'sellers/${product.sellerId}/orders/${user.uid}');
+                                    await userRef.updateData(
+                                        {'newOrders': newOrderList});
+                                  }
+                                } else {
+                                  final newOrderList = sellerOrdersSnapshot
+                                      .data['newOrders'] as List;
+
+                                  newOrderList.add(orderData);
+                                  await ordersRef
+                                      .updateData({'newOrders': newOrderList});
+
+                                  final buyerSnapshot = await userRef.get();
+
+                                  final newOrderListForUser =
+                                      buyerSnapshot.data['newOrders'] as List;
+
+                                  newOrderListForUser.add(
+                                      'sellers/${product.sellerId}/orders/${user.uid}');
+
+                                  await userRef.updateData(
+                                      {'newOrders': newOrderListForUser});
+                                }
+                              }
+
+                              setState(() {
+                                _loading = false;
+                              });
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OrderPlaced()));
+                            } catch (e) {
+                              _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(content: Text(e.toString())));
+                            }
+
+                            setState(() {
+                              _loading = false;
                             });
-                          }
-
-                          final userSnapshot = await Firestore.instance
-                              .collection('users')
-                              .document(user.uid)
-                              .get();
-
-                          if (userSnapshot.data.containsKey('newOrders')) {
-                            final userNewOrders =
-                                userSnapshot.data['newOrders'] as List;
-                            final String pathToOrder =
-                                'sellers/${snapshot.data['sellerId']}';
-                            userNewOrders.add(pathToOrder);
-                            await Firestore.instance
-                                .collection('users')
-                                .document(user.uid)
-                                .updateData({'newOrders': userNewOrders});
-                          } else {
-                            await Firestore.instance
-                                .collection('users')
-                                .document(user.uid)
-                                .updateData({
-                              'newOrders': [
-                                'sellers/${snapshot.data['sellerId']}'
-                              ]
-                            });
-                          }
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OrderPlaced()));
-                        },
-                        child: Text(
-                          'Save',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ))),
-              ),
-            ],
+                          },
+                          child: Text(
+                            'Save',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ))),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -470,6 +524,11 @@ class _AdressPageState extends State<AdressPage> {
         ),
       ),
     );
+  }
+
+  int _generateOrderId() {
+    return int.parse(
+        DateTime.now().millisecondsSinceEpoch.toString().substring(0, 9));
   }
 }
 
