@@ -407,7 +407,8 @@ class _AdressPageState extends State<AdressPage> {
                                   'sellerId': product.sellerId,
                                   'otp': otp,
                                   'userUid': user.uid,
-                                  'uniqueProductId': randomNumber
+                                  'uniqueProductId': randomNumber,
+                                  'status' : 'New Orders'
 //                                  'color': product.colors,
                                 };
 

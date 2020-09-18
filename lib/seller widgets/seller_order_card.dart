@@ -40,7 +40,7 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  'New Order',
+                  widget.orderData['status'],
                   style: TextStyle(color: Colors.green),
                 ),
                 Text(widget.orderData['name']),
@@ -129,6 +129,13 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
   }
 
   Future<void> moveToOther() async {
+    if (widget.newListName == null && widget.pastListName == null) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('You Cannot Move Your Product From Here'),
+      ));
+      return;
+    }
+
     final user = await FirebaseAuth.instance.currentUser();
     final orderSnapshot = await Firestore.instance
         .collection('sellers')
