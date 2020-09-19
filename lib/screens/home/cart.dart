@@ -15,10 +15,13 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   List<Product> _list = [];
+  int totalPrice = 0;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: _appBar(),
       body: Column(
         children: [
@@ -76,6 +79,7 @@ class _CartPageState extends State<CartPage> {
                                   productId: snap['productId'],
                                   inStock: snap['inStock']);
                               _list.add(product);
+//                              totalPrice = totalPrice + product.price;
                               return ProductCard(product);
                             });
                       });
@@ -111,7 +115,7 @@ class _CartPageState extends State<CartPage> {
                 children: [
                   Text("Your Order"),
                   Text(
-                    '₹ 0',
+                    '₹ $totalPrice',
                     style: TextStyle(color: Colors.green),
                   ),
                 ],
@@ -141,6 +145,11 @@ class _CartPageState extends State<CartPage> {
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () {
+                              if (_list.length == 0) {
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                    content: Text('Your Cart is Empty')));
+                                return;
+                              }
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PaymentPage(
                                       priceToPay: '2233', productList: _list)));

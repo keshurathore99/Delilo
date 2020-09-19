@@ -14,7 +14,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'menu_item_tile.dart';
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends StatefulWidget {
+  @override
+  _MyDrawerState createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  String userUid;
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAuth.instance.currentUser().then((value) {
+      setState(() {
+        userUid = value.uid;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -38,7 +55,6 @@ class MyDrawer extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
                       child: Center(
-                        //alignment: Alignment(1,1),
                         child: Row(
                           children: [
                             Icon(
@@ -124,7 +140,12 @@ class MyDrawer extends StatelessWidget {
               PartyMainScreen(), 'Party & Gatherings', 'assets/Group 423.png'),
           MenuItemTile(TravelMainScreen(), 'Travel & Explore',
               'assets/Icon material-card-travel.png'),
-          MenuItemTile(OrdersPage(), 'Orders', 'assets/Group 408.png'),
+          MenuItemTile(
+              OrdersPage(
+                userUid: userUid,
+              ),
+              'Orders',
+              'assets/Group 408.png'),
           MenuItemTile(
               FashionMainPage(), 'History', 'assets/Icon material-history.png'),
           MenuItemTile(FashionMainPage(), 'Coupons', 'assets/%.png'),

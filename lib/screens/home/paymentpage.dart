@@ -290,7 +290,7 @@ class _AdressPageState extends State<AdressPage> {
       _altMobileController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _loading = false;
-  List<Product> _mainList;
+  static List<Product> _mainList;
 
   @override
   void initState() {
@@ -380,14 +380,18 @@ class _AdressPageState extends State<AdressPage> {
                                   .collection('users')
                                   .document(user.uid);
 
-                              for (Product product in _mainList) {
+                              final listLength = _mainList.length;
+                              print(listLength);
+
+                              for (int i = 0; i < listLength; i++) {
+                                Product product = _mainList[i];
                                 final otp = int.parse(DateTime.now()
                                     .millisecondsSinceEpoch
                                     .toString()
                                     .substring(0, 4));
 
                                 final randomNumber =
-                                math.Random().nextInt(999999999);
+                                    math.Random().nextInt(999999999);
 
                                 final orderData = {
                                   'name': _nameController.text,
@@ -408,7 +412,7 @@ class _AdressPageState extends State<AdressPage> {
                                   'otp': otp,
                                   'userUid': user.uid,
                                   'uniqueProductId': randomNumber,
-                                  'status' : 'New Orders'
+                                  'status': 'New Orders'
 //                                  'color': product.colors,
                                 };
 
@@ -474,6 +478,10 @@ class _AdressPageState extends State<AdressPage> {
                               });
 
                               await userRef.updateData({'cartProducts': []});
+                              final userShot = await userRef.get();
+
+//                              final notificationsList =
+//                                  await userShot.data['notifications'] as List;
 
                               Navigator.push(
                                   context,

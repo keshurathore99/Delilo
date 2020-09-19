@@ -168,12 +168,27 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
       if (notificationList != null) {
         notificationList.add({
           'message':
-              'Your Order For ${widget.orderData['productName']} is ${widget.orderData['status']}',
+              'Your Order For ${widget.orderData['productName']} is ${widget.newListName}',
           'dateTime': DateTime.now(),
           'productImage': widget.orderData['productImage'],
         });
 
         await userRef.updateData({'notifications': notificationList});
+
+        if (widget.pastListName == 'shipping') {
+          final userNewOrders = userSnapshot.data['newOrders'] as List;
+          final deliveredOrder = userNewOrders.firstWhere((element) =>
+              element ==
+              'sellers/${user.uid}/orders/${widget.orderData['userUid']}');
+
+          userNewOrders.remove(deliveredOrder);
+          await userRef.updateData({'newOrders': userNewOrders});
+
+          final pastOrdersList = userSnapshot.data['pastOrders'] as List;
+          pastOrdersList
+              .add('sellers/${user.uid}/orders/${widget.orderData['userUid']}');
+          await userRef.updateData({'pastOrders': pastOrdersList});
+        }
       }
     } catch (e) {
       Scaffold.of(context).showSnackBar(
