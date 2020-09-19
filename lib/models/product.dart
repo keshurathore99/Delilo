@@ -12,7 +12,7 @@ class Product {
   final double ratings;
   final List colors;
   final String description;
-  final List<Review> reviews;
+  final List reviews;
   final int index;
   final String productType;
   final String productId;

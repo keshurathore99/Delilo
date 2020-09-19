@@ -59,7 +59,8 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                     height: 5,
                   ),
                   Text(
-                    'Status : ' + widget.orderData['status'],
+                    'Status : ' +
+                        widget.orderData['status'].toString().toUpperCase(),
                     style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
                 ],

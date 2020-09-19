@@ -97,7 +97,7 @@ class _WomenDressDetailPageState extends State<WomenDressDetailPage> {
                                   : product.data['ratings'],
                               colors: [Colors.black],
                               description: product.data['description'],
-                              reviews: [])),
+                              reviews: product.data['reviews'])),
                     )
                     .toList(),
               );

@@ -90,10 +90,10 @@ class TravelMainScreen extends StatelessWidget {
                                   int.parse(product.data['price'].toString()),
                               ratings: product.data['ratings'] == null
                                   ? 0.0
-                                  : product.data['ratings'],
+                                      : product.data['ratings'],
                               colors: [Colors.black],
                               description: product.data['description'],
-                              reviews: [])),
+                              reviews: product.data['reviews'])),
                     )
                     .toList(),
               );

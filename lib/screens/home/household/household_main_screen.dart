@@ -93,7 +93,7 @@ class HouseholdMainScreen extends StatelessWidget {
                                   : product.data['ratings'],
                               colors: [Colors.black],
                               description: product.data['description'],
-                              reviews: [])),
+                              reviews: product.data['reviews'])),
                     )
                     .toList(),
               );

@@ -146,7 +146,7 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                                     ? 'description'
                                                     : smallShot.data
                                                         .data['description'],
-                                            reviews: [],
+                                            reviews: snap['reviews'],
                                             image2: snap['image2'],
                                             image3: snap['image3'],
                                             image4: snap['image4']),
