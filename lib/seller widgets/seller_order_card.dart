@@ -46,12 +46,21 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
                 Text(widget.orderData['name']),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                widget.orderData['productName'],
-                style: TextStyle(fontSize: 18),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    widget.orderData['productName'],
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Quantity : ${widget.orderData['quantity'].toString()}'),
+                )
+              ],
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -61,7 +70,7 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
                   Padding(
                     padding: const EdgeInsets.only(right: 12.0),
                     child: Text(
-                      "Total Bill : ₹ ${widget.orderData['price'].toString()}",
+                      "Total Bill : ₹ ${widget.orderData['totalPrice'].toString()}",
                       style: TextStyle(color: Colors.black87),
                     ),
                   ),

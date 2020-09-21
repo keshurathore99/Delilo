@@ -153,6 +153,32 @@ class _MyDrawerState extends State<MyDrawer> {
               'assets/Icon ionic-ios-person-add.png'),
           MenuItemTile(FashionMainPage(), 'Customer Support',
               'assets/Icon ionic-ios-person-add.png'),
+          GestureDetector(
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
+            },
+            child: ListTile(
+              leading: Icon(
+                Icons.exit_to_app,
+                color: Colors.brown[700],
+              ),
+              title: Container(
+                height: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Sign Out',
+                      style: TextStyle(
+                          //fontSize: 15,
+                          color: Colors.black87),
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Colors.black26),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

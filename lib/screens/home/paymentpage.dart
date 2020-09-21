@@ -381,7 +381,8 @@ class _AdressPageState extends State<AdressPage> {
                                   .document(user.uid);
 
                               final listLength = _mainList.length;
-                              print(listLength);
+
+                              final userShot = await userRef.get();
 
                               for (int i = 0; i < listLength; i++) {
                                 Product product = _mainList[i];
@@ -389,6 +390,14 @@ class _AdressPageState extends State<AdressPage> {
                                     .millisecondsSinceEpoch
                                     .toString()
                                     .substring(0, 4));
+
+                                final cartProductList =
+                                    userShot.data['cartProducts'] as List;
+
+                                final cartProduct = cartProductList.firstWhere(
+                                    (element) => element['productId']
+                                        .toString()
+                                        .contains(product.productId));
 
                                 final randomNumber =
                                     math.Random().nextInt(999999999);
@@ -412,7 +421,9 @@ class _AdressPageState extends State<AdressPage> {
                                   'otp': otp,
                                   'userUid': user.uid,
                                   'uniqueProductId': randomNumber,
-                                  'status': 'New Orders'
+                                  'status': 'New Orders',
+                                  'quantity': cartProduct['quantity'],
+                                  'totalPrice': cartProduct['price'],
 //                                  'color': product.colors,
                                 };
 
@@ -478,10 +489,6 @@ class _AdressPageState extends State<AdressPage> {
                               });
 
                               await userRef.updateData({'cartProducts': []});
-                              final userShot = await userRef.get();
-
-//                              final notificationsList =
-//                                  await userShot.data['notifications'] as List;
 
                               Navigator.push(
                                   context,

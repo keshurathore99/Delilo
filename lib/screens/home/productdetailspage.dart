@@ -316,20 +316,53 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         await Firestore.instance.collection('users').document(userUid).get();
     final productList = snapshot.data['cartProducts'] as List;
 
+    bool alreadyExistsInCart = false;
+
+    productList.forEach((element) {
+      if (element['productId'].toString().contains(widget.product.productId)) {
+        print(
+            element['productId'].toString() + '   ' + widget.product.productId);
+        alreadyExistsInCart = true;
+        return;
+      }
+    });
+
+    if (alreadyExistsInCart) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content:
+              Text(widget.product.productName + ' Already Exists in Cart')));
+      return;
+    }
+
     if (widget.product.productType.contains('fashion')) {
       final query = widget.product.productType.split(' ');
       final mainCategory = query[0];
       final category = query[1];
       final subCategory = query[2];
 
-      productList.add(
-          '$mainCategory/$category/$subCategory/${widget.product.productId}');
+      productList.add({
+        'productId':
+            '$mainCategory/$category/$subCategory/${widget.product.productId}',
+        'quantity': 1,
+        'price': widget.product.price,
+      });
+
+      int totalCartPrice = 0;
+
+      productList.forEach((product) {
+        totalCartPrice = totalCartPrice + product['price'];
+      });
+
+      print(totalCartPrice);
 
       try {
         await Firestore.instance
             .collection('users')
             .document(userUid)
-            .updateData({'cartProducts': productList});
+            .updateData({
+          'cartProducts': productList,
+          'totalCartPrice': totalCartPrice,
+        });
 
         _scaffoldKey.currentState
             .showSnackBar(SnackBar(content: Text('Added To Cart')));
@@ -341,14 +374,21 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       }
     }
 
-    productList
-        .add('${widget.product.productType}/${widget.product.productId}');
+    productList.add({
+      'productId': '${widget.product.productType}/${widget.product.productId}',
+      'quantity': 1,
+      'price': widget.product.price,
+    });
+
+    int totalCartPrice = 0;
+
+    productList.forEach((product) {
+      totalCartPrice = totalCartPrice + product['price'];
+    });
 
     try {
-      await Firestore.instance
-          .collection('users')
-          .document(userUid)
-          .updateData({'cartProducts': productList});
+      await Firestore.instance.collection('users').document(userUid).updateData(
+          {'cartProducts': productList, 'totalCartPrice': totalCartPrice});
 
       _scaffoldKey.currentState
           .showSnackBar(SnackBar(content: Text('Added To Cart')));
