@@ -1,4 +1,3 @@
-import 'package:delilo/models/review.dart';
 import 'package:flutter/foundation.dart';
 
 class Product {

@@ -17,9 +17,11 @@ class SellerOrdersPage extends StatefulWidget {
 
 class _SellerOrdersPageState extends State<SellerOrdersPage> {
   int isselected = 1;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: _appBar(),
       body: Builder(builder: (BuildContext context) {
         switch (isselected) {
@@ -52,7 +54,7 @@ class _SellerOrdersPageState extends State<SellerOrdersPage> {
       leading: Builder(builder: (context) {
         return InkWell(
           onTap: () {
-            Scaffold.of(context).openDrawer();
+            _scaffoldKey.currentState.openDrawer();
           },
           child: Image.asset('assets/u.png'),
         );

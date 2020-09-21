@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:delilo/screens/seller/home/newproductpage.dart';
-import 'package:delilo/screens/seller/home/sellercatgorylisting.dart';
 import 'package:delilo/screens/seller/home/sellerdrawer.dart';
 import 'package:delilo/seller%20widgets/category_listing_tile.dart';
 import 'package:delilo/seller%20widgets/seller_home_screen_card.dart';

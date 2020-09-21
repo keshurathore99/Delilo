@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/screens/seller/home/newproductpage.dart';
 import 'package:delilo/screens/seller/home/out_of_stock_screen_for_single_category.dart';
 import 'package:delilo/screens/seller/home/sellerdrawer.dart';
-import 'package:delilo/screens/seller/home/sellerhomesceen.dart';
 import 'package:delilo/seller%20widgets/category_listing_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

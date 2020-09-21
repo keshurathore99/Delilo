@@ -3,7 +3,6 @@ import 'package:delilo/buyer%20widgets/category_row.dart';
 import 'package:delilo/buyer%20widgets/loading_bar_for_main_tile.dart';
 import 'package:delilo/buyer%20widgets/main_product_item.dart';
 import 'package:delilo/models/product.dart';
-import 'package:delilo/models/review.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 

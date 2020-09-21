@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/buyer%20widgets/drawer.dart';
 import 'package:delilo/buyer%20widgets/seller_card_for_homescreen.dart';
 import 'package:delilo/models/seller_model.dart';
-import 'package:delilo/screens/authenticate/authenticate.dart';
 import 'package:delilo/screens/home/account.dart';
 import 'package:delilo/screens/home/cart.dart';
 import 'package:delilo/screens/home/notifications_screen.dart';

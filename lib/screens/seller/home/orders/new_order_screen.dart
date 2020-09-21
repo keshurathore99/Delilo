@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/seller%20widgets/seller_order_card.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 class NewOrderScreen extends StatelessWidget {
   final String sellerUid;
