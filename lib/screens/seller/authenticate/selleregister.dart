@@ -25,6 +25,7 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
   final _otpController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _otp;
+  final _shopNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -251,6 +252,26 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                           ),
                         ),
                       ),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 4),
+                        width: wid * .80,
+                        child: Material(
+                          elevation: 5,
+                          shape: StadiumBorder(),
+                          child: TextFormField(
+                            obscureText: true,
+                            keyboardType: TextInputType.name,
+                            controller: _shopNameController,
+                            enableInteractiveSelection: true,
+                            decoration: registerTextFieldDecoration.copyWith(
+                                hintText: "Shop Name",
+                                prefixIcon: Icon(
+                                  Icons.person_pin,
+                                  color: Colors.black54,
+                                )),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   Padding(
@@ -273,7 +294,8 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                       _addressController.text.isEmpty ||
                                       _attachIdController.text.isEmpty ||
                                       _otpController.text.isEmpty ||
-                                      _passwordController.text.isEmpty) {
+                                      _passwordController.text.isEmpty ||
+                                      _shopNameController.text.isEmpty) {
                                     _scaffoldKey.currentState.showSnackBar(
                                         SnackBar(
                                             content: Text(
@@ -312,6 +334,7 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                     'location': _addressController.text,
                                     'attachId': _attachIdController.text,
                                     'password': _passwordController.text,
+                                    'shop_name': _shopNameController.text,
                                   };
 
                                   Navigator.of(context).push(MaterialPageRoute(
@@ -1087,8 +1110,6 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                       child: Container(
                         height: 300,
                         width: width * .9,
-                        //color: Colors.redAccent.withOpacity(.6),
-                        //child: Center(child: Text("Stay Indoors Stay safe \n Consult Online Now",style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),)),
                         child: Text(
                             "\n\n\nEMAIL VERIFICATION\n\n\nWe Have Sent A Email With Subject Line (Dellilo MarketPlace)-Email Verification To Your Registered Email Adreess\nPlease Open The Email And Click On The Verification Link\n\nThe Verification link expires in 24 hours.If Its Is expired Please Click her to send again"),
                       ),
@@ -1100,7 +1121,6 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(7.0),
-                      //child: Text("Address",style: TextStyle(color: Colors.green,fontSize: 25),),
                     ),
                     Card(
                       semanticContainer: true,
@@ -1108,17 +1128,13 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                       child: Container(
                         height: 180,
                         width: width * .9,
-                        //color: Colors.redAccent.withOpacity(.6),
-                        //child: Center(child: Text("Stay Indoors Stay safe \n Consult Online Now",style: TextStyle(fontSize: 20,fontStyle: FontStyle.italic),)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            // CircleAvatar(backgroundColor: Colors.transparent,child: Image.asset("assets/images/u.png")),
-                            //Container(decoration: BoxDecoration(color: Colors.green,borderRadius: BorderRadius.all(Radius.circular(30))),height: 30,width:width*.2,child: FlatButton(onPressed: (){Navigator.pushNamed(context, '/homescreen');}, child: Text("Change",style: TextStyle(color: Colors.white,fontSize: 12),))),
                             Padding(
                               padding: const EdgeInsets.only(right: 38.0),
                               child: Text(
-                                  "Tracking CArd\n\nOnly Possible To Implement With The Backend.\n Will be implemented with backend"),
+                                  "Tracking Card\n\nOnly Possible To Implement With The Backend.\n Will be implemented with backend"),
                             ),
                           ],
                         ),

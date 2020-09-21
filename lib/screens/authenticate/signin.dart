@@ -82,21 +82,21 @@ class _SigninPageState extends State<SigninPage> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SigninPhonePage()));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: Text(
-                      "Or Login by Mobile Number",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ),
+//                GestureDetector(
+//                  onTap: () {
+//                    Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                            builder: (context) => SigninPhonePage()));
+//                  },
+//                  child: Padding(
+//                    padding: const EdgeInsets.only(top: 20.0),
+//                    child: Text(
+//                      "Or Login by Mobile Number",
+//                      style: TextStyle(fontSize: 20),
+//                    ),
+//                  ),
+//                ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Row(
