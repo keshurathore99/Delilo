@@ -22,6 +22,7 @@ class TravelMainScreen extends StatelessWidget {
                 child: TextFormField(
                   enableInteractiveSelection: true,
                   decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(0),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(width: 4),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -90,7 +91,7 @@ class TravelMainScreen extends StatelessWidget {
                                   int.parse(product.data['price'].toString()),
                               ratings: product.data['ratings'] == null
                                   ? 0.0
-                                      : product.data['ratings'],
+                                  : product.data['ratings'],
                               colors: [Colors.black],
                               description: product.data['description'],
                               reviews: product.data['reviews'])),

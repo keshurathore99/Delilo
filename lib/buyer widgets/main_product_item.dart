@@ -30,8 +30,7 @@ class MainProductItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18),
                   child: FadeInImage(
                     fit: BoxFit.cover,
-                    placeholder: AssetImage(
-                        'assets/dairy/photo-1524546666497-1c737219eec9.jpeg'),
+                    placeholder: AssetImage('assets/dellologo.png'),
                     image: NetworkImage(product.imageUrl),
                   ),
                 ),
@@ -45,7 +44,8 @@ class MainProductItem extends StatelessWidget {
                         bottomRight: Radius.circular(20),
                         bottomLeft: Radius.circular(20))),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2,vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [

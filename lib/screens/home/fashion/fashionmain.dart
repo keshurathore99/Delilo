@@ -49,6 +49,7 @@ class _FashionMainPageState extends State<FashionMainPage> {
                           child: TextFormField(
                             enableInteractiveSelection: true,
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(0),
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide(width: 4),
                                     borderRadius:
@@ -62,7 +63,7 @@ class _FashionMainPageState extends State<FashionMainPage> {
                                     color: Colors.green.withOpacity(.75),
                                   ),
                                 ),
-                                hintText: "Search fro Products, Shops"),
+                                hintText: "Search from Products"),
                           ),
                         ),
                       ),

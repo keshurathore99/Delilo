@@ -31,6 +31,7 @@ class _WomenDressDetailPageState extends State<WomenDressDetailPage> {
                 child: TextFormField(
                   enableInteractiveSelection: true,
                   decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(0),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(width: 4),
                           borderRadius: BorderRadius.all(Radius.circular(30))),

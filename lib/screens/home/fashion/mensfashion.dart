@@ -16,7 +16,6 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
   Widget build(BuildContext context) {
     double width = displayWidth(context);
     double height = displayHeight(context);
-
     return Scaffold(
       body: Center(
         child: Container(
@@ -44,6 +43,7 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                           // key: __passwordkey,
                           enableInteractiveSelection: true,
                           decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(0),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 4),
                                   borderRadius:

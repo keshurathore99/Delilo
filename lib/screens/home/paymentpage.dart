@@ -222,46 +222,41 @@ class _PaymentPageState extends State<PaymentPage> {
               margin: EdgeInsets.all(10),
             ),
           ),
-          Expanded(
-            child: Container(
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
               color: Colors.green[700],
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    "Pay ₹ ${widget.priceToPay}",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  Container(
-                    height: 50,
-                    width: 120,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  "Pay :  ₹${widget.priceToPay}",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    margin: EdgeInsets.symmetric(vertical: 8),
                     decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        height: 50,
-                        width: width * .8,
-                        child: FlatButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AdressPage(
-                                          priceToPay: widget.priceToPay,
-                                          productList: widget.productList)));
-                            },
-                            child: Text(
-                              "Pay Now",
-                              style:
-                                  TextStyle(color: Colors.green, fontSize: 17),
-                            ))),
-                  ),
-                ],
-              ),
+                        borderRadius: BorderRadius.all(Radius.circular(25))),
+                    child: FlatButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdressPage(
+                                      priceToPay: widget.priceToPay,
+                                      productList: widget.productList)));
+                        },
+                        child: Text(
+                          "Pay Now",
+                          style: TextStyle(color: Colors.green, fontSize: 17),
+                        ))),
+              ],
             ),
           ),
         ],
@@ -487,7 +482,8 @@ class _AdressPageState extends State<AdressPage> {
                                 _loading = false;
                               });
 
-                              await userRef.updateData({'cartProducts': []});
+                              await userRef.updateData(
+                                  {'cartProducts': [], 'totalCartPrice': 0});
 
                               Navigator.push(
                                   context,

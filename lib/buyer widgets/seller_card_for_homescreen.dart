@@ -29,11 +29,7 @@ class SellerCardForHomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.max,
           children: [
-            FadeInImage(
-              placeholder: AssetImage(
-                  'assets/dairy/photo-1497800640957-3100979af57c.jpeg'),
-              image: NetworkImage(imageUrl),
-            ),
+            Image.asset(imageUrl),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -63,33 +59,18 @@ class SellerCardForHomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              stars.toString(),
-                              style: TextStyle(color: Colors.green),
-                            ),
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellow,
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                   FittedBox(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(distance.toStringAsFixed(1) +
-                          ' Km away from your location'),
+                          ' km away from your location'),
                     ),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

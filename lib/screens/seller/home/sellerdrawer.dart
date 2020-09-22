@@ -41,7 +41,7 @@ class _SellerDrawerState extends State<SellerDrawer> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
@@ -58,7 +58,7 @@ class _SellerDrawerState extends State<SellerDrawer> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
@@ -76,7 +76,7 @@ class _SellerDrawerState extends State<SellerDrawer> {
             InkWell(
               onTap: () async {
                 final user = await FirebaseAuth.instance.currentUser();
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => PayinPage(
@@ -94,7 +94,7 @@ class _SellerDrawerState extends State<SellerDrawer> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => SellerProfile()));
               },
               child: Container(

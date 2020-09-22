@@ -415,7 +415,7 @@ class _ProductCardState extends State<ProductCard> {
                             Spacer(),
                             IconButton(
                               padding: EdgeInsets.all(0),
-                              color: Colors.black38,
+                              color: Colors.green,
                               icon: Icon(Icons.delete),
                               onPressed: () async {
                                 final user =

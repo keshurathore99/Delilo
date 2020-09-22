@@ -5,6 +5,8 @@ import 'package:delilo/screens/seller/authenticate/sellersignin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -259,7 +261,6 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                           elevation: 5,
                           shape: StadiumBorder(),
                           child: TextFormField(
-                            obscureText: true,
                             keyboardType: TextInputType.name,
                             controller: _shopNameController,
                             enableInteractiveSelection: true,
@@ -773,6 +774,7 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                         elevation: 5,
                         shape: StadiumBorder(),
                         child: TextFormField(
+                          keyboardType: TextInputType.number,
                           controller: _bankAccountNumber,
                           enableInteractiveSelection: true,
                           decoration: InputDecoration(
@@ -1163,11 +1165,47 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                                     email: widget.allInfo['email'],
                                     password: widget.allInfo['password']);
 
-                            print(authResult.user.uid);
+                            final myPosition = await GeolocatorPlatform.instance
+                                .getCurrentPosition();
+
+                            if (await GeolocatorPlatform.instance
+                                        .checkPermission() ==
+                                    LocationPermission.denied ||
+                                await GeolocatorPlatform.instance
+                                        .checkPermission() ==
+                                    LocationPermission.denied) {
+                              await GeolocatorPlatform.instance
+                                  .requestPermission();
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Please Give Location Permissions First')));
+                              return;
+                            }
+
+                            if (await GeolocatorPlatform.instance
+                                    .isLocationServiceEnabled() ==
+                                false) {
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text('Enable Location Service First'),
+                                action: SnackBarAction(
+                                    label: 'Enable',
+                                    onPressed: () async {
+                                      await GeolocatorPlatform.instance
+                                          .openLocationSettings();
+                                    }),
+                              ));
+                              return;
+                            }
+
+                            final myLatitude = myPosition.latitude;
+                            final myLongitude = myPosition.longitude;
 
                             if (authResult.user != null) {
                               widget.allInfo['uid'] = authResult.user.uid;
                               widget.allInfo['type'] = 'Seller';
+                              widget.allInfo['latitude'] = myLatitude ?? 27.5;
+                              widget.allInfo['longitude'] = myLongitude ?? 66.4;
+                              widget.allInfo['ratings'] = 0.0;
 
                               final Map<String, dynamic> map = {};
 

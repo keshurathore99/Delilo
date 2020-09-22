@@ -41,6 +41,7 @@ class _KidsFashionScreenState extends State<KidsFashionScreen> {
                         child: TextFormField(
                           enableInteractiveSelection: true,
                           decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(0),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 4),
                                   borderRadius:

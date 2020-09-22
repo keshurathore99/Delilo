@@ -188,7 +188,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                       return CarouselImages(
                         scaleFactor: 1,
                         listImages: images,
-                        height: displayHeight(context) * 0.15,
+                        height: displayHeight(context) * 0.20,
                         borderRadius: 5,
                         cachedNetworkImage: true,
                         verticalAlignment: Alignment.topCenter,
@@ -251,7 +251,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     List<Seller> list = [];
 
     final snapshot =
-        await Firestore.instance.collection('shops').getDocuments();
+        await Firestore.instance.collection('sellers').getDocuments();
     for (var snap in snapshot.documents) {
       final latitude = snap.data['latitude'] as double;
       final longitude = snap.data['longitude'] as double;
@@ -259,8 +259,12 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       final distance =
           getDistance(myLatitude, myLongitude, latitude, longitude);
 
-      final seller = Seller(snap.data['shopName'], snap.data['shopCategory'],
-          distance, snap.data['imageUrl'], snap.data['stars']);
+      final seller = Seller(
+          snap.data['shop_name'],
+          'Electric and Cloths',
+          distance,
+          'assets/dellologo.png',
+          double.parse(snap.data['ratings'].toString()));
 
       list.add(seller);
     }
