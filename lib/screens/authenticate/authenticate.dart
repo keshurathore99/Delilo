@@ -3,9 +3,11 @@ import 'package:delilo/constants/decoration_constants.dart';
 import 'package:delilo/screens/authenticate/getlocation.dart';
 import 'package:delilo/screens/authenticate/signin.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'package:delilo/screens/home/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -43,6 +45,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
   bool _loading = false;
 //  final flutterOtp = FlutterOtp();
   String otp;
+
+  final _googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
@@ -301,21 +305,63 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     color: Colors.white, fontSize: 15),
                               )),
                         ),
-                        Container(
-                          width: 150,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/p.png'),
-                                fit: BoxFit.fitHeight),
+                        InkWell(
+                          onTap: () async {
+                            final user = await signInWithGoogle();
+                            if (user == null || user.uid == null) {
+                              key.currentState.showSnackBar(SnackBar(
+                                  content: Text(
+                                      'There is Some Problem in Register Please Try Again')));
+                              return;
+                            }
+
+                            final userSnapshot = await Firestore.instance
+                                .collection('users')
+                                .document(user.uid)
+                                .get();
+
+                            if (userSnapshot == null ||
+                                userSnapshot.data == null) {
+                              final Map<String, dynamic> map = {
+                                'email': user.email,
+                                'password': '12121212',
+                                'name': user.displayName,
+                                'phone': user.phoneNumber ?? 'null',
+                                'cartProducts': [],
+                                'type': 'Buyer',
+                              };
+
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return GetLocationPage(
+                                  loginDetails: map,
+                                  isGoogleSignedIn: true,
+                                );
+                              }));
+                            } else {
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => HomePageScreen(
+                                            userUid: user.uid,
+                                          )));
+                            }
+                          },
+                          child: Container(
+                            width: 150,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/p.png'),
+                                  fit: BoxFit.fitHeight),
+                            ),
+                            child: Align(
+                                alignment: Alignment(0.3, -.15),
+                                child: Text(
+                                  "Signup",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 15),
+                                )),
                           ),
-                          child: Align(
-                              alignment: Alignment(0.3, -.15),
-                              child: Text(
-                                "Signup",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 15),
-                              )),
                         ),
                       ],
                     ),
@@ -381,7 +427,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
 //                                        .resultChecker(int.parse(otp));
                                   } catch (e) {
                                     key.currentState.showSnackBar(
-                                        SnackBar(content: Text(e)));
+                                        SnackBar(content: Text(e.toString())));
                                     return;
                                   }
 
@@ -520,6 +566,25 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
         verificationFailed: verificationfailed,
         codeSent: smsSent,
         codeAutoRetrievalTimeout: autoTimeout);
+  }
+
+  Future<FirebaseUser> signInWithGoogle() async {
+    final GoogleSignInAccount googleSignInAccount =
+        await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final AuthResult authResult =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    final FirebaseUser user = authResult.user;
+    final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+
+    return currentUser;
   }
 }
 

@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
                           ),
                         );
                       }
-                      return HomePageScreen();
+                      return HomePageScreen(userUid: snapshot.data.uid);
                     },
                   );
                 }

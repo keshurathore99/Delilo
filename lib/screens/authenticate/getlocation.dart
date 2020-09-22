@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/screens/authenticate/signin.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
+import 'package:delilo/screens/home/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +12,9 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 class GetLocationPage extends StatefulWidget {
   static const routeName = '/getLocationPage';
   final Map<String, dynamic> loginDetails;
+  final bool isGoogleSignedIn;
 
-  GetLocationPage({this.loginDetails});
+  GetLocationPage({@required this.loginDetails, this.isGoogleSignedIn: false});
 
   @override
   _GetLocationPageState createState() => _GetLocationPageState();
@@ -217,6 +219,28 @@ class _GetLocationPageState extends State<GetLocationPage> {
                             });
 
                             try {
+                              if (widget.isGoogleSignedIn) {
+                                final user =
+                                    await FirebaseAuth.instance.currentUser();
+
+                                await Firestore.instance
+                                    .collection('users')
+                                    .document(user.uid)
+                                    .setData({
+                                  ...widget.loginDetails,
+                                  'latitude': myLatitude,
+                                  'longitude': myLongitude,
+                                  'location': _addressController.text,
+                                  'orders': [],
+                                  'notifications': [],
+                                });
+
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                    builder: (context) =>
+                                        HomePageScreen(userUid: user.uid)));
+                                return;
+                              }
+
                               final authResult = await FirebaseAuth.instance
                                   .createUserWithEmailAndPassword(
                                       email: widget.loginDetails['email'],

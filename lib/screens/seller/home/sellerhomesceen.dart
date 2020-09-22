@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/screens/seller/home/newproductpage.dart';
 import 'package:delilo/screens/seller/home/sellerdrawer.dart';
 import 'package:delilo/seller%20widgets/category_listing_tile.dart';
 import 'package:delilo/seller%20widgets/seller_home_screen_card.dart';
@@ -25,6 +26,17 @@ class _SellerHomeScreenState extends State<SellerHomeScreen> {
         return;
       },
       child: Scaffold(
+        floatingActionButton: MaterialButton(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => NewProductPage()));
+          },
+          child: Text('Add a Product'),
+          textColor: Colors.white,
+          color: Colors.green,
+        ),
         drawer: SellerDrawer(
           sellerUid: widget.userUid,
         ),

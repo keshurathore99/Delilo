@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/constants/decoration_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -112,6 +111,7 @@ class _NewProductPageState extends State<NewProductPage> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 22),
                   child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
                     //title: Text("Your Current Location"),
                     title: DropdownButtonHideUnderline(
                       child: DropdownButton(
@@ -142,9 +142,10 @@ class _NewProductPageState extends State<NewProductPage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(22.0),
+                  padding: EdgeInsets.symmetric(horizontal: 22.0, vertical: 4),
                   child: ListTile(
-                    //title: Text("Your Current Location"),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                     title: DropdownButtonHideUnderline(
                       child: DropdownButton(
                           hint: Text('Please Choose The Category'),
@@ -222,35 +223,12 @@ class _NewProductPageState extends State<NewProductPage> {
                           ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.all(22.0),
-                        child: ListTile(
-                          //title: Text("Your Current Location"),
-                          title: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              hint: Text('Please Choose Color'),
-                              value: colorselectedoption,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  colorselectedoption = newValue;
-                                });
-                              },
-                              items:
-                                  colorselectedoptionlist.map((selectedoption) {
-                                return DropdownMenuItem(
-                                  child: new Text(selectedoption),
-                                  value: selectedoption,
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                   child: MaterialButton(
                     minWidth: 20,
                     elevation: 5,
@@ -536,6 +514,7 @@ class _NewProductPageState extends State<NewProductPage> {
     return Align(
       alignment: Alignment(1, -1),
       child: FloatingActionButton(
+        mini: true,
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
         onPressed: () async {

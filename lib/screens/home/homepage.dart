@@ -12,6 +12,9 @@ import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:geolocator/geolocator.dart';
 
 class HomePageScreen extends StatefulWidget {
+  final userUid;
+  HomePageScreen({@required this.userUid});
+
   @override
   _HomePageScreenState createState() => _HomePageScreenState();
 }

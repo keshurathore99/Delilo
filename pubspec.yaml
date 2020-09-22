@@ -40,6 +40,7 @@ dependencies:
   geocoding: ^1.0.3
   carousel_images: ^1.0.3
   intl:
+  google_sign_in: ^4.5.3
 
 dev_dependencies:
   flutter_test:

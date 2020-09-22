@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/constants/decoration_constants.dart';
 import 'package:delilo/screens/authenticate/authenticate.dart';
-import 'package:delilo/screens/authenticate/signinphone.dart';
+import 'package:delilo/screens/authenticate/getlocation.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:delilo/screens/home/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class SigninPage extends StatefulWidget {
@@ -20,6 +22,7 @@ class _SigninPageState extends State<SigninPage> {
   final _passwordController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool loading = false;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -119,21 +122,62 @@ class _SigninPageState extends State<SigninPage> {
                                   TextStyle(color: Colors.white, fontSize: 15),
                             )),
                       ),
-                      Container(
-                        width: 150,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('assets/p.png'),
-                              fit: BoxFit.fitHeight),
+                      InkWell(
+                        onTap: () async {
+                          final user = await signInWithGoogle();
+                          if (user == null || user.uid == null) {
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text(
+                                    'Sorry But There is Some Problem in Google Login')));
+                            return;
+                          }
+
+                          final userSnapshot = await Firestore.instance
+                              .collection('users')
+                              .document(user.uid)
+                              .get();
+
+                          if (userSnapshot == null ||
+                              userSnapshot.data == null) {
+                            final Map<String, dynamic> map = {
+                              'email': user.email,
+                              'password': '12121212',
+                              'name': user.displayName,
+                              'phone': user.phoneNumber ?? 'null',
+                              'cartProducts': [],
+                              'type': 'Buyer',
+                            };
+
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return GetLocationPage(
+                                loginDetails: map,
+                                isGoogleSignedIn: true,
+                              );
+                            }));
+                          } else {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => HomePageScreen(
+                                      userUid: user.uid,
+                                    )));
+                          }
+                        },
+                        child: Container(
+                          width: 150,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/p.png'),
+                                fit: BoxFit.fitHeight),
+                          ),
+                          child: Align(
+                              alignment: Alignment(0.3, -.15),
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              )),
                         ),
-                        child: Align(
-                            alignment: Alignment(0.3, -.15),
-                            child: Text(
-                              "Login",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 15),
-                            )),
                       ),
                     ],
                   ),
@@ -174,8 +218,9 @@ class _SigninPageState extends State<SigninPage> {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              HomePageScreen()));
+                                          builder: (context) => HomePageScreen(
+                                                userUid: result.user.uid,
+                                              )));
                                   _scaffoldKey.currentState.showSnackBar(
                                       SnackBar(
                                           content: Text('Login Successful')));
@@ -238,5 +283,24 @@ class _SigninPageState extends State<SigninPage> {
         ),
       ),
     );
+  }
+
+  Future<FirebaseUser> signInWithGoogle() async {
+    final GoogleSignInAccount googleSignInAccount =
+        await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final AuthResult authResult =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    final FirebaseUser user = authResult.user;
+    final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+
+    return currentUser;
   }
 }
