@@ -4,7 +4,9 @@ class MenuItemTile extends StatelessWidget {
   final Widget pageToOpen;
   final String title;
   final String imageRoute;
-  MenuItemTile(this.pageToOpen, this.title, this.imageRoute);
+  final bool isFavoriteTab;
+  MenuItemTile(this.pageToOpen, this.title, this.imageRoute,
+      {this.isFavoriteTab: false});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,13 @@ class MenuItemTile extends StatelessWidget {
             .push(MaterialPageRoute(builder: (context) => pageToOpen));
       },
       child: ListTile(
-        leading: Image.asset(imageRoute),
+        leading: isFavoriteTab
+            ? Icon(
+                Icons.favorite,
+                color: Colors.brown,
+                size: 30,
+              )
+            : Image.asset(imageRoute),
         title: Container(
           height: 20,
           child: Row(

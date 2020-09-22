@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/buyer%20widgets/user_review.dart';
 import 'package:delilo/models/product.dart';
 import 'package:delilo/screens/home/cart.dart';
+import 'package:delilo/screens/home/favorite_products_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
@@ -168,16 +169,95 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                           ),
                         ),
-                        CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Colors.green,
-                            child: Center(
-                              child: Icon(
-                                Icons.favorite,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                            )),
+                        InkWell(
+                          onTap: () async {
+                            final user =
+                                await FirebaseAuth.instance.currentUser();
+
+                            final snapshot = await Firestore.instance
+                                .collection('users')
+                                .document(user.uid)
+                                .get();
+
+                            if (snapshot.data['favoriteProducts'] != null) {
+                              final favoriteList =
+                                  snapshot.data['favoriteProducts'] as List;
+
+                              if (widget.product.productType
+                                  .contains('fashion')) {
+                                final productTypeList =
+                                    widget.product.productType.split(' ');
+
+                                final mainCategory = productTypeList[0];
+                                final category = productTypeList[1];
+                                final subCategory = productTypeList[2];
+
+                                favoriteList.add(
+                                    '$mainCategory/$category/$subCategory/${widget.product.productId}');
+                                await Firestore.instance
+                                    .collection('users')
+                                    .document(user.uid)
+                                    .updateData(
+                                        {'favoriteProducts': favoriteList});
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                    content: Text('Added to Favorites')));
+                                return;
+                              } else {
+                                favoriteList.add(
+                                    '${widget.product.productType}/${widget.product.productId}');
+                                await Firestore.instance
+                                    .collection('users')
+                                    .document(user.uid)
+                                    .updateData(
+                                        {'favoriteProducts': favoriteList});
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                    content: Text('Added to Favorites')));
+                                return;
+                              }
+                            } else {
+                              if (widget.product.productType
+                                  .contains('fashion')) {
+                                final productTypeList =
+                                    widget.product.productType.split(' ');
+
+                                final mainCategory = productTypeList[0];
+                                final category = productTypeList[1];
+                                final subCategory = productTypeList[2];
+
+                                final String path =
+                                    '$mainCategory/$category/$subCategory/${widget.product.productId}';
+
+                                await Firestore.instance
+                                    .collection('users')
+                                    .document(user.uid)
+                                    .updateData({'favoriteProducts': path});
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                    content: Text('Added to Favorites')));
+                              } else {
+                                await Firestore.instance
+                                    .collection('users')
+                                    .document(user.uid)
+                                    .updateData({
+                                  'favoriteProducts': [
+                                    '${widget.product.productType}/${widget.product.productId}'
+                                  ]
+                                });
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                    content: Text('Added to Favorites')));
+                              }
+                            }
+                          },
+                          child: CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Colors.green,
+                              child: Center(
+                                child: Icon(
+                                  Icons.favorite,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                              )),
+                        ),
                       ],
                     ),
                   ),

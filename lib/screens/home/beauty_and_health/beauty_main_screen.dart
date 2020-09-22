@@ -5,7 +5,14 @@ import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BeautyMainScreen extends StatelessWidget {
+class BeautyMainScreen extends StatefulWidget {
+  @override
+  _BeautyMainScreenState createState() => _BeautyMainScreenState();
+}
+
+class _BeautyMainScreenState extends State<BeautyMainScreen> {
+  final _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final width = displayWidth(context);
@@ -22,6 +29,7 @@ class BeautyMainScreen extends StatelessWidget {
                 elevation: 5,
                 shape: StadiumBorder(),
                 child: TextFormField(
+                  controller: _searchController,
                   enableInteractiveSelection: true,
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(0),

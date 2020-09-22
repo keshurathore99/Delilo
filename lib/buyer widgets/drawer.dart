@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/screens/home/beauty_and_health/beauty_main_screen.dart';
 import 'package:delilo/screens/home/dairy/dairy_main_screen.dart';
 import 'package:delilo/screens/home/fashion/fashionmain.dart';
+import 'package:delilo/screens/home/favorite_products_screen.dart';
 import 'package:delilo/screens/home/household/household_main_screen.dart';
 import 'package:delilo/screens/home/mobile/mobile_main_screen.dart';
 import 'package:delilo/screens/home/nearby_markets.dart';
@@ -148,6 +149,12 @@ class _MyDrawerState extends State<MyDrawer> {
               'assets/Group 408.png'),
           MenuItemTile(
               FashionMainPage(), 'History', 'assets/Icon material-history.png'),
+          MenuItemTile(
+            FavoriteProductsScreen(userUid),
+            'Favorites',
+            'assets/images/dellologo.png',
+            isFavoriteTab: true,
+          ),
           MenuItemTile(FashionMainPage(), 'Coupons', 'assets/%.png'),
           MenuItemTile(FashionMainPage(), 'Be A Seller',
               'assets/Icon ionic-ios-person-add.png'),
