@@ -23,7 +23,6 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
   final _attachIdController = TextEditingController();
-  final _passwordController = TextEditingController();
   final _otpController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String _otp;
@@ -235,27 +234,7 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 12),
-                        width: wid * .80,
-                        child: Material(
-                          elevation: 5,
-                          shape: StadiumBorder(),
-                          child: TextFormField(
-                            obscureText: true,
-                            keyboardType: TextInputType.visiblePassword,
-                            controller: _passwordController,
-                            enableInteractiveSelection: true,
-                            decoration: registerTextFieldDecoration.copyWith(
-                                hintText: "Password",
-                                prefixIcon: Icon(
-                                  Icons.lock,
-                                  color: Colors.black54,
-                                )),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 4),
+                        padding: EdgeInsets.symmetric(vertical: 10),
                         width: wid * .80,
                         child: Material(
                           elevation: 5,
@@ -295,7 +274,6 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                       _addressController.text.isEmpty ||
                                       _attachIdController.text.isEmpty ||
                                       _otpController.text.isEmpty ||
-                                      _passwordController.text.isEmpty ||
                                       _shopNameController.text.isEmpty) {
                                     _scaffoldKey.currentState.showSnackBar(
                                         SnackBar(
@@ -309,14 +287,6 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                         SnackBar(
                                             content: Text(
                                                 'Please Enter a Valid Email')));
-                                    return;
-                                  }
-
-                                  if (_passwordController.text.length < 5) {
-                                    _scaffoldKey.currentState.showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                'Password Length is Too Small')));
                                     return;
                                   }
 
@@ -334,7 +304,6 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                     'phone': _phoneController.text,
                                     'location': _addressController.text,
                                     'attachId': _attachIdController.text,
-                                    'password': _passwordController.text,
                                     'shop_name': _shopNameController.text,
                                   };
 
@@ -1156,15 +1125,6 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                         color: Colors.green,
                         onPressed: () async {
                           try {
-                            setState(() {
-                              _loading = true;
-                            });
-
-                            final authResult = await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                    email: widget.allInfo['email'],
-                                    password: widget.allInfo['password']);
-
                             final myPosition = await GeolocatorPlatform.instance
                                 .getCurrentPosition();
 
@@ -1200,8 +1160,11 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                             final myLatitude = myPosition.latitude;
                             final myLongitude = myPosition.longitude;
 
-                            if (authResult.user != null) {
-                              widget.allInfo['uid'] = authResult.user.uid;
+                            setState(() {
+                              _loading = true;
+                            });
+
+                            if (widget.allInfo['email'] != null) {
                               widget.allInfo['type'] = 'Seller';
                               widget.allInfo['latitude'] = myLatitude ?? 27.5;
                               widget.allInfo['longitude'] = myLongitude ?? 66.4;
@@ -1214,12 +1177,13 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                               });
 
                               Firestore.instance
-                                  .collection('sellers')
-                                  .document(authResult.user.uid)
+                                  .collection('sellersByEmail')
+                                  .document(widget.allInfo['email'])
                                   .setData(map);
 
                               _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                  content: Text('Registered Successfully')));
+                                  content: Text(
+                                      'You Will Get a Confirmation From Our Support')));
 
                               setState(() {
                                 _loading = false;
@@ -1232,7 +1196,7 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                             } else {
                               _scaffoldKey.currentState.showSnackBar(SnackBar(
                                   content: Text(
-                                      'There is Some Error Please Tru Again Later')));
+                                      'There is Some Error Please Try Again Later')));
                               return;
                             }
                           } on PlatformException catch (e) {
