@@ -485,6 +485,25 @@ class _AdressPageState extends State<AdressPage> {
                               await userRef.updateData(
                                   {'cartProducts': [], 'totalCartPrice': 0});
 
+                              for (int i = 0;
+                                  i < widget.productList.length;
+                                  i++) {
+                                Product product = widget.productList[i];
+
+                                final snapshot = await userRef.get();
+                                final historyList =
+                                    snapshot.data['history'] as List;
+
+                                historyList.add({
+                                  'action':
+                                      'You Ordered ${product.productName}}',
+                                  'dateTime': DateTime.now(),
+                                });
+
+                                await userRef
+                                    .updateData({'history': historyList});
+                              }
+
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

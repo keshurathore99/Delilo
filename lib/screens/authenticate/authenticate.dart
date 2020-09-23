@@ -329,6 +329,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 'phone': user.phoneNumber ?? 'null',
                                 'cartProducts': [],
                                 'type': 'Buyer',
+                                'history': [],
                               };
 
                               Navigator.of(context)
@@ -449,6 +450,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     'phone': phoneController.text,
                                     'cartProducts': [],
                                     'type': 'Buyer',
+                                    'history' : [],
                                   };
 
                                   Navigator.pushReplacement(

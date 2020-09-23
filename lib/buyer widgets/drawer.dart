@@ -3,6 +3,7 @@ import 'package:delilo/screens/home/beauty_and_health/beauty_main_screen.dart';
 import 'package:delilo/screens/home/dairy/dairy_main_screen.dart';
 import 'package:delilo/screens/home/fashion/fashionmain.dart';
 import 'package:delilo/screens/home/favorite_products_screen.dart';
+import 'package:delilo/screens/home/history_screen.dart';
 import 'package:delilo/screens/home/homepage.dart';
 import 'package:delilo/screens/home/household/household_main_screen.dart';
 import 'package:delilo/screens/home/mobile/mobile_main_screen.dart';
@@ -150,7 +151,7 @@ class _MyDrawerState extends State<MyDrawer> {
               'Orders',
               'assets/Group 408.png'),
           MenuItemTile(
-              FashionMainPage(), 'History', 'assets/Icon material-history.png'),
+              HistoryScreen(userUid), 'History', 'assets/Icon material-history.png'),
           MenuItemTile(
             FavoriteProductsScreen(userUid),
             'Favorites',

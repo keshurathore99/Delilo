@@ -23,6 +23,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   String _imageToShow;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _loading = false;
+  String userUid;
 
   @override
   Widget build(BuildContext context) {
@@ -635,5 +636,34 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
             ));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (userUid != null) {
+      Firestore.instance
+          .collection('users')
+          .document(userUid)
+          .get()
+          .then((snapshot) async {
+        final historyList = snapshot.data['history'] as List;
+        historyList.add({
+          'action': 'You Visited ${widget.product.productName} Page',
+          'dateTime': DateTime.now()
+        });
+
+        await Firestore.instance
+            .collection('users')
+            .document(userUid)
+            .updateData({'history': historyList});
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAuth.instance.currentUser().then((value) => userUid = value.uid);
   }
 }

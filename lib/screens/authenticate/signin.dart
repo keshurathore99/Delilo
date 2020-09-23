@@ -146,6 +146,7 @@ class _SigninPageState extends State<SigninPage> {
                               'phone': user.phoneNumber ?? 'null',
                               'cartProducts': [],
                               'type': 'Buyer',
+                              'history': [],
                             };
 
                             Navigator.of(context)
