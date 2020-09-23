@@ -3,6 +3,7 @@ import 'package:delilo/screens/home/beauty_and_health/beauty_main_screen.dart';
 import 'package:delilo/screens/home/dairy/dairy_main_screen.dart';
 import 'package:delilo/screens/home/fashion/fashionmain.dart';
 import 'package:delilo/screens/home/favorite_products_screen.dart';
+import 'package:delilo/screens/home/homepage.dart';
 import 'package:delilo/screens/home/household/household_main_screen.dart';
 import 'package:delilo/screens/home/mobile/mobile_main_screen.dart';
 import 'package:delilo/screens/home/nearby_markets.dart';
@@ -11,6 +12,7 @@ import 'package:delilo/screens/home/party/party_main_screen.dart';
 import 'package:delilo/screens/home/sports/sports_main_screen.dart';
 import 'package:delilo/screens/home/toys_and_baby_products/toys_and_baby_main_screen.dart';
 import 'package:delilo/screens/home/travel/travel_main_screen.dart';
+import 'package:delilo/screens/seller/authenticate/selleregister.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'menu_item_tile.dart';
@@ -155,10 +157,11 @@ class _MyDrawerState extends State<MyDrawer> {
             'assets/images/dellologo.png',
             isFavoriteTab: true,
           ),
-          MenuItemTile(FashionMainPage(), 'Coupons', 'assets/%.png'),
-          MenuItemTile(FashionMainPage(), 'Be A Seller',
+          MenuItemTile(
+              HomePageScreen(userUid: userUid), 'Coupons', 'assets/%.png'),
+          MenuItemTile(SellerRegisterScreen(), 'Be A Seller',
               'assets/Icon ionic-ios-person-add.png'),
-          MenuItemTile(FashionMainPage(), 'Customer Support',
+          MenuItemTile(HomePageScreen(userUid: userUid), 'Customer Support',
               'assets/Icon ionic-ios-person-add.png'),
           GestureDetector(
             onTap: () async {

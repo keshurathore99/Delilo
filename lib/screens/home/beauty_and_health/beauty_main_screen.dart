@@ -12,11 +12,12 @@ class BeautyMainScreen extends StatefulWidget {
 
 class _BeautyMainScreenState extends State<BeautyMainScreen> {
   final _searchController = TextEditingController();
+  List<DocumentSnapshot> _productsList;
+  List<DocumentSnapshot> _realList = [];
 
   @override
   Widget build(BuildContext context) {
     final width = displayWidth(context);
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -29,9 +30,24 @@ class _BeautyMainScreenState extends State<BeautyMainScreen> {
                 elevation: 5,
                 shape: StadiumBorder(),
                 child: TextFormField(
+                  onFieldSubmitted: (searchText) {
+                    if (_realList.length > 0) _realList = [];
+                    _productsList.forEach((product) {
+                      if (product.data['name']
+                          .toString()
+                          .toLowerCase()
+                          .contains(searchText.toLowerCase())) {
+                        _realList.add(product);
+                      }
+                    });
+                  },
                   controller: _searchController,
                   enableInteractiveSelection: true,
                   decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide:
+                              BorderSide(color: Colors.green, width: 1)),
                       contentPadding: EdgeInsets.all(0),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(width: 4, color: Colors.green),
@@ -79,35 +95,67 @@ class _BeautyMainScreenState extends State<BeautyMainScreen> {
                 );
               }
 
+              _productsList = snapshot.data.documents;
+
+              if (_realList.length == 0 && _searchController.text.isNotEmpty) {
+                return Center(
+                  child: Text('No Results Found'),
+                );
+              }
+
               return GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio:
-                    displayWidth(context) / displayHeight(context),
-                children: snapshot.data.documents
-                    .map(
-                      (product) => MainProductItem(
-                          product: Product(
-                              sellerId: product.data['sellerId'],
-                              inStock: product.data['inStock'],
-                              productId: product.data['productId'],
-                              productType: product.data['productType'],
-                              imageUrl: product.data['image1'],
-                              image2: product.data['image2'],
-                              image3: product.data['image3'],
-                              image4: product.data['image4'],
-                              productName: product.data['name'],
-                              shopName: product.data['shop_name'],
-                              price:
-                                  int.parse(product.data['price'].toString()),
-                              ratings: product.data['ratings'] == null
-                                  ? 0.0
-                                  : product.data['ratings'],
-                              colors: [Colors.black],
-                              description: product.data['description'],
-                              reviews: product.data['reviews'])),
-                    )
-                    .toList(),
-              );
+                  crossAxisCount: 2,
+                  childAspectRatio:
+                      displayWidth(context) / displayHeight(context),
+                  children: _realList.length == 0
+                      ? snapshot.data.documents
+                          .map(
+                            (product) => MainProductItem(
+                                product: Product(
+                                    sellerId: product.data['sellerId'],
+                                    inStock: product.data['inStock'],
+                                    productId: product.data['productId'],
+                                    productType: product.data['productType'],
+                                    imageUrl: product.data['image1'],
+                                    image2: product.data['image2'],
+                                    image3: product.data['image3'],
+                                    image4: product.data['image4'],
+                                    productName: product.data['name'],
+                                    shopName: product.data['shop_name'],
+                                    price: int.parse(
+                                        product.data['price'].toString()),
+                                    ratings: product.data['ratings'] == null
+                                        ? 0.0
+                                        : product.data['ratings'],
+                                    colors: [Colors.black],
+                                    description: product.data['description'],
+                                    reviews: product.data['reviews'])),
+                          )
+                          .toList()
+                      : _realList
+                          .map(
+                            (product) => MainProductItem(
+                                product: Product(
+                                    sellerId: product.data['sellerId'],
+                                    inStock: product.data['inStock'],
+                                    productId: product.data['productId'],
+                                    productType: product.data['productType'],
+                                    imageUrl: product.data['image1'],
+                                    image2: product.data['image2'],
+                                    image3: product.data['image3'],
+                                    image4: product.data['image4'],
+                                    productName: product.data['name'],
+                                    shopName: product.data['shop_name'],
+                                    price: int.parse(
+                                        product.data['price'].toString()),
+                                    ratings: product.data['ratings'] == null
+                                        ? 0.0
+                                        : product.data['ratings'],
+                                    colors: [Colors.black],
+                                    description: product.data['description'],
+                                    reviews: product.data['reviews'])),
+                          )
+                          .toList());
             }),
       ),
     );

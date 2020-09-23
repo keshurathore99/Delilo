@@ -12,6 +12,8 @@ class MensFashionScreen extends StatefulWidget {
 }
 
 class _MensFashionScreenState extends State<MensFashionScreen> {
+  final _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double width = displayWidth(context);
@@ -40,9 +42,13 @@ class _MensFashionScreenState extends State<MensFashionScreen> {
                         elevation: 5,
                         shape: StadiumBorder(),
                         child: TextFormField(
-                          // key: __passwordkey,
+                          controller: _searchController,
                           enableInteractiveSelection: true,
                           decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide(
+                                      color: Colors.green, width: 1)),
                               contentPadding: EdgeInsets.all(0),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(width: 4),
