@@ -53,6 +53,19 @@ class MyApp extends StatelessWidget {
                     ),
                   );
                 }
+                if (smallShot.data == null) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      centerTitle: true,
+                      backgroundColor: Colors.green,
+                      title: Text('No Internet'),
+                    ),
+                    body: Center(
+                      child: Text(
+                          'No Connection,Please Check Your Internet Connection and The Try Again'),
+                    ),
+                  );
+                }
                 if (smallShot.data.data == null) {
                   return FutureBuilder<DocumentSnapshot>(
                     future: Firestore.instance

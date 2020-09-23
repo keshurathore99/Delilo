@@ -153,14 +153,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         ),
                                         SmoothStarRating(
                                           isReadOnly: true,
-                                          rating: widget.product.ratings
-                                                      .toDouble() ==
-                                                  null
-                                              ? 0
-                                              : widget.product.ratings
-                                                  .toDouble(),
+                                          rating: getRatings(),
                                           color: Colors.yellow,
                                           borderColor: Colors.yellow,
+                                        ),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text(
+                                          getRatings().toStringAsFixed(1),
+                                          style: TextStyle(fontSize: 15),
                                         ),
                                       ],
                                     ),
@@ -272,13 +274,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Opacity(opacity: 0, child: Text('Hello User')),
+                      Opacity(
+                          opacity: 0,
+                          child: IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: null,
+                          )),
                       Text(
-                        "\nReviews",
+                        "Reviews",
                         style: TextStyle(color: Colors.green, fontSize: 20),
                       ),
                       IconButton(
-                        padding: EdgeInsets.all(0),
+                        tooltip: 'Add Your Review',
+                        color: Colors.green,
                         icon: Icon(Icons.add),
                         onPressed: addReview,
                       )
@@ -661,9 +669,26 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     }
   }
 
+  double getRatings() {
+    final reviewList = widget.product.reviews;
+    double totalRatings = 0.0;
+    final reviewListLength = widget.product.reviews.length;
+
+    if (reviewListLength == 0) {
+      return 0.0;
+    }
+
+    reviewList.forEach((review) {
+      totalRatings = totalRatings + review['ratings'];
+    });
+
+    return totalRatings / reviewListLength;
+  }
+
   @override
   void initState() {
     super.initState();
     FirebaseAuth.instance.currentUser().then((value) => userUid = value.uid);
+    getRatings();
   }
 }
