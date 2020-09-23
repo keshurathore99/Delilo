@@ -46,6 +46,7 @@ class HistoryScreen extends StatelessWidget {
                   final history = historyList[index];
                   return Card(
                     child: ListTile(
+                      leading: Image.network(history['imageUrl']),
                       title: Text(history['action']),
                       subtitle: Text(DateFormat.MMMMEEEEd()
                           .add_jm()

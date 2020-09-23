@@ -498,6 +498,7 @@ class _AdressPageState extends State<AdressPage> {
                                   'action':
                                       'You Ordered ${product.productName}}',
                                   'dateTime': DateTime.now(),
+                                  'imageUrl': product.imageUrl,
                                 });
 
                                 await userRef

@@ -658,7 +658,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         final historyList = snapshot.data['history'] as List;
         historyList.add({
           'action': 'You Visited ${widget.product.productName} Page',
-          'dateTime': DateTime.now()
+          'dateTime': DateTime.now(),
+          'imageUrl': widget.product.imageUrl,
         });
 
         await Firestore.instance
