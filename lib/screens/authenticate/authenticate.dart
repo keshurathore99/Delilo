@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:sms/sms.dart';
 
 class AuthenticateScreen extends StatefulWidget {
   static const routeName = '/authenticate';
@@ -20,32 +21,15 @@ class AuthenticateScreen extends StatefulWidget {
 FirebaseUser user;
 
 class _AuthenticateScreenState extends State<AuthenticateScreen> {
-  // final GlobalKey<FormFieldState> __passwordkey=GlobalKey<FormFieldState>();
-  // final GlobalKey<FormFieldState> _usernamekey=GlobalKey<FormFieldState>();
-  // final GlobalKey<FormFieldState> _emailkey=GlobalKey<FormFieldState>();
-  // final GlobalKey<FormFieldState> _mobilenumberkey=GlobalKey<FormFieldState>();
-
-  String currentText;
-  TextEditingController textEditingController = TextEditingController();
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  final otpController = new TextEditingController();
-
-  // Registration variables
-  String smsCode, verificationId;
-  bool codeSent = false;
-  bool verified = false;
-  bool registered = false;
-  bool canRegister = false;
-  AuthCredential loginKey;
-
-  final key = GlobalKey<ScaffoldState>();
+  TextEditingController _userNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  final _otpController = new TextEditingController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _loading = false;
-//  final flutterOtp = FlutterOtp();
-  String otp;
-
+  String _otp;
+  bool _otpSent = false;
   final _googleSignIn = GoogleSignIn();
 
   @override
@@ -60,7 +44,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
       child: ModalProgressHUD(
         inAsyncCall: _loading,
         child: Scaffold(
-          key: key,
+          key: _scaffoldKey,
           body: Center(
             child: Container(
               width: wid,
@@ -91,7 +75,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 shape: StadiumBorder(),
                                 child: TextFormField(
                                   keyboardType: TextInputType.name,
-                                  controller: userNameController,
+                                  controller: _userNameController,
                                   enableInteractiveSelection: true,
                                   decoration:
                                       registerTextFieldDecoration.copyWith(
@@ -110,7 +94,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 shape: StadiumBorder(),
                                 child: TextFormField(
                                   keyboardType: TextInputType.emailAddress,
-                                  controller: emailController,
+                                  controller: _emailController,
                                   enableInteractiveSelection: true,
                                   decoration:
                                       registerTextFieldDecoration.copyWith(
@@ -129,7 +113,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                 shape: StadiumBorder(),
                                 child: TextFormField(
                                   // key: _mobilenumberkey,
-                                  controller: phoneController,
+                                  controller: _phoneController,
                                   enableInteractiveSelection: true,
                                   decoration:
                                       registerTextFieldDecoration.copyWith(
@@ -182,16 +166,8 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                                     ),
                                     backgroundColor: Colors.transparent,
                                     enableActiveFill: true,
-                                    controller: textEditingController,
-                                    onCompleted: (v) {
-                                      print("Completed");
-                                    },
-                                    onChanged: (value) {
-                                      print(value);
-                                      setState(() {
-                                        otp = value;
-                                      });
-                                    },
+                                    controller: _otpController,
+                                    onChanged: (value) {},
                                   ),
                                 ),
                               ),
@@ -203,54 +179,39 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                     Align(
                       alignment: Alignment(.6, -1),
                       child: GestureDetector(
-                        onTap: () {
-//                          if (phoneController.text.isEmpty ||
-//                              emailController.text.isEmpty ||
-//                              userNameController.text.isEmpty ||
-//                              passwordController.text.isEmpty) {
-//                            key.currentState.showSnackBar(SnackBar(
-//                                content:
-//                                    Text('Please Fill All The Fields First')));
-//                            return;
-//                          }
-                          phoneController.text = phoneController.text.trim();
-                          if (phoneController.text.length != 10 ||
-                              phoneController.text.isEmpty) {
-                            key.currentState.showSnackBar(SnackBar(
+                        onTap: () async {
+                          _phoneController.text = _phoneController.text.trim();
+                          if (_phoneController.text.length != 10 ||
+                              _phoneController.text.isEmpty) {
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
                                 content:
                                     Text('Please Enter a Valid Phone Number')));
                             return;
                           }
+                          setState(() {
+                            _otpSent = true;
+                          });
                           try {
-//                            flutterOtp.sendOtp(
-//                              phoneController.text,
-//                            );
+                            _otp = DateTime.now()
+                                .millisecondsSinceEpoch
+                                .toString()
+                                .substring(0, 4);
+                            print(_otp);
+                            final sender = SmsSender();
+                            await sender.sendSms(SmsMessage(
+                                _phoneController.text,
+                                'Your OTP for Delilo App is $_otp\nDo not share with anyone'));
                           } catch (e) {
-                            key.currentState.showSnackBar(SnackBar(
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
                               content: Text(
                                   e.toString() + "\nAuthentication Failed"),
                             ));
                           }
-
-//                          codeSent
-//                              ? AuthService()
-//                                  .signWithOTP(smsCode, verificationId)
-//                              : verifyPhone("+91" + phoneController.text);
-
-//                          if (verified) {
-//                            setState(() {
-//                              key.currentState.showSnackBar(SnackBar(
-//                                content: Text('Phone Number Verified !'),
-//                              ));
-//                            });
-//                          }
                         },
-                        child: Text('Get OTP'),
-//                      child: codeSent
-//                          ? Text("Submit the OTP Code",
-//                              style: TextStyle(color: Colors.green))
-//                          : Text("Get OTP",
-//                              style: TextStyle(color: Colors.green)),
+                        child: Text(
+                          _otpSent == true ? 'Resend OTP' : 'Get OTP',
+                          style: TextStyle(color: Colors.green),
+                        ),
                       ),
                       // child: Text("Send OTP",style: TextStyle(color: Colors.green),)),
                     ),
@@ -266,7 +227,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                             child: TextFormField(
                               obscureText: true,
                               keyboardType: TextInputType.visiblePassword,
-                              controller: passwordController,
+                              controller: _passwordController,
                               enableInteractiveSelection: true,
                               decoration: registerTextFieldDecoration.copyWith(
                                   hintText: 'Password',
@@ -309,7 +270,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                           onTap: () async {
                             final user = await signInWithGoogle();
                             if (user == null || user.uid == null) {
-                              key.currentState.showSnackBar(SnackBar(
+                              _scaffoldKey.currentState.showSnackBar(SnackBar(
                                   content: Text(
                                       'There is Some Problem in Register Please Try Again')));
                               return;
@@ -378,79 +339,69 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                             width: wid * .5,
                             child: FlatButton(
                                 onPressed: () async {
-//                                  if (canRegister == true) {
-//                                  if (smsCode != otpController.text) {
-//                                    key.currentState.showSnackBar(SnackBar(
-//                                        content: Text('OTP Not Matched')));
-//                                    return;
-//                                  }
-                                  if (emailController.text.isEmpty &&
-                                      passwordController.text.isEmpty &&
-                                      phoneController.text.isEmpty &&
-                                      userNameController.text.isEmpty) {
-                                    key.currentState.showSnackBar(SnackBar(
+                                  if (_emailController.text.isEmpty &&
+                                      _passwordController.text.isEmpty &&
+                                      _phoneController.text.isEmpty &&
+                                      _userNameController.text.isEmpty) {
+                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
                                         content: Text(
                                             'Please Fill All of The Fields First')));
                                     return;
                                   }
 
-                                  if (!emailController.text.contains('@')) {
-                                    key.currentState.showSnackBar(SnackBar(
-                                        content: Text(
-                                            'Please Enter a Valid Email')));
+                                  if (!_emailController.text.contains('@')) {
+                                    _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                'Please Enter a Valid Email')));
                                     return;
                                   }
 
-                                  if (passwordController.text.length < 5) {
-                                    key.currentState.showSnackBar(SnackBar(
-                                        content: Text(
-                                            'Password Length is Too Small')));
+                                  if (_passwordController.text.length < 5) {
+                                    _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                'Password Length is Too Small')));
                                     return;
                                   }
 
-                                  if (otp == null) {
-                                    key.currentState.showSnackBar(SnackBar(
-                                        content:
-                                            Text('Please Enter an OTP First')));
+                                  if (_otp == null) {
+                                    _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                'Please Enter an OTP First')));
                                     return;
                                   }
 
-                                  if (phoneController.text.length != 10) {
-                                    key.currentState.showSnackBar(SnackBar(
+                                  if (_phoneController.text.length != 10) {
+                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
                                         content: Text(
                                             'Please Enter a Valid Phone Number')));
                                   }
 
-                                  bool result = false;
+                                  print(
+                                      'textfield text ' + _otpController.text);
+                                  print('otp ' + _otp);
 
-                                  try {
-//                                    result = flutterOtp
-//                                        .resultChecker(int.parse(otp));
-                                  } catch (e) {
-                                    key.currentState.showSnackBar(
-                                        SnackBar(content: Text(e.toString())));
+                                  if (_otpController.text != _otp) {
+                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                        content: Text(
+                                            'Your Entered OTP is Wrong Please Try Again')));
                                     return;
                                   }
-
-//                                  if (result == false) {
-//                                    key.currentState.showSnackBar(SnackBar(
-//                                        content: Text(
-//                                            'Your Entered OTP is Wrong Please Try Again')));
-//                                    return;
-//                                  }
 
                                   setState(() {
                                     _loading = true;
                                   });
 
                                   final Map<String, dynamic> map = {
-                                    'email': emailController.text,
-                                    'password': passwordController.text,
-                                    'name': userNameController.text,
-                                    'phone': phoneController.text,
+                                    'email': _emailController.text,
+                                    'password': _passwordController.text,
+                                    'name': _userNameController.text,
+                                    'phone': _phoneController.text,
                                     'cartProducts': [],
                                     'type': 'Buyer',
-                                    'history' : [],
+                                    'history': [],
                                   };
 
                                   Navigator.pushReplacement(
@@ -496,80 +447,6 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     );
   }
 
-  Future<void> verifyPhone(phoneNo) async {
-    final PhoneVerificationCompleted verified =
-        (AuthCredential authResult) async {
-      // AuthService().signIn(authResult);
-      FirebaseAuth.instance
-          .signInWithCredential(authResult)
-          .then((usser) async {
-        if (emailController != null &&
-            phoneController != null &&
-            userNameController != null &&
-            passwordController != null) {
-          canRegister = true;
-        }
-        await FirebaseAuth.instance.currentUser().then((value) {
-          user = value;
-        });
-
-//        final myPosition =
-//            await GeolocatorPlatform.instance.getCurrentPosition();
-//        final myLatitude = myPosition.latitude;
-//        final myLongitude = myPosition.longitude;
-
-        await Firestore.instance
-            .collection('users')
-            .document(usser.user.uid)
-            .setData({
-          "email": emailController.text,
-          "phone": phoneController.text,
-          "username": userNameController.text,
-          "uid": usser.user.uid,
-        });
-      });
-      setState(() async {
-        this.verified = true;
-        this.loginKey = authResult;
-        otpController.text = smsCode;
-      });
-    };
-
-    print(smsCode);
-
-    final PhoneVerificationFailed verificationfailed =
-        (AuthException authException) {
-      print('${authException.message}' +
-          '***************************************');
-
-      if (registered)
-        key.currentState.showSnackBar(SnackBar(
-          content: new Text('Already Registered please try Login'),
-        ));
-
-      registered = false;
-    };
-
-    final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
-      this.verificationId = verId;
-      setState(() {
-        this.codeSent = true;
-      });
-    };
-
-    final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
-      this.verificationId = verId;
-    };
-
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: phoneNo,
-        timeout: const Duration(seconds: 60),
-        verificationCompleted: verified,
-        verificationFailed: verificationfailed,
-        codeSent: smsSent,
-        codeAutoRetrievalTimeout: autoTimeout);
-  }
-
   Future<FirebaseUser> signInWithGoogle() async {
     final GoogleSignInAccount googleSignInAccount =
         await _googleSignIn.signIn();
@@ -589,26 +466,3 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
     return currentUser;
   }
 }
-
-/*
-SizedBox(
-width: wid*.8,
-child: Material(
-elevation: 5,
-shape: StadiumBorder(),
-child: TextFormField(
-key: __passwordkey,
-enableInteractiveSelection: true,
-decoration: InputDecoration(
-
-border: OutlineInputBorder(borderSide: BorderSide(width: 4),borderRadius: BorderRadius.all(Radius.circular(30))),
-prefixIcon: Padding(
-padding: const EdgeInsets.fromLTRB(10,0,10,0),
-child: Icon(Icons.lock,size: 35,color: Colors.black.withOpacity(.75),),
-),
-hintText: "Enter Password"
-),
-validator: (value){},
-),
-),
-),*/

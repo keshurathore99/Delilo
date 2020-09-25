@@ -1,14 +1,19 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/constants/decoration_constants.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'package:delilo/screens/seller/authenticate/sellersignin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:sms/sms.dart';
 
 class SellerRegisterScreen extends StatefulWidget {
   static const routeName = '/sellerRegisterPage';
@@ -25,8 +30,9 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
   final _attachIdController = TextEditingController();
   final _otpController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  String _otp;
   final _shopNameController = TextEditingController();
+  String _otp;
+  bool _otpSent = false;
 
   @override
   Widget build(BuildContext context) {
@@ -158,11 +164,7 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                 ),
                                 backgroundColor: Colors.transparent,
                                 enableActiveFill: true,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _otp = value;
-                                  });
-                                },
+                                onChanged: (value) {},
                                 //errorAnimationController: errorController,
                               ),
                             ),
@@ -171,11 +173,39 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment(.6, -1),
-                    child: Text(
-                      "Resend OTP",
-                      style: TextStyle(color: Colors.green),
+                  InkWell(
+                    onTap: () async {
+                      if (_phoneController.text.isEmpty ||
+                          _phoneController.text.length != 10) {
+                        _scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content:
+                                Text('Please Enter a Valid Mobile Number')));
+                        return;
+                      }
+
+                      setState(() {
+                        _otpSent = true;
+                      });
+
+                      try {
+                        _otp = DateTime.now()
+                            .millisecondsSinceEpoch
+                            .toString()
+                            .substring(0, 4);
+                        final sender = SmsSender();
+                        await sender.sendSms(SmsMessage(_phoneController.text,
+                            'Your OTP for Delilo App is $_otp\nDo not Share with Anyone'));
+                      } catch (e) {
+                        _scaffoldKey.currentState.showSnackBar(
+                            SnackBar(content: Text(e.toString())));
+                      }
+                    },
+                    child: Align(
+                      alignment: Alignment(.6, -1),
+                      child: Text(
+                        _otpSent ? "Resend OTP" : 'Get OTP',
+                        style: TextStyle(color: Colors.green),
+                      ),
                     ),
                   ),
                   Column(
@@ -298,6 +328,12 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                                     return;
                                   }
 
+                                  if (_otpController.text != _otp) {
+                                    _scaffoldKey.currentState.showSnackBar(
+                                        SnackBar(content: Text('Wrong OTP')));
+                                    return;
+                                  }
+
                                   Map map = {
                                     'email': _emailController.text,
                                     'username': _usernameController.text,
@@ -416,6 +452,7 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                       children: [
                         //Icon(Icons.payment,size: 40,),
                         Radio(
+                          activeColor: Colors.green,
                           value: GstOption.have,
                           groupValue: selected,
                           onChanged: (GstOption value) {
@@ -454,6 +491,7 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                       children: [
                         //Icon(Icons.payment,size: 40,),
                         Radio(
+                          activeColor: Colors.green,
                           value: GstOption.gstexempt,
                           groupValue: selected,
                           onChanged: (GstOption value) {
@@ -490,6 +528,7 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Radio(
+                          activeColor: Colors.green,
                           value: GstOption.willapply,
                           groupValue: selected,
                           onChanged: (GstOption value) {
@@ -524,13 +563,10 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                         elevation: 5,
                         shape: StadiumBorder(),
                         child: TextFormField(
-                          controller: _gstNumberController,
-                          enableInteractiveSelection: true,
-                          decoration: registerTextFieldDecoration.copyWith(
-                              hintText: 'Verify GSTIN',
-                              prefixIcon: Opacity(
-                                  opacity: 0, child: Icon(Icons.donut_large))),
-                        ),
+                            controller: _gstNumberController,
+                            enableInteractiveSelection: true,
+                            decoration: decoratedTextFieldForNewProduct
+                                .copyWith(hintText: 'Verify GSTIN')),
                       ),
                     ),
                   ],
@@ -642,12 +678,11 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                     color: Colors.grey[100].withOpacity(.6),
                     height: 40,
                     width: wid * .6,
-                    // color: Colors.redAccent.withOpacity(.6),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        //Icon(Icons.payment,size: 40,),
                         Radio(
+                          activeColor: Colors.green,
                           value: BankOption.havesamenamebank,
                           groupValue: selected,
                           onChanged: (BankOption value) {
@@ -684,6 +719,7 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Radio(
+                          activeColor: Colors.green,
                           value: BankOption.donthavesamename,
                           groupValue: selected,
                           onChanged: (BankOption value) {
@@ -720,12 +756,8 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                         child: TextFormField(
                           controller: _accountHolderName,
                           enableInteractiveSelection: true,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 4),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30))),
-                              hintText: "Enter Account Holder's Name"),
+                          decoration: decoratedTextFieldForNewProduct.copyWith(
+                              hintText: 'Account Holder Name'),
                         ),
                       ),
                     ),
@@ -746,12 +778,8 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                           keyboardType: TextInputType.number,
                           controller: _bankAccountNumber,
                           enableInteractiveSelection: true,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 4),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30))),
-                              hintText: "Enter Bank Account Number"),
+                          decoration: decoratedTextFieldForNewProduct.copyWith(
+                              hintText: 'Bank Account Number'),
                         ),
                       ),
                     ),
@@ -769,26 +797,14 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                         elevation: 5,
                         shape: StadiumBorder(),
                         child: TextFormField(
-                          controller: _ifscCodeController,
-                          enableInteractiveSelection: true,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 4),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30))),
-                              hintText: "Enter IFSC"),
-                        ),
+                            keyboardType: TextInputType.text,
+                            controller: _ifscCodeController,
+                            enableInteractiveSelection: true,
+                            decoration: decoratedTextFieldForNewProduct
+                                .copyWith(hintText: 'Enter IFSC')),
                       ),
                     ),
                   ],
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: Text(
-                  "Don't Know GST",
-                  style: TextStyle(color: Colors.green),
                 ),
               ),
               Padding(
@@ -863,176 +879,237 @@ class CollectSignPage extends StatefulWidget {
 
 class _CollectSignPageState extends State<CollectSignPage> {
   SignOption selected = SignOption.signhere;
+  bool willImageUpload = false;
+  bool _loading = false;
+
   @override
   Widget build(BuildContext context) {
     double wid = displayWidth(context);
-    return Scaffold(
-      body: Center(
-        child: Container(
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15.0),
-                child: Container(
-                    height: 120,
-                    child: Image.asset(
-                      "assets/images/dellologo.png",
-                    )),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: Text(
-                  "Give Your Business Details",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                )),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 28.0),
-                child: Card(
-                  semanticContainer: true,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
+    return ModalProgressHUD(
+      inAsyncCall: _loading,
+      child: Scaffold(
+        body: Center(
+          child: Container(
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 15.0),
                   child: Container(
-                    color: Colors.grey[100].withOpacity(.6),
-                    height: 40,
-                    width: wid * .6,
-                    // color: Colors.redAccent.withOpacity(.6),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        //Icon(Icons.payment,size: 40,),
-                        Radio(
-                          value: SignOption.signhere,
-                          groupValue: selected,
-                          onChanged: (SignOption value) {
-                            setState(() {
-                              selected = value;
-                            });
-                          },
-                        ),
-                        Text(
-                          "I Want To Draw Sign On Screen",
-                          style: TextStyle(
-                              fontSize: 15, fontStyle: FontStyle.italic),
-                        ),
-                      ],
-                    ),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  elevation: 0,
-                  margin: EdgeInsets.all(10),
+                      height: 120,
+                      child: Image.asset(
+                        "assets/images/dellologo.png",
+                      )),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15.0),
-                child: Card(
-                  semanticContainer: true,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: Container(
-                    height: 40,
-                    width: wid * .6,
-                    color: Colors.grey[100].withOpacity(.6),
-                    // color: Colors.redAccent.withOpacity(.6),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        //Icon(Icons.payment,size: 40,),
-                        Radio(
-                          value: SignOption.upload,
-                          groupValue: selected,
-                          onChanged: (SignOption value) {
-                            setState(() {
-                              selected = value;
-                            });
-                          },
-                        ),
-                        Text(
-                          "I Want To Upload Sign. ",
-                          style: TextStyle(
-                              fontSize: 14, fontStyle: FontStyle.italic),
-                        ),
-                      ],
-                    ),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  elevation: 0,
-                  margin: EdgeInsets.all(10),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                      child: Text(
+                    "Give Your Business Details",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  )),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.all(12),
-                height: 5 * 24.0,
-                width: wid * .8,
-                child: Material(
-                  elevation: 1,
-                  shape: StadiumBorder(),
-                  child: TextFormField(
-                    enableInteractiveSelection: true,
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(width: 4),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        hintText: "Click here To sign"),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SellerVerificationPage(
-                            allInfo: widget.bankDetails,
-                          )));
-                },
-                child: Align(
-                  alignment: Alignment(.9, -1),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "SKIP",
-                      style: TextStyle(color: Colors.green),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        height: 50,
-                        width: wid * .7,
-                        child: FlatButton(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => SellerVerificationPage(
-                                        allInfo: widget.bankDetails,
-                                      )));
-                            },
+                Padding(
+                  padding: const EdgeInsets.only(top: 28.0),
+                  child: Card(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: Container(
+                      color: Colors.grey[100].withOpacity(.6),
+                      height: 40,
+                      width: wid * .6,
+                      // color: Colors.redAccent.withOpacity(.6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          //Icon(Icons.payment,size: 40,),
+                          Expanded(
+                            flex: 1,
+                            child: Radio(
+                              activeColor: Colors.green,
+                              value: SignOption.signhere,
+                              groupValue: selected,
+                              onChanged: (SignOption value) {
+                                setState(() {
+                                  selected = value;
+                                  willImageUpload = false;
+                                });
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
                             child: Text(
-                              "Continue",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ))),
-                  ],
+                              "I Want To Draw Sign On Screen",
+                              style: TextStyle(
+                                  fontSize: 15, fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 0,
+                    margin: EdgeInsets.all(10),
+                  ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: Card(
+                    semanticContainer: true,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    child: Container(
+                      height: 40,
+                      width: wid * .6,
+                      color: Colors.grey[100].withOpacity(.6),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Radio(
+                              activeColor: Colors.green,
+                              value: SignOption.upload,
+                              groupValue: selected,
+                              onChanged: (SignOption value) {
+                                setState(() {
+                                  selected = value;
+                                  willImageUpload = true;
+                                });
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              "I Want To Upload Sign. ",
+                              style: TextStyle(
+                                  fontSize: 14, fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 0,
+                    margin: EdgeInsets.all(10),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(12),
+                  height: 5 * 24.0,
+                  width: wid * .8,
+                  child: willImageUpload
+                      ? FlatButton(
+                          textColor: Colors.green,
+                          onPressed: () async {
+                            final user =
+                                await FirebaseAuth.instance.currentUser();
+                            final image = await ImagePicker()
+                                .getImage(source: ImageSource.gallery);
+                            final file = File(image.path);
+
+                            setState(() {
+                              _loading = true;
+                            });
+
+                            final snapshot = await FirebaseStorage.instance
+                                .ref()
+                                .child('signatures')
+                                .child(user.uid)
+                                .putFile(file)
+                                .onComplete;
+
+                            final signatureLink =
+                                await snapshot.ref.getDownloadURL();
+
+                            widget.bankDetails['signatureLink'] =
+                                signatureLink.toString();
+
+                            setState(() {
+                              _loading = false;
+                            });
+
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => SellerVerificationPage(
+                                      allInfo: widget.bankDetails,
+                                    )));
+                          },
+                          child: Text('Upload Image'),
+                        )
+                      : Material(
+                          elevation: 1,
+                          shape: StadiumBorder(),
+                          child: TextFormField(
+                            enableInteractiveSelection: true,
+                            maxLines: 5,
+                            decoration: InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: Colors.green),
+                                    borderRadius: BorderRadius.circular(30)),
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30))),
+                                hintText: "Click here To sign"),
+                          ),
+                        ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => SellerVerificationPage(
+                              allInfo: widget.bankDetails,
+                            )));
+                  },
+                  child: Align(
+                    alignment: Alignment(.9, -1),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "SKIP",
+                        style: TextStyle(color: Colors.green),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
+                          height: 50,
+                          width: wid * .7,
+                          child: FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        SellerVerificationPage(
+                                          allInfo: widget.bankDetails,
+                                        )));
+                              },
+                              child: Text(
+                                "Continue",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ))),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

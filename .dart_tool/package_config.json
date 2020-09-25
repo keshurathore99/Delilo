@@ -380,6 +380,12 @@
       "languageVersion": "2.7"
     },
     {
+      "name": "sms",
+      "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/sms-0.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "1.19"
+    },
+    {
       "name": "source_span",
       "rootUri": "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.7.0",
       "packageUri": "lib/",
@@ -500,7 +506,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-09-22T09:49:34.681762Z",
+  "generated": "2020-09-25T13:30:59.903812Z",
   "generator": "pub",
   "generatorVersion": "2.9.2"
 }

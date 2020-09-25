@@ -61,8 +61,14 @@ class MyApp extends StatelessWidget {
                       title: Text('No Internet'),
                     ),
                     body: Center(
-                      child: Text(
-                          'No Connection,Please Check Your Internet Connection and The Try Again'),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          'No Connection,Please Check Your Internet Connection and The Try Again',
+                          style: TextStyle(color: Colors.green),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
                   );
                 }
