@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/constants/decoration_constants.dart';
@@ -8,12 +9,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:sms/sms.dart';
+import 'package:twilio_flutter/twilio_flutter.dart';
 
 class SellerRegisterScreen extends StatefulWidget {
   static const routeName = '/sellerRegisterPage';
@@ -33,6 +33,16 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
   final _shopNameController = TextEditingController();
   String _otp;
   bool _otpSent = false;
+  TwilioFlutter _twilioFlutter;
+
+  @override
+  void initState() {
+    super.initState();
+    _twilioFlutter = TwilioFlutter(
+        accountSid: 'AC32f01a582a21fe98bd97f62d20ef4560',
+        authToken: '455c0018476e367a1b8824ff98db4f7d',
+        twilioNumber: '+12059904780');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,13 +198,15 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                       });
 
                       try {
-                        _otp = DateTime.now()
-                            .millisecondsSinceEpoch
-                            .toString()
-                            .substring(0, 4);
-                        final sender = SmsSender();
-                        await sender.sendSms(SmsMessage(_phoneController.text,
-                            'Your OTP for Delilo App is $_otp\nDo not Share with Anyone'));
+                        _otp = Random().nextInt(9999).toString();
+
+                        while (_otp.length != 4) {
+                          _otp = Random().nextInt(9999).toString();
+                        }
+
+                        _twilioFlutter.sendSMS(
+                            toNumber: '+91${_phoneController.text}',
+                            messageBody: 'Your OTP is $_otp');
                       } catch (e) {
                         _scaffoldKey.currentState.showSnackBar(
                             SnackBar(content: Text(e.toString())));
