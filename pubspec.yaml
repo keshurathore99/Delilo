@@ -36,13 +36,15 @@ dependencies:
   smooth_star_rating: ^1.1.1
   image_picker: ^0.6.7+7
   firebase_storage: ^3.1.6
-#  flutter_otp: 0.0.1
   geocoding: ^1.0.3
   carousel_images: ^1.0.3
   intl:
   google_sign_in: ^4.5.3
   twilio_flutter: ^0.0.5
-#  flutter_sms: ^2.0.1+2
+  upi_india: ^2.1.2
+  toast: ^0.1.5
+  razorpay_flutter: ^1.2.2
+  webview_flutter: ^0.3.19+9
 
 
 dev_dependencies:

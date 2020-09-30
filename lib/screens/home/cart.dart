@@ -43,6 +43,10 @@ class _CartPageState extends State<CartPage> {
                       snapshot.data.data['cartProducts'] as List;
 
                   if (cartProducts.length == 0) {
+                    Firestore.instance
+                        .collection('users')
+                        .document(widget.userUid)
+                        .updateData({'totalCartPrice': 0});
                     return Center(
                       child: Text('Cart is Empty'),
                     );

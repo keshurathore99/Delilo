@@ -45,7 +45,7 @@ class NavigationHelper{
       case '/productsdetail':return MaterialPageRoute(builder: (_)=>ProductDetailPage());
       case '/cart':return MaterialPageRoute(builder: (_)=>CartPage());
       case '/payment':return MaterialPageRoute(builder: (_)=>PaymentPage());
-      case '/adressconfirm':return MaterialPageRoute(builder: (_)=>AdressPage());
+      case '/adressconfirm':return MaterialPageRoute(builder: (_)=>AddressPage());
       case '/orderdone':return MaterialPageRoute(builder: (_)=>OrderPlaced());
       case '/orders':return MaterialPageRoute(builder: (_)=>OrdersPage());
       case '/accountinfo':return MaterialPageRoute(builder: (_)=>AccountInfo());

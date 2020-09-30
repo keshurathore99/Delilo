@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/product.dart';
+import 'package:delilo/screens/home/PaymentScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
 import 'dart:math' as math;
 
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:toast/toast.dart';
+import 'package:upi_india/upi_india.dart';
 
 class PaymentPage extends StatefulWidget {
   final String priceToPay;
@@ -248,7 +252,8 @@ class _PaymentPageState extends State<PaymentPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AdressPage(
+                                  builder: (context) => AddressPage(
+                                      paymentMode: selected,
                                       priceToPay: widget.priceToPay,
                                       productList: widget.productList)));
                         },
@@ -264,18 +269,18 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 }
-//Container(color: Colors.white,child: Center(child: Text("Buy Now",style: TextStyle(color: Colors.green,fontSize: 18),),))
 
-class AdressPage extends StatefulWidget {
+class AddressPage extends StatefulWidget {
   final String priceToPay;
   final List<Product> productList;
-  AdressPage({@required this.priceToPay, this.productList});
+  final PaymentMode paymentMode;
+  AddressPage({@required this.priceToPay, this.productList, this.paymentMode});
 
   @override
-  _AdressPageState createState() => _AdressPageState();
+  _AddressPageState createState() => _AddressPageState();
 }
 
-class _AdressPageState extends State<AdressPage> {
+class _AddressPageState extends State<AddressPage> {
   final TextEditingController _nameController = TextEditingController(),
       _addressContoller = TextEditingController(),
       _pinController = TextEditingController(),
@@ -285,11 +290,22 @@ class _AdressPageState extends State<AdressPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _loading = false;
   static List<Product> _mainList;
+//  UpiIndia _upiIndia = UpiIndia();
+//  Razorpay _razorpay = Razorpay();
 
   @override
   void initState() {
     super.initState();
     _mainList = widget.productList;
+//    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, () {
+//      print('payment success');
+//    });
+//    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, () {
+//      print('payment error');
+//    });
+//    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, () {
+//      print('payment using external wallet');
+//    });
   }
 
   @override
@@ -360,163 +376,43 @@ class _AdressPageState extends State<AdressPage> {
                               return;
                             }
 
-                            try {
-                              setState(() {
-                                _loading = true;
-                              });
+//                            if (widget.paymentMode == PaymentMode.paytm) {
+//                              print('paytm');
+//                              _payWithPaytm(widget.priceToPay);
+//                              return;
+//                            }
+//                            if (widget.paymentMode == PaymentMode.upi) {
+//                              print('upi');
+//                              _payWithUpi(widget.priceToPay);
+//                              return;
+//                            }
+//                            if (widget.paymentMode == PaymentMode.card) {
+//                              print('card');
+//                              _payWithCard(widget.priceToPay);
+//                              return;
+//                            }
+//                            if (widget.paymentMode == PaymentMode.gpay) {
+//                              print('google pay');
+//                              _payWithGooglePay(widget.priceToPay);
+//                              return;
+//                            }
 
-                              final user =
-                                  await FirebaseAuth.instance.currentUser();
-
-                              final orderId = _generateOrderId();
-
-                              final userRef = Firestore.instance
-                                  .collection('users')
-                                  .document(user.uid);
-
-                              final listLength = _mainList.length;
-
-                              final userShot = await userRef.get();
-
-                              for (int i = 0; i < listLength; i++) {
-                                Product product = _mainList[i];
-                                final otp = int.parse(DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString()
-                                    .substring(0, 4));
-
-                                final cartProductList =
-                                    userShot.data['cartProducts'] as List;
-
-                                final cartProduct = cartProductList.firstWhere(
-                                    (element) => element['productId']
-                                        .toString()
-                                        .contains(product.productId));
-
-                                final randomNumber =
-                                    math.Random().nextInt(999999999);
-
-                                final orderData = {
-                                  'name': _nameController.text,
-                                  'address': _addressContoller.text,
-                                  'pincode': _pinController.text,
-                                  'nearByLandMark': _nameController.text,
-                                  'mobile': _mobileContoller.text,
-                                  'alterMobile': _altMobileController.text,
-                                  'dateTime': DateTime.now(),
-                                  'price': product.price,
-                                  'type': 'Cash on Delivery',
-                                  'orderId': orderId,
-                                  'productName': product.productName,
-                                  'productType': product.productType,
-                                  'productId': product.productId,
-                                  'productImage': product.imageUrl,
-                                  'sellerId': product.sellerId,
-                                  'otp': otp,
-                                  'userUid': user.uid,
-                                  'uniqueProductId': randomNumber,
-                                  'status': 'New Orders',
-                                  'quantity': cartProduct['quantity'],
-                                  'totalPrice': cartProduct['price'],
-//                                  'color': product.colors,
-                                };
-
-                                final ordersRef = Firestore.instance
-                                    .collection('sellers')
-                                    .document(product.sellerId)
-                                    .collection('orders')
-                                    .document(user.uid);
-
-                                final sellerOrdersSnapshot =
-                                    await ordersRef.get();
-
-                                if (!sellerOrdersSnapshot.exists) {
-                                  await ordersRef.setData({
-                                    'newOrders': [orderData],
-                                    'packing': [],
-                                    'ready': [],
-                                    'picked': [],
-                                    'shipping': [],
-                                    'delivered': [],
-                                  });
-
-                                  final userSnapshot = await userRef.get();
-
-                                  if (userSnapshot.data['newOrders'] == null) {
-                                    await userRef.updateData({
-                                      'newOrders': [
-                                        'sellers/${product.sellerId}/orders/${user.uid}',
-                                      ],
-                                      'pastOrders': [],
-                                    });
-                                  } else {
-                                    final newOrderList =
-                                        userSnapshot.data['newOrders'] as List;
-                                    newOrderList.add(
-                                        'sellers/${product.sellerId}/orders/${user.uid}');
-                                    await userRef.updateData(
-                                        {'newOrders': newOrderList});
-                                  }
-                                } else {
-                                  final newOrderList = sellerOrdersSnapshot
-                                      .data['newOrders'] as List;
-
-                                  newOrderList.add(orderData);
-                                  await ordersRef
-                                      .updateData({'newOrders': newOrderList});
-
-                                  final buyerSnapshot = await userRef.get();
-
-                                  final newOrderListForUser =
-                                      buyerSnapshot.data['newOrders'] as List;
-
-                                  newOrderListForUser.add(
-                                      'sellers/${product.sellerId}/orders/${user.uid}');
-
-                                  await userRef.updateData(
-                                      {'newOrders': newOrderListForUser});
-                                }
-                              }
-
-                              setState(() {
-                                _loading = false;
-                              });
-
-                              await userRef.updateData(
-                                  {'cartProducts': [], 'totalCartPrice': 0});
-
+                            if (widget.paymentMode == PaymentMode.cod) {
+                              _putOrder('Cash on Delivery');
+                            } else {
+                              int totalAmount = 0;
                               for (int i = 0;
                                   i < widget.productList.length;
                                   i++) {
                                 Product product = widget.productList[i];
-
-                                final snapshot = await userRef.get();
-                                final historyList =
-                                    snapshot.data['history'] as List;
-
-                                historyList.add({
-                                  'action':
-                                      'You Ordered ${product.productName}}',
-                                  'dateTime': DateTime.now(),
-                                  'imageUrl': product.imageUrl,
-                                });
-
-                                await userRef
-                                    .updateData({'history': historyList});
+                                totalAmount = totalAmount + product.price;
                               }
 
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => OrderPlaced()));
-                            } catch (e) {
-                              _scaffoldKey.currentState.showSnackBar(
-                                  SnackBar(content: Text(e.toString())));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => PaymentScreen(
+                                        amount: totalAmount.toString(),
+                                      )));
                             }
-
-                            setState(() {
-                              _loading = false;
-                            });
                           },
                           child: Text(
                             'Save',
@@ -562,9 +458,260 @@ class _AdressPageState extends State<AdressPage> {
     );
   }
 
+  Future<void> _putOrder(String paymentType) async {
+    try {
+      setState(() {
+        _loading = true;
+      });
+
+      final user = await FirebaseAuth.instance.currentUser();
+
+      final orderId = _generateOrderId();
+
+      final userRef = Firestore.instance.collection('users').document(user.uid);
+
+      final listLength = _mainList.length;
+
+      final userShot = await userRef.get();
+
+      for (int i = 0; i < listLength; i++) {
+        Product product = _mainList[i];
+        final otp = int.parse(
+            DateTime.now().millisecondsSinceEpoch.toString().substring(0, 4));
+
+        final cartProductList = userShot.data['cartProducts'] as List;
+
+        final cartProduct = cartProductList.firstWhere((element) =>
+            element['productId'].toString().contains(product.productId));
+
+        int randomNumber = math.Random().nextInt(999999999);
+
+        while (randomNumber.toString().length != 9) {
+          randomNumber = math.Random().nextInt(999999999);
+        }
+
+        final orderData = {
+          'name': _nameController.text,
+          'address': _addressContoller.text,
+          'pincode': _pinController.text,
+          'nearByLandMark': _nameController.text,
+          'mobile': _mobileContoller.text,
+          'alterMobile': _altMobileController.text,
+          'dateTime': DateTime.now(),
+          'price': product.price,
+          'type': paymentType,
+          'orderId': orderId,
+          'productName': product.productName,
+          'productType': product.productType,
+          'productId': product.productId,
+          'productImage': product.imageUrl,
+          'sellerId': product.sellerId,
+          'otp': otp,
+          'userUid': user.uid,
+          'uniqueProductId': randomNumber,
+          'status': 'New Orders',
+          'quantity': cartProduct['quantity'],
+          'totalPrice': cartProduct['price'],
+        };
+
+        final ordersRef = Firestore.instance
+            .collection('sellers')
+            .document(product.sellerId)
+            .collection('orders')
+            .document(user.uid);
+
+        final sellerOrdersSnapshot = await ordersRef.get();
+
+        if (!sellerOrdersSnapshot.exists) {
+          await ordersRef.setData({
+            'newOrders': [orderData],
+            'packing': [],
+            'ready': [],
+            'picked': [],
+            'shipping': [],
+            'delivered': [],
+          });
+
+          final userSnapshot = await userRef.get();
+
+          if (userSnapshot.data['newOrders'] == null) {
+            await userRef.updateData({
+              'newOrders': [
+                'sellers/${product.sellerId}/orders/${user.uid}',
+              ],
+              'pastOrders': [],
+            });
+          } else {
+            final newOrderList = userSnapshot.data['newOrders'] as List;
+            newOrderList.add('sellers/${product.sellerId}/orders/${user.uid}');
+            await userRef.updateData({'newOrders': newOrderList});
+          }
+        } else {
+          final newOrderList = sellerOrdersSnapshot.data['newOrders'] as List;
+
+          newOrderList.add(orderData);
+          await ordersRef.updateData({'newOrders': newOrderList});
+
+          final buyerSnapshot = await userRef.get();
+
+          final newOrderListForUser = buyerSnapshot.data['newOrders'] as List;
+
+          newOrderListForUser
+              .add('sellers/${product.sellerId}/orders/${user.uid}');
+
+          await userRef.updateData({'newOrders': newOrderListForUser});
+        }
+      }
+
+      setState(() {
+        _loading = false;
+      });
+
+      await userRef.updateData({'cartProducts': [], 'totalCartPrice': 0});
+
+      for (int i = 0; i < widget.productList.length; i++) {
+        Product product = widget.productList[i];
+
+        final snapshot = await userRef.get();
+        final historyList = snapshot.data['history'] as List;
+
+        historyList.add({
+          'action': 'You Ordered ${product.productName}}',
+          'dateTime': DateTime.now(),
+          'imageUrl': product.imageUrl,
+        });
+
+        await userRef.updateData({'history': historyList});
+      }
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => OrderPlaced()));
+    } catch (e) {
+      _scaffoldKey.currentState
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+
+    setState(() {
+      _loading = false;
+    });
+  }
+
   int _generateOrderId() {
     return int.parse(
         DateTime.now().millisecondsSinceEpoch.toString().substring(0, 9));
+  }
+
+//  void _payWithPaytm(String amountToPay) async {}
+//
+//  void _payWithCard(String amountToPay) async {
+//    final user = await FirebaseAuth.instance.currentUser();
+//    final userSnapshot =
+//        await Firestore.instance.collection('users').document(user.uid).get();
+//
+//    var options = {
+//      'key': '',
+//      'amount': amountToPay,
+//      'name': 'Delilo',
+//      'description': 'Ordered a Product from Delilo',
+//      'prefill': {
+//        'contact': userSnapshot.data['phone'].toString() ?? 'Not Available',
+//        'email': userSnapshot.data['email'].toString(),
+//      }
+//    };
+//
+//    _razorpay.open(options);
+//  }
+//
+//  void _payWithUpi(String amountToPay) async {
+//    _upiIndia = UpiIndia();
+//    String app = UpiApp.BHIMUPI;
+//    final response = await initiateTransaction(app, amountToPay);
+//
+//    if (response.error != null) {
+//      switch (response.error) {
+//        case UpiError.APP_NOT_INSTALLED:
+//          Toast.show('Please Install UPI App First', context);
+//          break;
+//        case UpiError.INVALID_PARAMETERS:
+//          Toast.show('Invalid Transaction', context);
+//          break;
+//        case UpiError.NULL_RESPONSE:
+//          Toast.show('No Response From The Server', context);
+//          break;
+//        case UpiError.USER_CANCELLED:
+//          Toast.show('The Transaction is Cancelled by You', context);
+//          break;
+//      }
+//    }
+//
+//    if (response.status == UpiPaymentStatus.SUCCESS) {
+//      print('success');
+//      await _putOrder('Paid');
+//    }
+//
+//    if (response.status == UpiPaymentStatus.FAILURE) {
+//      print('failure');
+//      Toast.show('Payment Failed', context);
+//    }
+//
+//    if (response.status == UpiPaymentStatus.OTHER) {
+//      print('other');
+//    }
+//  }
+
+//  void _payWithGooglePay(String amountToPay) async {
+//    _upiIndia = UpiIndia();
+//    String app = UpiApp.GooglePay;
+//    final response = await initiateTransaction(app, amountToPay);
+
+//    if (response.error != null) {
+//      switch (response.error) {
+//        case UpiError.APP_NOT_INSTALLED:
+//          Toast.show('Please Install UPI App First', context);
+//          break;
+//        case UpiError.INVALID_PARAMETERS:
+//          Toast.show('Invalid Transaction', context);
+//          break;
+//        case UpiError.NULL_RESPONSE:
+//          Toast.show('No Response From The Server', context);
+//          break;
+//        case UpiError.USER_CANCELLED:
+//          Toast.show('The Transaction is Cancelled by You', context);
+//          break;
+//      }
+//    }
+//
+//    if (response.status == UpiPaymentStatus.SUCCESS) {
+//      print('success');
+//      await _putOrder('Paid');
+//    }
+//
+//    if (response.status == UpiPaymentStatus.FAILURE) {
+//      print('failure');
+//      Toast.show('Payment Failed', context);
+//    }
+//
+//    if (response.status == UpiPaymentStatus.OTHER) {
+//      print('other');
+//    }
+//  }
+
+//  Future<UpiResponse> initiateTransaction(
+//      String app, String amountToPay) async {
+//    return _upiIndia.startTransaction(
+//      app: app,
+//      receiverUpiId: 'tester@test',
+//      receiverName: 'Keshav',
+//      transactionRefId: 'Payment',
+//      transactionNote: 'A Product is Ordered',
+//      amount: double.parse(amountToPay),
+//    );
+//  }
+
+  @override
+  void dispose() {
+    super.dispose();
+//    _razorpay.clear();
   }
 }
 
