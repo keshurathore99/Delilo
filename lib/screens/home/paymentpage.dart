@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/product.dart';
 import 'package:delilo/screens/home/PaymentScreen.dart';
+import 'package:delilo/screens/home/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/screens/auxillary/customclasses.dart';
@@ -785,10 +786,13 @@ class _OrderPlacedState extends State<OrderPlaced> {
                   height: 50,
                   width: width * .8,
                   child: FlatButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
+                      onPressed: () async {
+                        final user = await FirebaseAuth.instance.currentUser();
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    HomePageScreen(userUid: user.uid)),
+                            (route) => false);
                       },
                       child: Text(
                         "Continue Shopping",

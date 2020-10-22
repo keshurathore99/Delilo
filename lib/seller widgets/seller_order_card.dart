@@ -58,7 +58,8 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('Quantity : ${widget.orderData['quantity'].toString()}'),
+                  child: Text(
+                      'Quantity : ${widget.orderData['quantity'].toString()}'),
                 )
               ],
             ),
@@ -107,7 +108,7 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
                 ),
               ],
             ),
-            widget.isDeliveredPage
+            widget.isDeliveredPage || widget.newListName == 'delivered'
                 ? Container()
                 : Padding(
                     padding: const EdgeInsets.symmetric(
@@ -166,6 +167,13 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
     pastOrderList.removeWhere(
         (e) => e['uniqueProductId'] == widget.orderData['uniqueProductId']);
 
+    if (widget.newListName == 'ready') {
+      print('Ready Product');
+      print(orderRef.path);
+      await Firestore.instance
+          .collection('readyProducts')
+          .add({'readyOrderPath': orderRef.path});
+    }
     try {
       await orderRef.updateData({widget.pastListName: pastOrderList});
       await orderRef.updateData({widget.newListName: newOrderList});

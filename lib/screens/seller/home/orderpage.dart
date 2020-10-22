@@ -54,6 +54,7 @@ class _SellerOrdersPageState extends State<SellerOrdersPage> {
       leading: Builder(builder: (context) {
         return InkWell(
           onTap: () {
+            print('object');
             _scaffoldKey.currentState.openDrawer();
           },
           child: Image.asset('assets/u.png'),

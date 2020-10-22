@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/screens/authenticate/signin.dart';
 import 'package:delilo/screens/home/beauty_and_health/beauty_main_screen.dart';
 import 'package:delilo/screens/home/dairy/dairy_main_screen.dart';
 import 'package:delilo/screens/home/fashion/fashionmain.dart';
@@ -150,8 +151,8 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
               'Orders',
               'assets/Group 408.png'),
-          MenuItemTile(
-              HistoryScreen(userUid), 'History', 'assets/Icon material-history.png'),
+          MenuItemTile(HistoryScreen(userUid), 'History',
+              'assets/Icon material-history.png'),
           MenuItemTile(
             FavoriteProductsScreen(userUid),
             'Favorites',
@@ -167,6 +168,9 @@ class _MyDrawerState extends State<MyDrawer> {
           GestureDetector(
             onTap: () async {
               await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => SigninPage()),
+                  (route) => false);
             },
             child: ListTile(
               leading: Icon(

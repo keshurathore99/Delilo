@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/constants/decoration_constants.dart';
+import 'package:delilo/screens/seller/home/sellerhomesceen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -325,12 +326,18 @@ class _NewProductPageState extends State<NewProductPage> {
                           _loading = true;
                         });
 
+                        final sellerSnapshot = await Firestore.instance
+                            .collection('sellers')
+                            .document(uid)
+                            .get();
+
                         final docRef = await Firestore.instance
                             .collection(mainCategory)
                             .add({
                           'name': _nameController.text,
                           'price': _priceController.text,
-                          'shop_name': 'Hello Shop',
+                          'shop_name':
+                              sellerSnapshot.data['shop_name'] ?? 'Unavailable',
                           'description': _descriptionController.text,
                           'reviews': [],
                           'ratings': 0.0,
@@ -380,14 +387,29 @@ class _NewProductPageState extends State<NewProductPage> {
                             .get();
 
                         final productsList = snapshot.data['products'] as List;
-                        productsList.add('$mainCategory/${docRef.documentID}');
 
-                        await Firestore.instance
-                            .collection('sellers')
-                            .document(uid)
-                            .updateData({
-                          'products': [...productsList],
-                        });
+                        if (productsList != null) {
+                          productsList
+                              .add('$mainCategory/${docRef.documentID}');
+
+                          await Firestore.instance
+                              .collection('sellers')
+                              .document(uid)
+                              .updateData({
+                            'products': [...productsList],
+                          });
+                        } else {
+                          final newProductList = [
+                            '$mainCategory/${docRef.documentID}'
+                          ];
+
+                          await Firestore.instance
+                              .collection('sellers')
+                              .document(uid)
+                              .updateData({
+                            'products': newProductList,
+                          });
+                        }
 
                         setState(() {
                           _loading = false;
@@ -404,6 +426,11 @@ class _NewProductPageState extends State<NewProductPage> {
 
                       final category = selectSubCategory();
 
+                      final sellerSnapshot = await Firestore.instance
+                          .collection('sellers')
+                          .document(uid)
+                          .get();
+
                       try {
                         final ref = await Firestore.instance
                             .collection('fashion')
@@ -412,7 +439,8 @@ class _NewProductPageState extends State<NewProductPage> {
                             .add({
                           'name': _nameController.text,
                           'price': _priceController.text,
-                          'shop_name': 'Hello Shop',
+                          'shop_name':
+                              sellerSnapshot.data['shop_name'] ?? 'Unavailable',
                           'description': _descriptionController.text,
                           'reviews': [],
                           'ratings': 0.0,
@@ -491,7 +519,11 @@ class _NewProductPageState extends State<NewProductPage> {
                             content:
                                 Text('New Product Uploaded Successfully')));
 
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SellerHomeScreen(userUid: uid)),
+                            (route) => false);
                       } catch (e) {
                         _scaffoldKey.currentState
                             .showSnackBar(SnackBar(content: Text(e)));
