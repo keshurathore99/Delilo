@@ -121,45 +121,46 @@ class _OrdersPageState extends State<OrdersPage> {
                         );
                       }),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                      itemCount: pastOrderList.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            index == 0
-                                ? Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 8),
-                                    child: Text(
-                                      'Past Orders',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
-                                  )
-                                : Container(),
-                            FutureBuilder<DocumentSnapshot>(
-                              future: Firestore.instance
-                                  .document(pastOrderList[index])
-                                  .get(),
-                              builder: (context, pastOrderSnapshot) {
-                                if (pastOrderSnapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Container();
-                                }
-                                final pastOrderList =
-                                    pastOrderSnapshot.data.data['delivered'];
-                                return PastOrderTile(
-                                  orderData: pastOrderList[index],
-                                );
-                              },
-                            ),
-                          ],
-                        );
-                      }),
-                ),
+                if (pastOrderList.length != 0)
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: pastOrderList.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              index == 0
+                                  ? Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 8),
+                                      child: Text(
+                                        'Past Orders',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    )
+                                  : Container(),
+                              FutureBuilder<DocumentSnapshot>(
+                                future: Firestore.instance
+                                    .document(pastOrderList[index])
+                                    .get(),
+                                builder: (context, pastOrderSnapshot) {
+                                  if (pastOrderSnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Container();
+                                  }
+                                  final pastOrderList =
+                                      pastOrderSnapshot.data.data['delivered'];
+                                  return PastOrderTile(
+                                    orderData: pastOrderList[index],
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        }),
+                  ),
               ],
             );
           }),
