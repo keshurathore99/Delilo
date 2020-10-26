@@ -108,7 +108,7 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
                 ),
               ],
             ),
-            widget.isDeliveredPage || widget.newListName == 'delivered'
+            widget.isDeliveredPage || widget.newListName == 'shipping'
                 ? Container()
                 : Padding(
                     padding: const EdgeInsets.symmetric(
@@ -168,11 +168,11 @@ class _SellerOrdersCardState extends State<SellerOrdersCard> {
         (e) => e['uniqueProductId'] == widget.orderData['uniqueProductId']);
 
     if (widget.newListName == 'ready') {
-      print('Ready Product');
-      print(orderRef.path);
-      await Firestore.instance
-          .collection('readyProducts')
-          .add({'readyOrderPath': orderRef.path});
+      await Firestore.instance.collection('readyProducts').add({
+        'readyOrderPath': orderRef.path,
+        'readFrom': 'ready',
+        'productUniqueId': widget.orderData['uniqueProductId'],
+      });
     }
     try {
       await orderRef.updateData({widget.pastListName: pastOrderList});
