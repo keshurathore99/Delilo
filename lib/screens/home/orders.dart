@@ -216,34 +216,43 @@ class ArrivingSoonTile extends StatelessWidget {
                   ),
                 ],
               ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  FlatButton(
-                      padding: EdgeInsets.all(0),
-                      onPressed: () {},
-                      child: Text(
-                        "Cancel",
-                      )),
-                  Container(
-                      height: width * .07,
-                      width: width * .25,
-                      child: RaisedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => OrderTrackingScreen(
-                                    orderData: orderData,
-                                  )));
-                        },
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    FlatButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: () {},
                         child: Text(
-                          "Track",
-                          style: TextStyle(
-                              color: Colors.white, fontSize: width * .032),
-                        ),
-                        color: Colors.green,
-                      ))
-                ],
+                          "Cancel",
+                        )),
+                    Container(
+                        height: width * .07,
+                        width: width * .25,
+                        child: RaisedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => OrderTrackingScreen(
+                                      orderData: orderData,
+                                    )));
+                          },
+                          child: Text(
+                            "Track",
+                            style: TextStyle(
+                                color: Colors.white, fontSize: width * .032),
+                          ),
+                          color: Colors.green,
+                        )),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      orderData['otp'].toString(),
+                      style: TextStyle(color: Colors.green),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
