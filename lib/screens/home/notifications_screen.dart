@@ -70,7 +70,7 @@ class NotificationTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               child: FadeInImage(
                 fit: BoxFit.cover,
-                placeholder: AssetImage('assets/fashion/fashion7.jpg'),
+                placeholder: AssetImage('assets/dellologo.png'),
                 image: NetworkImage(imageLink),
               ),
             ),

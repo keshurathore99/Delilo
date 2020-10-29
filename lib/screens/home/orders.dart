@@ -191,7 +191,7 @@ class ArrivingSoonTile extends StatelessWidget {
                 width: width * .17,
                 height: width * .19,
                 image: NetworkImage(orderData['productImage']),
-                placeholder: AssetImage('assets/fashion/fashion7.jpg'),
+                placeholder: AssetImage('assets/dellologo.png'),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -291,7 +291,7 @@ class PastOrderTile extends StatelessWidget {
                 width: width * .17,
                 height: width * .19,
                 image: NetworkImage(orderData['productImage']),
-                placeholder: AssetImage('assets/fashion/fashion7.jpg'),
+                placeholder: AssetImage('assets/dellologo.png'),
               ),
               Column(
                 mainAxisSize: MainAxisSize.max,

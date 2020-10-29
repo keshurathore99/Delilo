@@ -100,7 +100,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     child: FadeInImage(
                                       image: NetworkImage(_imageToShow),
                                       placeholder: AssetImage(
-                                          'assets/fashion/fashion7.jpg'),
+                                          'assets/dellologo.png'),
                                     )),
                               ),
                             ),

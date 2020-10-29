@@ -62,10 +62,10 @@ class _AccountInfoState extends State<AccountInfo> {
                                     width: 100,
                                     fit: BoxFit.cover,
                                     image: snap['profilePic'] == null
-                                        ? AssetImage('assets/profile.png')
+                                        ? AssetImage('assets/ok.png')
                                         : NetworkImage(snap['profilePic']),
                                     placeholder:
-                                        AssetImage('assets/profile.png'),
+                                        AssetImage('assets/ok.png'),
                                   )),
                               Padding(
                                 padding: EdgeInsets.symmetric(

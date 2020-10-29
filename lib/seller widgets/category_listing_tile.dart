@@ -40,7 +40,7 @@ class _CategoryListingTileState extends State<CategoryListingTile> {
                       topLeft: Radius.circular(10),
                       bottomLeft: Radius.circular(10)),
                   child: FadeInImage(
-                    placeholder: AssetImage('assets/fashion/fashion7.jpg'),
+                    placeholder: AssetImage('assets/dellologo.png'),
                     image: NetworkImage(product['image1']),
                   )),
               Expanded(

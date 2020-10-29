@@ -26,7 +26,7 @@ class SecondProductItemForFashionScreen extends StatelessWidget {
               child: FadeInImage(
                 height: displayHeight(context) / 2,
                 fit: BoxFit.cover,
-                placeholder: AssetImage('assets/fashion/fashion7.jpg'),
+                placeholder: AssetImage('assets/dellologo.png'),
                 image: NetworkImage(product.imageUrl),
               ),
             ),

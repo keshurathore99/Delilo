@@ -65,7 +65,7 @@ class _SellerRegisterScreenState extends State<SellerRegisterScreen> {
                   Container(
                       height: 120,
                       child: Image.asset(
-                        "assets/images/dellologo.png",
+                        "assets/dellologo.png",
                       )),
                   Container(
                     height: 200,
@@ -435,7 +435,7 @@ class _GetGstDetailsState extends State<GetGstDetails> {
                 child: Container(
                     height: 120,
                     child: Image.asset(
-                      "assets/images/dellologo.png",
+                      "assets/dellologo.png",
                     )),
               ),
               Padding(
@@ -667,7 +667,7 @@ class _GetBankDetailsState extends State<GetBankDetails> {
                 child: Container(
                     height: 120,
                     child: Image.asset(
-                      "assets/images/dellologo.png",
+                      "assets/dellologo.png",
                     )),
               ),
               Padding(
@@ -909,7 +909,7 @@ class _CollectSignPageState extends State<CollectSignPage> {
                   child: Container(
                       height: 120,
                       child: Image.asset(
-                        "assets/images/dellologo.png",
+                        "assets/dellologo.png",
                       )),
                 ),
                 Padding(
@@ -1161,7 +1161,7 @@ class _SellerVerificationPageState extends State<SellerVerificationPage> {
                       child: Container(
                           height: 120,
                           child: Image.asset(
-                            "assets/images/dellologo.png",
+                            "assets/dellologo.png",
                           )),
                     ),
                     Card(

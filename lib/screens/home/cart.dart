@@ -266,7 +266,7 @@ class _ProductCardState extends State<ProductCard> {
                               fit: BoxFit.fill,
                               image: NetworkImage(widget.product.imageUrl),
                               placeholder:
-                                  AssetImage('assets/fashion/fashion7.jpg'),
+                                  AssetImage('assets/dellologo.png'),
                             )),
                       ),
                       Expanded(

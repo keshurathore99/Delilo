@@ -42,7 +42,7 @@ class _SellerSigninScreenState extends State<SellerSigninScreen> {
                     child: Container(
                         height: 200,
                         child: Image.asset(
-                          "assets/images/dellologo.png",
+                          "assets/dellologo.png",
                         )),
                   ),
                   Padding(
