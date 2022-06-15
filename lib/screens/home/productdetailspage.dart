@@ -99,8 +99,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     borderRadius: BorderRadius.circular(20),
                                     child: FadeInImage(
                                       image: NetworkImage(_imageToShow),
-                                      placeholder: AssetImage(
-                                          'assets/dellologo.png'),
+                                      placeholder:
+                                          AssetImage('assets/dellologo.png'),
                                     )),
                               ),
                             ),
@@ -322,78 +322,71 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   Widget bottomNavigationBar() {
     return Container(
-      height: 80,
-      child: BottomNavigationBar(
-        selectedItemColor: Colors.white,
-        items: <BottomNavigationBarItem>[
+        height: 80,
+        child: BottomNavigationBar(selectedItemColor: Colors.white, items: <
+            BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Container(
-                height: 50,
-                width: 120,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(50))),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    height: 50,
-                    width: displayWidth(context) * .8,
-                    child: FlatButton(
-                        onPressed:
-                            widget.product.inStock == true ? addToCart : null,
-                        child: Text(
-                          widget.product.inStock == true
-                              ? "Add To Cart"
-                              : 'Out Of Stock',
-                          style: TextStyle(color: Colors.green, fontSize: 15),
-                        )))),
-            title: Container(),
-          ),
+              icon: Container(
+                  height: 50,
+                  width: 120,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(50))),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      height: 50,
+                      width: displayWidth(context) * .8,
+                      child: FlatButton(
+                          onPressed:
+                              widget.product.inStock == true ? addToCart : null,
+                          child: Text(
+                            widget.product.inStock == true
+                                ? "Add To Cart"
+                                : 'Out Of Stock',
+                            style: TextStyle(color: Colors.green, fontSize: 15),
+                          ))))),
           BottomNavigationBarItem(
-            icon: GestureDetector(
-                onTap: () async {
-                  final user = await FirebaseAuth.instance.currentUser();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CartPage(
-                                userUid: user.uid,
-                              )));
-                },
-                child: Container(
-                    height: 50,
-                    width: 120,
-                    decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        height: 50,
-                        width: displayWidth(context) * .8,
-                        child: FlatButton(
-                            onPressed: () async {
-                              final user =
-                                  await FirebaseAuth.instance.currentUser();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CartPage(
-                                            userUid: user.uid,
-                                          )));
-                            },
-                            child: Text(
-                              "Pay Now",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 17),
-                            ))))),
-            title: Container(),
-          ),
-        ],
-      ),
-    );
+              icon: GestureDetector(
+                  onTap: () async {
+                    final user = await FirebaseAuth.instance.currentUser();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CartPage(
+                                  userUid: user.uid,
+                                )));
+                  },
+                  child: Container(
+                      height: 50,
+                      width: 120,
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.all(Radius.circular(50))),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
+                          height: 50,
+                          width: displayWidth(context) * .8,
+                          child: FlatButton(
+                              onPressed: () async {
+                                final user =
+                                    await FirebaseAuth.instance.currentUser();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CartPage(
+                                              userUid: user.uid,
+                                            )));
+                              },
+                              child: Text(
+                                "Pay Now",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 17),
+                              ))))))
+        ]));
   }
 
   void addToCart() async {

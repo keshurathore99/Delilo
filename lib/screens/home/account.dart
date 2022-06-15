@@ -24,7 +24,6 @@ class _AccountInfoState extends State<AccountInfo> {
     double width = displayWidth(context);
     return Scaffold(
       key: _scaffoldKey,
-      resizeToAvoidBottomPadding: false,
       appBar: _appBar(),
       body: FutureBuilder<DocumentSnapshot>(
           future: Firestore.instance
@@ -64,8 +63,7 @@ class _AccountInfoState extends State<AccountInfo> {
                                     image: snap['profilePic'] == null
                                         ? AssetImage('assets/ok.png')
                                         : NetworkImage(snap['profilePic']),
-                                    placeholder:
-                                        AssetImage('assets/ok.png'),
+                                    placeholder: AssetImage('assets/ok.png'),
                                   )),
                               Padding(
                                 padding: EdgeInsets.symmetric(

@@ -77,18 +77,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
         backgroundColor: Colors.green,
         selectedItemColor: Colors.white,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Container(),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            title: Container(),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Container(),
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home)),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart)),
+          BottomNavigationBarItem(icon: Icon(Icons.person)),
         ],
       ),
     );

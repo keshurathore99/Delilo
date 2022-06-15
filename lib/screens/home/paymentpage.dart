@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:delilo/models/product.dart';
-import 'package:delilo/screens/home/PaymentScreen.dart';
 import 'package:delilo/screens/home/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +8,6 @@ import 'dart:math' as math;
 
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:toast/toast.dart';
-import 'package:upi_india/upi_india.dart';
 
 class PaymentPage extends StatefulWidget {
   final String priceToPay;
@@ -21,7 +18,7 @@ class PaymentPage extends StatefulWidget {
   _PaymentPageState createState() => _PaymentPageState();
 }
 
-enum PaymentMode { cod, paytm, card, gpay, upi }
+enum PaymentMode { cod, prepaid }
 
 class _PaymentPageState extends State<PaymentPage> {
   PaymentMode selected = PaymentMode.cod;
@@ -44,228 +41,119 @@ class _PaymentPageState extends State<PaymentPage> {
               style: TextStyle(color: Colors.green),
             ),
           ),
-          Expanded(
-            child: Card(
-              semanticContainer: true,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: Container(
-                height: 80,
-                // color: Colors.redAccent.withOpacity(.6),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.asset('assets/10 (2).png'),
-                    Expanded(
+          Card(
+            semanticContainer: true,
+            child: Container(
+              height: 80,
+              // color: Colors.redAccent.withOpacity(.6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Image.asset('assets/10 (2).png'),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
                       child: Text(
-                        "Credit Card or Debit Card",
+                        "Prepaid",
                         style: TextStyle(
                             fontSize: 20, fontStyle: FontStyle.italic),
                       ),
                     ),
-                    Radio(
-                      value: PaymentMode.card,
-                      groupValue: selected,
-                      onChanged: (PaymentMode value) {
-                        setState(() {
-                          selected = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                  Radio(
+                    activeColor: Colors.green,
+                    value: PaymentMode.prepaid,
+                    onChanged: (value) {
+                      setState(() {
+                        selected = value;
+                      });
+                    },
+                    groupValue: selected,
+                  )
+                ],
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              elevation: 5,
-              margin: EdgeInsets.all(10),
             ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            elevation: 5,
+            margin: EdgeInsets.all(10),
           ),
-          Expanded(
-            child: Card(
-              semanticContainer: true,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: Container(
-                height: 80,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.asset('assets/10 (3).png'),
-                    Expanded(
-                      child: Text(
-                        "UPI",
-                        style: TextStyle(
-                            fontSize: 20, fontStyle: FontStyle.italic),
-                      ),
+          Card(
+            semanticContainer: true,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: Container(
+              height: 80,
+              // color: Colors.redAccent.withOpacity(.6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Image.asset('assets/10 (1).png'),
+                  Expanded(
+                    child: Text(
+                      "Cash On Delivery",
+                      style:
+                          TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
                     ),
-                    Radio(
-                      value: PaymentMode.upi,
-                      groupValue: selected,
-                      onChanged: (PaymentMode value) {
-                        setState(() {
-                          selected = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                  Radio(
+                    activeColor: Colors.green,
+                    value: PaymentMode.cod,
+                    groupValue: selected,
+                    onChanged: (PaymentMode value) {
+                      setState(() {
+                        selected = value;
+                      });
+                    },
+                  ),
+                ],
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              elevation: 5,
-              margin: EdgeInsets.all(10),
             ),
-          ),
-          Expanded(
-            child: Card(
-              semanticContainer: true,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: Container(
-                height: 80,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.asset('assets/10 (4).png'),
-                    Expanded(
-                      child: Text(
-                        "PayTM",
-                        style: TextStyle(
-                            fontSize: 20, fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                    Radio(
-                      value: PaymentMode.paytm,
-                      groupValue: selected,
-                      onChanged: (PaymentMode value) {
-                        setState(() {
-                          selected = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              elevation: 5,
-              margin: EdgeInsets.all(10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
             ),
-          ),
-          Expanded(
-            child: Card(
-              semanticContainer: true,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: Container(
-                height: 80,
-                // color: Colors.redAccent.withOpacity(.6),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.asset('assets/10 (6).png'),
-                    Expanded(
-                      child: Text(
-                        "Google Pay",
-                        style: TextStyle(
-                            fontSize: 20, fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                    Radio(
-                      value: PaymentMode.gpay,
-                      groupValue: selected,
-                      onChanged: (PaymentMode value) {
-                        setState(() {
-                          selected = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              elevation: 5,
-              margin: EdgeInsets.all(10),
-            ),
-          ),
-          Expanded(
-            child: Card(
-              semanticContainer: true,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: Container(
-                height: 80,
-                // color: Colors.redAccent.withOpacity(.6),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.asset('assets/10 (1).png'),
-                    Expanded(
-                      child: Text(
-                        "Cash On Delivery",
-                        style: TextStyle(
-                            fontSize: 20, fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                    Radio(
-                      value: PaymentMode.cod,
-                      groupValue: selected,
-                      onChanged: (PaymentMode value) {
-                        setState(() {
-                          selected = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              elevation: 5,
-              margin: EdgeInsets.all(10),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              ),
-              color: Colors.green[700],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  "Pay :  ₹${widget.priceToPay}",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    child: FlatButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddressPage(
-                                      paymentMode: selected,
-                                      priceToPay: widget.priceToPay,
-                                      productList: widget.productList)));
-                        },
-                        child: Text(
-                          "Pay Now",
-                          style: TextStyle(color: Colors.green, fontSize: 17),
-                        ))),
-              ],
-            ),
+            elevation: 5,
+            margin: EdgeInsets.all(10),
           ),
         ],
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
+          color: Colors.green[700],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              "Pay :  ₹${widget.priceToPay}",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                margin: EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(25))),
+                child: FlatButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddressPage(
+                                  paymentMode: selected,
+                                  priceToPay: widget.priceToPay,
+                                  productList: widget.productList)));
+                    },
+                    child: Text(
+                      "Pay Now",
+                      style: TextStyle(color: Colors.green, fontSize: 17),
+                    ))),
+          ],
+        ),
       ),
     );
   }
@@ -291,22 +179,16 @@ class _AddressPageState extends State<AddressPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _loading = false;
   static List<Product> _mainList;
-//  UpiIndia _upiIndia = UpiIndia();
-//  Razorpay _razorpay = Razorpay();
+  Razorpay _razorPay;
 
   @override
   void initState() {
     super.initState();
     _mainList = widget.productList;
-//    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, () {
-//      print('payment success');
-//    });
-//    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, () {
-//      print('payment error');
-//    });
-//    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, () {
-//      print('payment using external wallet');
-//    });
+    _razorPay = Razorpay();
+    _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
   @override
@@ -320,7 +202,9 @@ class _AddressPageState extends State<AddressPage> {
           centerTitle: true,
           backgroundColor: Colors.green[700],
           title: Text(
-            "Cash On Delivery",
+            PaymentMode.cod == widget.paymentMode
+                ? "Cash On Delivery"
+                : 'Prepaid',
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
         ),
@@ -377,42 +261,13 @@ class _AddressPageState extends State<AddressPage> {
                               return;
                             }
 
-//                            if (widget.paymentMode == PaymentMode.paytm) {
-//                              print('paytm');
-//                              _payWithPaytm(widget.priceToPay);
-//                              return;
-//                            }
-//                            if (widget.paymentMode == PaymentMode.upi) {
-//                              print('upi');
-//                              _payWithUpi(widget.priceToPay);
-//                              return;
-//                            }
-//                            if (widget.paymentMode == PaymentMode.card) {
-//                              print('card');
-//                              _payWithCard(widget.priceToPay);
-//                              return;
-//                            }
-//                            if (widget.paymentMode == PaymentMode.gpay) {
-//                              print('google pay');
-//                              _payWithGooglePay(widget.priceToPay);
-//                              return;
-//                            }
+                            if (widget.paymentMode == PaymentMode.prepaid) {
+                              openCheckout();
+                              return;
+                            }
 
                             if (widget.paymentMode == PaymentMode.cod) {
                               _putOrder('Cash on Delivery');
-                            } else {
-                              int totalAmount = 0;
-                              for (int i = 0;
-                                  i < widget.productList.length;
-                                  i++) {
-                                Product product = widget.productList[i];
-                                totalAmount = totalAmount + product.price;
-                              }
-
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PaymentScreen(
-                                        amount: totalAmount.toString(),
-                                      )));
                             }
                           },
                           child: Text(
@@ -426,6 +281,52 @@ class _AddressPageState extends State<AddressPage> {
         ),
       ),
     );
+  }
+
+  void openCheckout() async {
+    final user = await FirebaseAuth.instance.currentUser();
+    final userSnapshot =
+        await Firestore.instance.collection('users').document(user.uid).get();
+
+    var options = {
+      'key': 'rzp_test_0h7w37aoojQqRw',
+      'amount': 2000, //double.parse(widget.priceToPay).round(),
+      'name': 'CWS',
+      'description': 'Buy',
+      'prefill': {
+        'contact': _mobileContoller.text,
+        'email': userSnapshot.data['email']
+      },
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorPay.open(options);
+    } catch (e) {
+      _scaffoldKey.currentState
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+      debugPrint(e);
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    _scaffoldKey.currentState.showSnackBar(
+        SnackBar(content: Text("SUCCESS: " + response.paymentId)));
+    await Future.delayed(Duration(seconds: 5));
+    _putOrder('Paid');
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+            "ERROR: " + response.code.toString() + " - " + response.message)));
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    _scaffoldKey.currentState.showSnackBar(
+        SnackBar(content: Text("EXTERNAL_WALLET: " + response.walletName)));
   }
 
   Widget _textField(
@@ -602,117 +503,10 @@ class _AddressPageState extends State<AddressPage> {
         DateTime.now().millisecondsSinceEpoch.toString().substring(0, 9));
   }
 
-//  void _payWithPaytm(String amountToPay) async {}
-//
-//  void _payWithCard(String amountToPay) async {
-//    final user = await FirebaseAuth.instance.currentUser();
-//    final userSnapshot =
-//        await Firestore.instance.collection('users').document(user.uid).get();
-//
-//    var options = {
-//      'key': '',
-//      'amount': amountToPay,
-//      'name': 'Delilo',
-//      'description': 'Ordered a Product from Delilo',
-//      'prefill': {
-//        'contact': userSnapshot.data['phone'].toString() ?? 'Not Available',
-//        'email': userSnapshot.data['email'].toString(),
-//      }
-//    };
-//
-//    _razorpay.open(options);
-//  }
-//
-//  void _payWithUpi(String amountToPay) async {
-//    _upiIndia = UpiIndia();
-//    String app = UpiApp.BHIMUPI;
-//    final response = await initiateTransaction(app, amountToPay);
-//
-//    if (response.error != null) {
-//      switch (response.error) {
-//        case UpiError.APP_NOT_INSTALLED:
-//          Toast.show('Please Install UPI App First', context);
-//          break;
-//        case UpiError.INVALID_PARAMETERS:
-//          Toast.show('Invalid Transaction', context);
-//          break;
-//        case UpiError.NULL_RESPONSE:
-//          Toast.show('No Response From The Server', context);
-//          break;
-//        case UpiError.USER_CANCELLED:
-//          Toast.show('The Transaction is Cancelled by You', context);
-//          break;
-//      }
-//    }
-//
-//    if (response.status == UpiPaymentStatus.SUCCESS) {
-//      print('success');
-//      await _putOrder('Paid');
-//    }
-//
-//    if (response.status == UpiPaymentStatus.FAILURE) {
-//      print('failure');
-//      Toast.show('Payment Failed', context);
-//    }
-//
-//    if (response.status == UpiPaymentStatus.OTHER) {
-//      print('other');
-//    }
-//  }
-
-//  void _payWithGooglePay(String amountToPay) async {
-//    _upiIndia = UpiIndia();
-//    String app = UpiApp.GooglePay;
-//    final response = await initiateTransaction(app, amountToPay);
-
-//    if (response.error != null) {
-//      switch (response.error) {
-//        case UpiError.APP_NOT_INSTALLED:
-//          Toast.show('Please Install UPI App First', context);
-//          break;
-//        case UpiError.INVALID_PARAMETERS:
-//          Toast.show('Invalid Transaction', context);
-//          break;
-//        case UpiError.NULL_RESPONSE:
-//          Toast.show('No Response From The Server', context);
-//          break;
-//        case UpiError.USER_CANCELLED:
-//          Toast.show('The Transaction is Cancelled by You', context);
-//          break;
-//      }
-//    }
-//
-//    if (response.status == UpiPaymentStatus.SUCCESS) {
-//      print('success');
-//      await _putOrder('Paid');
-//    }
-//
-//    if (response.status == UpiPaymentStatus.FAILURE) {
-//      print('failure');
-//      Toast.show('Payment Failed', context);
-//    }
-//
-//    if (response.status == UpiPaymentStatus.OTHER) {
-//      print('other');
-//    }
-//  }
-
-//  Future<UpiResponse> initiateTransaction(
-//      String app, String amountToPay) async {
-//    return _upiIndia.startTransaction(
-//      app: app,
-//      receiverUpiId: 'tester@test',
-//      receiverName: 'Keshav',
-//      transactionRefId: 'Payment',
-//      transactionNote: 'A Product is Ordered',
-//      amount: double.parse(amountToPay),
-//    );
-//  }
-
   @override
   void dispose() {
     super.dispose();
-//    _razorpay.clear();
+    _razorPay.clear();
   }
 }
 
